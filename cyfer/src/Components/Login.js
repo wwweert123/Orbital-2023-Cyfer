@@ -1,3 +1,4 @@
+import "./login.css";
 import React from "react";
 import { useRef, useState, useEffect } from "react";
 
@@ -28,7 +29,7 @@ const Login = () => {
     <>
       {" "}
       {success ? (
-        <section>
+        <section className="login--container">
           <h1>You are logged in!</h1>
           <br />
           <p>
@@ -36,7 +37,7 @@ const Login = () => {
           </p>
         </section>
       ) : (
-        <section>
+        <section className="login--container">
           <p
             ref={errRef}
             className={errMsg ? "errmsg" : "offscreen"}
@@ -64,7 +65,7 @@ const Login = () => {
               value={pwd}
               required
             />
-            <button>Sign In</button>
+            <button className="btn btn-primary">Sign In</button>
             {/* only button in the form so it triggers the submit event of the form*/}
           </form>
           <p>
@@ -76,7 +77,6 @@ const Login = () => {
           </p>
         </section>
       )}
-      ;
     </>
   );
 };
