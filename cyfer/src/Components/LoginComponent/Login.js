@@ -44,6 +44,7 @@ const Login = ({ showRegister }) => {
             setPwd("");
             setSuccess(true);
         } catch (err) {
+            console.log(err);
             if (!err?.response) {
                 setErrMsg("No Server Response");
             } else if (err.response?.status === 400) {

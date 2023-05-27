@@ -248,7 +248,9 @@ const Register = ({ showRegister }) => {
                         <br />
                         <span className="line">
                             {/*put router link here*/}
-                            <a onClick={() => showRegister(false)}>Sign In</a>
+                            <a href="#" onClick={() => showRegister(false)}>
+                                Sign In
+                            </a>
                         </span>
                     </p>
                 </section>
