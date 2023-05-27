@@ -1,11 +1,7 @@
-import Login from "./Components/Login";
+import LoginPage from "./Components/LoginPage";
 
 function App() {
-  return (
-    <main>
-      <Login />
-    </main>
-  );
+    return <main></main>;
 }
 
 export default App;
