@@ -12,7 +12,7 @@ const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 const REGISTER_URL = "/register";
 
-const Register = () => {
+const Register = ({ showRegister }) => {
     const userRef = useRef();
     const errRef = useRef();
 
@@ -248,7 +248,7 @@ const Register = () => {
                         <br />
                         <span className="line">
                             {/*put router link here*/}
-                            <a href="#">Sign In</a>
+                            <a onClick={() => showRegister(false)}>Sign In</a>
                         </span>
                     </p>
                 </section>
