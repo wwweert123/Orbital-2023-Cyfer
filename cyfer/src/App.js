@@ -1,9 +1,10 @@
 import Login from "./Components/LoginComponent/Login";
+import Register from "./Components/Register/Register";
 
 function App() {
     return (
         <main>
-            <Login />
+            <Register />
         </main>
     );
 }

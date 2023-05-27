@@ -3,9 +3,10 @@ import {
     faCheck,
     faTimes,
     faInfoCircle,
-} from "@fortawesome/fontawesome-svg-core";
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import axios from "./api/axios";
+import axios from "../../api/axios";
+import "./register.css";
 
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
@@ -89,14 +90,14 @@ const Register = () => {
     return (
         <>
             {success ? (
-                <section>
+                <section className="register--container">
                     <h1>Success!</h1>
                     <p>
                         <a href="#">Sign In</a>
                     </p>
                 </section>
             ) : (
-                <section>
+                <section className="register--container">
                     <p
                         ref={errRef}
                         className={errMsg ? "errmsg" : "offscreen"}
