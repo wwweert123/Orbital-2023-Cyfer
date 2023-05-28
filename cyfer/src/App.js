@@ -7,7 +7,14 @@ import Layout from "./Components/Layout";
 import Missing from "./Components/Missing";
 import Unauthorized from "./Components/Unauthorized";
 import Home from "./Components/Home";
+import Admin from "./Components/Admin";
 import RequireAuth from "./Components/RequireAuth";
+
+const ROLES = {
+    User: 2001,
+    Editor: 1984,
+    Admini: 5150,
+};
 
 function App() {
     // const [register, setRegister] = useState(false);
