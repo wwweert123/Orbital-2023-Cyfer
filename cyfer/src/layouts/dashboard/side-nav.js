@@ -13,8 +13,8 @@ import {
     Typography,
     useMediaQuery,
 } from "@mui/material";
-import { Logo } from "src/components/logo";
-import { Scrollbar } from "src/components/scrollbar";
+//import { Logo } from "../../components/logo";
+import { Scrollbar } from "../../Components/scrollbar";
 import { items } from "./config";
 import { SideNavItem } from "./side-nav-item";
 
@@ -52,7 +52,7 @@ export const SideNav = (props) => {
                             width: 32,
                         }}
                     >
-                        <Logo />
+                        {/* <Logo /> */}
                     </Box>
                     <Box
                         sx={{
