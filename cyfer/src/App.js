@@ -7,6 +7,7 @@ import Layout from "./Components/Layout";
 import Missing from "./Components/Missing";
 import Unauthorized from "./Components/Unauthorized";
 import Home from "./Components/Home";
+import RequireAuth from "./Components/RequireAuth";
 
 function App() {
     // const [register, setRegister] = useState(false);
