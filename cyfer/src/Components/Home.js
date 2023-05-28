@@ -10,7 +10,7 @@ const Home = () => {
         // if used in more components, this should be in context
         // axios to /logout endpoint
         setAuth({});
-        navigate("/linkpage");
+        navigate("/login");
     };
 
     return (
