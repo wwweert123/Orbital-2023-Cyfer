@@ -28,7 +28,9 @@ const Home = () => {
             <br />
             <Link to="/linkpage">Go to the link page</Link>
             <div className="flexGrow">
-                <button onClick={logout}>Sign Out</button>
+                <button className="btn btn-primary" onClick={logout}>
+                    Sign Out
+                </button>
             </div>
         </section>
     );
