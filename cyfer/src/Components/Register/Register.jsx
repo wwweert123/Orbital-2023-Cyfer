@@ -7,6 +7,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "../../api/axios";
 import "./register.css";
+import { Link } from "react-router-dom";
 
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
 const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
@@ -93,7 +94,7 @@ const Register = () => {
                 <section className="register--container">
                     <h1>Success!</h1>
                     <p>
-                        <a href="#">Sign In</a>
+                        <Link to="/login">Sign In</Link>
                     </p>
                 </section>
             ) : (
@@ -234,6 +235,7 @@ const Register = () => {
                         </p>
 
                         <button
+                            className="btn btn-primary"
                             disabled={
                                 !validName || !validPwd || !validMatch
                                     ? true
@@ -248,7 +250,7 @@ const Register = () => {
                         <br />
                         <span className="line">
                             {/*put router link here*/}
-                            <a href="/login">Sign In</a>
+                            <Link to="/login">Sign In</Link>
                         </span>
                     </p>
                 </section>
