@@ -4,14 +4,12 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { AuthProvider } from "./context/AuthProvider";
-import Dashboard from "./Pages/Dashboard";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
     <React.StrictMode>
         <AuthProvider>
-            {/* <App /> */}
-            <Dashboard />
+            <App />
         </AuthProvider>
     </React.StrictMode>
 );
