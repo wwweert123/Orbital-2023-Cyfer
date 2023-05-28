@@ -1,27 +1,35 @@
 @import url("https://fonts.googleapis.com/css2?family=Nunito&display=swap");
 
 .login--container {
-  background-color: #000;
-  width: max-content;
-  padding: 0.7rem 1.7rem;
-  float: right;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
+    background-color: #000;
+    width: max-content;
+    padding: 0.7rem 1.7rem;
+    float: right;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
 }
 
 form {
-  display: flex;
-  flex-direction: column;
-  padding-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 1rem;
 }
 
 input[type="text"],
 input[type="password"],
 textarea {
-  font-family: "Nunito", sans-serif;
-  font-size: 22px;
-  padding: 0.25rem;
-  border-radius: 0.5rem;
-  margin-bottom: 1rem;
+    font-family: "Nunito", sans-serif;
+    font-size: 22px;
+    padding: 0.25rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.errmsg {
+    background-color: lightpink;
+    color: firebrick;
+    font-weight: bold;
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
 }
