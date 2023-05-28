@@ -1,4 +1,4 @@
-section {
+.page {
     align-items: center;
     background-color: var(--color-bg);
     display: flex;

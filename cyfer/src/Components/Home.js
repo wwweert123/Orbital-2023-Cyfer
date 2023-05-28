@@ -15,7 +15,7 @@ const Home = () => {
     };
 
     return (
-        <section>
+        <section className="page">
             <h1>Home</h1>
             <br />
             <p>You are logged in!</p>

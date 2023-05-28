@@ -5,7 +5,7 @@ import React from "react";
 
 const Missing = () => {
     return (
-        <article style={{ padding: "100px" }}>
+        <article style={{ padding: "100px" }} className="page">
             <h1>Oops!</h1>
             <p>Page Not Found</p>
             <div className="flexGrow">
