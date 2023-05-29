@@ -20,6 +20,10 @@ const Home = () => {
             <br />
             <p>You are logged in!</p>
             <br />
+            <a href="https://bejewelled-cendol-9e1d0d.netlify.app/">
+                Go to Prototype Page
+            </a>
+            <br />
             <Link to="/editor">Go to the Editor page</Link>
             <br />
             <Link to="/admin">Go to the Admin page</Link>
