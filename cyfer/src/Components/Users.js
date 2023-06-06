@@ -6,7 +6,7 @@ const Users = () => {
     const [users, setUsers] = useState();
     const axiosPrivate = useAxiosPrivate();
     const navigate = useNavigate();
-    const location = useLocation();
+    const location = useLocation(); //current location
 
     useEffect(() => {
         let isMounted = true;
