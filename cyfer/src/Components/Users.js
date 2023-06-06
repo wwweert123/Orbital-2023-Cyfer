@@ -1,10 +1,8 @@
 import { useState, useEffect } from "react";
 import axios from "../api/axios";
-import useRefreshToken from "../hooks/useRefreshToken";
 
 const Users = () => {
     const [users, setUsers] = useState();
-    const refresh = useRefreshToken(); // define the function
     useEffect(() => {
         let isMounted = true;
         const controller = new AbortController(); // cancel any pending request if the component unmounts
@@ -39,8 +37,6 @@ const Users = () => {
             ) : (
                 <p>No users to display</p>
             )}
-            <button onClick={() => refresh()}>Refresh</button>
-            <br />
         </article>
     );
 };
