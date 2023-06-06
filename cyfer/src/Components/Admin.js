@@ -1,12 +1,14 @@
 import { Link } from "react-router-dom";
 import "./pages.css";
+import Users from "./Users";
 
 const Admin = () => {
     return (
         <section className="page">
             <h1>Admin Page</h1>
             <br />
-            <p>You must have been assigned an Admin Role</p>
+            <Users />
+            <br />
             <div className="flexGrow">
                 <Link to="/">Home</Link>
             </div>
