@@ -33,6 +33,7 @@ const Users = () => {
             controller.abort(); // abort request
         };
         // return statement performs the cleanup when the component unmount or after the previous render
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     return (
         <article>
