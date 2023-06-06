@@ -32,7 +32,7 @@ const useAxiosPrivate = () => {
                     // retryonce
                     prevRequest.sent = true;
                     const newAccessToken = await refresh();
-                    prevRequest.header[
+                    prevRequest.headers[
                         "Authorization"
                     ] = `Bearer ${newAccessToken}`;
                     return axiosPrivate(prevRequest); //send request again
@@ -47,7 +47,7 @@ const useAxiosPrivate = () => {
         };
     }, [auth, refresh]);
 
-    return axiosPrivate;
+    return axiosPrivate; //the hook will return the axiosprivate instance
 };
 
 export default useAxiosPrivate;

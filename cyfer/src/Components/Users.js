@@ -1,15 +1,17 @@
 import { useState, useEffect } from "react";
-import axios from "../api/axios";
+import useAxiosPrivate from "../hooks/useAxiosPrivate"; //import the hook
 
 const Users = () => {
     const [users, setUsers] = useState();
+    const axiosPrivate = useAxiosPrivate();
+
     useEffect(() => {
         let isMounted = true;
         const controller = new AbortController(); // cancel any pending request if the component unmounts
 
         const getUsers = async () => {
             try {
-                const response = await axios.get("/users", {
+                const response = await axiosPrivate.get("/users", {
                     signal: controller.signal,
                 });
                 console.log(response.data);
