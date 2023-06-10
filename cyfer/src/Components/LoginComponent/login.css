@@ -33,3 +33,13 @@ textarea {
     padding: 0.5rem;
     margin-bottom: 0.5rem;
 }
+
+.persistCheck label {
+    margin: 0;
+}
+
+[type="checkbox"] {
+    height: 0.5 rem;
+    width: 0.5 rem;
+    margin: 1rem;
+}
