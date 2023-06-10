@@ -2,6 +2,7 @@ import { Outlet } from "react-router-dom";
 import { useState, useEffect } from "react";
 import useRefreshToken from "../hooks/useRefreshToken";
 import useAuth from "../hooks/useAuth";
+import Loader from "./Loader";
 
 const PersistLogin = () => {
     // let isMounted = true;
@@ -32,11 +33,7 @@ const PersistLogin = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isLoading]);
 
-    return (
-        <>
-            {!persist ? <Outlet /> : isLoading ? <p>Loading...</p> : <Outlet />}
-        </>
-    );
+    return <>{!persist ? <Outlet /> : isLoading ? <Loader /> : <Outlet />}</>;
 };
 
 export default PersistLogin;

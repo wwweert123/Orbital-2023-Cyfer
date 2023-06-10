@@ -1,0 +1,14 @@
+.loader-container {
+    width: 100%;
+    display: flex;
+    background-color: var(--color-primary-variant);
+    justify-content: center;
+}
+
+h1 {
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-right: 2%;
+
+    vertical-align: middle;
+}
