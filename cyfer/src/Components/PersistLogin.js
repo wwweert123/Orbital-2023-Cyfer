@@ -4,6 +4,7 @@ import useRefreshToken from "../hooks/useRefreshToken";
 import useAuth from "../hooks/useAuth";
 
 const PersistLogin = () => {
+    // let isMounted = true;
     const [isLoading, setIsLoading] = useState(true);
     const refresh = useRefreshToken();
     const { auth, persist } = useAuth();
@@ -15,11 +16,13 @@ const PersistLogin = () => {
             } catch (err) {
                 console.error(err);
             } finally {
+                // isMounted &&
                 setIsLoading(false);
             }
         };
 
         !auth?.accessToken ? verifyRefreshToken() : setIsLoading(false);
+        // return () => (isMounted = false);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
