@@ -7,6 +7,7 @@ import Sidebar from "./SideNav/Sidebar";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "../theme";
 import "./persistlogin.css";
+import useLocalStorage from "../hooks/useLocalStorage";
 
 const PersistLogin = () => {
     const [theme, colorMode] = useMode();
@@ -15,7 +16,8 @@ const PersistLogin = () => {
     // let isMounted = true;
     const [isLoading, setIsLoading] = useState(true);
     const refresh = useRefreshToken();
-    const { auth, persist } = useAuth();
+    const { auth } = useAuth();
+    const [persist] = useLocalStorage("persist", false);
 
     useEffect(() => {
         const verifyRefreshToken = async () => {
