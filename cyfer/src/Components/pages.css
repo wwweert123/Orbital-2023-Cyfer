@@ -3,9 +3,10 @@
     background-color: var(--color-bg);
     display: flex;
     flex-direction: column;
-    width: 50%;
+    width: 25%;
     position: relative;
     left: 25%;
+    margin: 0px;
 }
 
 .btn {
