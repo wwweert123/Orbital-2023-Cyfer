@@ -71,54 +71,56 @@ const Login = () => {
     }, [persist]);
 
     return (
-        <section className="login--container">
-            <p
-                ref={errRef}
-                className={errMsg ? "errmsg" : "offscreen"}
-                aria-live="assertive"
-            >
-                {errMsg}
-            </p>
-            <h1>Sign In</h1>
-            <form onSubmit={handleSubmit}>
-                <label htmlFor="username">Username:</label>
-                <input
-                    type="text"
-                    id="username"
-                    ref={userRef}
-                    autoComplete="off"
-                    onChange={(e) => setUser(e.target.value)}
-                    value={user}
-                    required
-                />
-                <label htmlFor="password">Password:</label>
-                <input
-                    type="password"
-                    id="password"
-                    onChange={(e) => setPwd(e.target.value)}
-                    value={pwd}
-                    required
-                />
-                <button className="btn btn-primary">Sign In</button>
-                <div className="persistCheck">
+        <div className="loginpage-container">
+            <section className="login--container">
+                <p
+                    ref={errRef}
+                    className={errMsg ? "errmsg" : "offscreen"}
+                    aria-live="assertive"
+                >
+                    {errMsg}
+                </p>
+                <h1>Sign In</h1>
+                <form onSubmit={handleSubmit}>
+                    <label htmlFor="username">Username:</label>
                     <input
-                        type="checkbox"
-                        id="persist"
-                        onChange={togglePersist}
-                        checked={persist}
+                        type="text"
+                        id="username"
+                        ref={userRef}
+                        autoComplete="off"
+                        onChange={(e) => setUser(e.target.value)}
+                        value={user}
+                        required
                     />
-                    <label htmlFor="persist">Trust This Device</label>
-                </div>
-                {/* only button in the form so it triggers the submit event of the form*/}
-            </form>
-            <p>
-                Need an Account?
-                <br />
-                <span className="line">
-                    <Link to="/register">Sign Up</Link>
-                </span>
-            </p>
-        </section>
+                    <label htmlFor="password">Password:</label>
+                    <input
+                        type="password"
+                        id="password"
+                        onChange={(e) => setPwd(e.target.value)}
+                        value={pwd}
+                        required
+                    />
+                    <button className="btn btn-primary">Sign In</button>
+                    <div className="persistCheck">
+                        <input
+                            type="checkbox"
+                            id="persist"
+                            onChange={togglePersist}
+                            checked={persist}
+                        />
+                        <label htmlFor="persist">Trust This Device</label>
+                    </div>
+                    {/* only button in the form so it triggers the submit event of the form*/}
+                </form>
+                <p>
+                    Need an Account?
+                    <br />
+                    <span className="line">
+                        <Link to="/register">Sign Up</Link>
+                    </span>
+                </p>
+            </section>
+        </div>
     );
 };
 

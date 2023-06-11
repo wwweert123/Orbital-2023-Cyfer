@@ -3,8 +3,14 @@ import { useState, useEffect } from "react";
 import useRefreshToken from "../hooks/useRefreshToken";
 import useAuth from "../hooks/useAuth";
 import Loader from "./Loader";
+import Sidebar from "./SideNav/Sidebar";
+import { CssBaseline, ThemeProvider } from "@mui/material";
+import { ColorModeContext, useMode } from "../theme";
+import "./persistlogin.css";
 
 const PersistLogin = () => {
+    const [theme, colorMode] = useMode();
+    const [isSidebar, setIsSidebar] = useState(true);
     // let isMounted = true;
     const [isLoading, setIsLoading] = useState(true);
     const refresh = useRefreshToken();
@@ -33,7 +39,33 @@ const PersistLogin = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isLoading]);
 
-    return <>{!persist ? <Outlet /> : isLoading ? <Loader /> : <Outlet />}</>;
+    return (
+        <>
+            {!persist ? (
+                <div className="homeLayout">
+                    <ColorModeContext.Provider value={colorMode}>
+                        <ThemeProvider theme={theme}>
+                            <CssBaseline />
+                            <Sidebar isSidebar={isSidebar} />
+                        </ThemeProvider>
+                    </ColorModeContext.Provider>
+                    <Outlet />
+                </div>
+            ) : isLoading ? (
+                <Loader />
+            ) : (
+                <>
+                    <ColorModeContext.Provider value={colorMode}>
+                        <ThemeProvider theme={theme}>
+                            <CssBaseline />
+                            <Sidebar isSidebar={isSidebar} />
+                        </ThemeProvider>
+                    </ColorModeContext.Provider>
+                    <Outlet />
+                </>
+            )}
+        </>
+    );
 };
 
 export default PersistLogin;

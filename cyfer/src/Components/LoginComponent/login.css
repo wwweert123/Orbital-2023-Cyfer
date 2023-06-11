@@ -1,5 +1,16 @@
 @import url("https://fonts.googleapis.com/css2?family=Nunito&display=swap");
 
+.loginpage-container {
+    overflow: hidden;
+    height: 100%;
+    width: 100%;
+    background-image: url("../../Assets/blockchainbackground.jpg");
+    background-size: cover; /* or "contain" depending on what you want */
+    background-position: center center;
+    background-repeat: no-repeat;
+    position: fixed;
+}
+
 .login--container {
     background-color: #000;
     width: max-content;
