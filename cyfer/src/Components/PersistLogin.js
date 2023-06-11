@@ -55,7 +55,7 @@ const PersistLogin = () => {
             ) : isLoading ? (
                 <Loader />
             ) : (
-                <>
+                <div className="homeLayout">
                     <ColorModeContext.Provider value={colorMode}>
                         <ThemeProvider theme={theme}>
                             <CssBaseline />
@@ -63,7 +63,7 @@ const PersistLogin = () => {
                         </ThemeProvider>
                     </ColorModeContext.Provider>
                     <Outlet />
-                </>
+                </div>
             )}
         </>
     );
