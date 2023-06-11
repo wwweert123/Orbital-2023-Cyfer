@@ -5,6 +5,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { AuthProvider } from "./context/AuthProvider";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+// eslint-disable-next-line
 import { disableReactDevTools } from "@fvilers/disable-react-devtools";
 
 // if (process.env.NODE_ENV === 'production') {
