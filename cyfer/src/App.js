@@ -1,6 +1,7 @@
 import Login from "./Components/LoginComponent/Login";
 import Register from "./Components/Register/Register";
 import { Routes, Route } from "react-router-dom";
+import { useState } from "react";
 
 import Layout from "./Components/Layout";
 import Missing from "./Components/Missing";
@@ -9,6 +10,7 @@ import Home from "./Components/Home";
 import Admin from "./Components/Admin";
 import RequireAuth from "./Components/RequireAuth";
 import PersistLogin from "./Components/PersistLogin";
+import Sidebar from "./Components/SideNav/SideBar";
 
 const ROLES = {
     User: 2001,
@@ -17,6 +19,7 @@ const ROLES = {
 };
 
 function App() {
+    const [isSidebar, setIsSidebar] = useState(true);
     // const [register, setRegister] = useState(false);
     return (
         <Routes>
@@ -28,6 +31,7 @@ function App() {
 
                 {/* we want to protect these routes */}
                 <Route element={<PersistLogin />}>
+                    <Sidebar isSidebar={isSidebar} />
                     <Route
                         element={<RequireAuth allowedRoles={[ROLES.User]} />}
                     >
