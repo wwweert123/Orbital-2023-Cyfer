@@ -10,7 +10,8 @@ import "./persistlogin.css";
 
 const PersistLogin = () => {
     const [theme, colorMode] = useMode();
-    const [isSidebar, setIsSidebar] = useState(true);
+    //warning when there is setisSideBar
+    const [isSidebar] = useState(true);
     // let isMounted = true;
     const [isLoading, setIsLoading] = useState(true);
     const refresh = useRefreshToken();
