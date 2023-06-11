@@ -19,6 +19,15 @@ import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 import User from "../../Assets/user.png";
 
+import useAuth from "../../hooks/useAuth";
+import jwt_decode from "jwt-decode";
+
+const ROLES = {
+    2001: "User",
+    1984: "Editor",
+    5150: "Admin",
+};
+
 const Item = ({ title, to, icon, selected, setSelected }) => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -42,6 +51,14 @@ const Sidebar = () => {
     const colors = tokens(theme.palette.mode);
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [selected, setSelected] = useState("Dashboard");
+
+    //display username
+    const { auth } = useAuth();
+    //display roles
+    const decoded = auth?.accessToken
+        ? jwt_decode(auth.accessToken)
+        : undefined;
+    const role = ROLES[decoded?.UserInfo?.roles[1] || 2001];
 
     return (
         <Box
@@ -121,13 +138,13 @@ const Sidebar = () => {
                                     fontWeight="bold"
                                     sx={{ m: "10px 0 0 0" }}
                                 >
-                                    Jessica Smith
+                                    {auth?.user || "Username"}
                                 </Typography>
                                 <Typography
                                     variant="h5"
                                     color={colors.greenAccent[500]}
                                 >
-                                    Smart Admin
+                                    {role}
                                 </Typography>
                             </Box>
                         </Box>
