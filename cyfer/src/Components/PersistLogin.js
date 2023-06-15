@@ -8,6 +8,7 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "../theme";
 import "./persistlogin.css";
 import useLocalStorage from "../hooks/useLocalStorage";
+import Header from "./Header";
 
 const PersistLogin = () => {
     const [theme, colorMode] = useMode();
@@ -46,6 +47,7 @@ const PersistLogin = () => {
         <>
             {!persist ? (
                 <div className="homeLayout">
+                    <Header />
                     <ColorModeContext.Provider value={colorMode}>
                         <ThemeProvider theme={theme}>
                             <CssBaseline />
