@@ -7,7 +7,7 @@ import useInput from "../../hooks/useInput";
 import useToggle from "../../hooks/useToggle";
 
 //mui
-import { Stack, TextField, Checkbox } from "@mui/material";
+import { Stack, TextField, Checkbox, Button } from "@mui/material";
 
 import axios from "../../api/axios";
 const LOGIN_URL = "/auth";
@@ -117,38 +117,15 @@ const Login = () => {
                         <label htmlFor="persist">Trust This Device</label>
                     </div>
                 </Stack>
-                {/* <form onSubmit={handleSubmit}>
-                    <label htmlFor="username">Username:</label>
-                    <input
-                        type="text"
-                        id="username"
-                        ref={userRef}
-                        autoComplete="off"
-                        // onChange={(e) => setUser(e.target.value)}
-                        // value={user}
-                        {...userAttribs}
-                        required
-                    />
-                    <label htmlFor="password">Password:</label>
-                    <input
-                        type="password"
-                        id="password"
-                        onChange={(e) => setPwd(e.target.value)}
-                        value={pwd}
-                        required
-                    />
-                    <button className="btn btn-primary">Sign In</button>
-                    <div className="persistCheck">
-                        <input
-                            type="checkbox"
-                            id="persist"
-                            onChange={toggleCheck}
-                            checked={check}
-                        />
-                        <label htmlFor="persist">Trust This Device</label>
-                    </div>
-                    {/* only button in the form so it triggers the submit event of the form*/}
-                {/* </form> */}
+                <Button
+                    fullWidth
+                    size="large"
+                    type="submit"
+                    variant="contained"
+                    onClick={handleSubmit}
+                >
+                    Sign In
+                </Button>
                 <p>
                     Need an Account?
                     <br />
