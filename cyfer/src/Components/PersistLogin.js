@@ -49,8 +49,8 @@ const PersistLogin = () => {
                     <ThemeProvider>
                         <Header />
                         <Sidebar isSidebar={isSidebar} />
+                        <Outlet />
                     </ThemeProvider>
-                    <Outlet />
                 </div>
             ) : isLoading ? (
                 <Loader />
@@ -59,8 +59,8 @@ const PersistLogin = () => {
                     <ThemeProvider>
                         <Header />
                         <Sidebar isSidebar={isSidebar} />
+                        <Outlet />
                     </ThemeProvider>
-                    <Outlet />
                 </div>
             )}
         </>
