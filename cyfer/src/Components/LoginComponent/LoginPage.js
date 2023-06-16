@@ -15,7 +15,7 @@ import useResponsive from "../../hooks/useResponsive";
 import Logo from "../logo";
 import Iconify from "../iconify";
 // sections
-import Login from "./Login";
+import { Outlet } from "react-router-dom";
 
 // ----------------------------------------------------------------------
 
@@ -71,7 +71,7 @@ export default function LoginPage() {
                             Hi, Welcome Back
                         </Typography>
                         <img
-                            src="/assets/illustrations/illustration_login.png"
+                            src="assets/blockchainbackground.jpg"
                             alt="login"
                         />
                     </StyledSection>
@@ -141,7 +141,7 @@ export default function LoginPage() {
                             </Typography>
                         </Divider>
 
-                        <Login />
+                        <Outlet />
                     </StyledContent>
                 </Container>
             </StyledRoot>

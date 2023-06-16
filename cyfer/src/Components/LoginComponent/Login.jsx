@@ -7,7 +7,7 @@ import useInput from "../../hooks/useInput";
 import useToggle from "../../hooks/useToggle";
 
 //mui
-import { Stack, TextField, Checkbox, Button } from "@mui/material";
+import { Stack, TextField, Checkbox, Button, Typography } from "@mui/material";
 
 import axios from "../../api/axios";
 const LOGIN_URL = "/auth";
@@ -86,9 +86,12 @@ const Login = () => {
                 >
                     {errMsg}
                 </p>
-                <h1>Sign In</h1>
+                <Typography variant="h3" sx={{ px: 5, mb: 5 }}>
+                    Sign In
+                </Typography>
                 <Stack spacing={3}>
                     <TextField
+                        variant="outlined"
                         type="text"
                         id="username"
                         ref={userRef}
