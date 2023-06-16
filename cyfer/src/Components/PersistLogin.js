@@ -4,7 +4,6 @@ import useRefreshToken from "../hooks/useRefreshToken";
 import useAuth from "../hooks/useAuth";
 import Loader from "./Loader";
 import Sidebar from "./SideNav/Sidebar";
-import ThemeProvider from "../theme";
 import "./persistlogin.css";
 import useLocalStorage from "../hooks/useLocalStorage";
 import Header from "./Header";
@@ -46,21 +45,17 @@ const PersistLogin = () => {
         <>
             {!persist ? (
                 <div className="homeLayout">
-                    <ThemeProvider>
-                        <Header />
-                        <Sidebar isSidebar={isSidebar} />
-                        <Outlet />
-                    </ThemeProvider>
+                    <Header />
+                    <Sidebar isSidebar={isSidebar} />
+                    <Outlet />
                 </div>
             ) : isLoading ? (
                 <Loader />
             ) : (
                 <div className="homeLayout">
-                    <ThemeProvider>
-                        <Header />
-                        <Sidebar isSidebar={isSidebar} />
-                        <Outlet />
-                    </ThemeProvider>
+                    <Header />
+                    <Sidebar isSidebar={isSidebar} />
+                    <Outlet />
                 </div>
             )}
         </>
