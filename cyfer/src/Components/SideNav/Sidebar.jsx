@@ -12,21 +12,22 @@ import {
     Avatar,
     Stack,
 } from "@mui/material";
+
+// hooks
+import useResponsive from "../../hooks/useResponsive";
+// components
+import Logo from "../logo";
+import Scrollbar from "../scrollbar";
+import NavSection from "../nav-section";
+//
+import navConfig from "./config.js";
+
 // mock
 const account = {
     displayName: "Jaydon Frankie",
     email: "demo@minimals.cc",
     photoURL: "/assets/images/avatars/avatar_default.jpg",
 };
-
-// hooks
-import useResponsive from "../../../hooks/useResponsive";
-// components
-import Logo from "../../../components/logo";
-import Scrollbar from "../../../components/scrollbar";
-import NavSection from "../../../components/nav-section";
-//
-import navConfig from "./config";
 
 // ----------------------------------------------------------------------
 
