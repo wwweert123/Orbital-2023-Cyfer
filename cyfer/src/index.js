@@ -1,12 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import "./index.css";
+//import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { AuthProvider } from "./context/AuthProvider";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 // eslint-disable-next-line
 import { disableReactDevTools } from "@fvilers/disable-react-devtools";
+import ThemeProvider from "./theme";
 
 // if (process.env.NODE_ENV === 'production') {
 //   disableReactDevTools();
@@ -17,9 +18,11 @@ root.render(
     <React.StrictMode>
         <BrowserRouter>
             <AuthProvider>
-                <Routes>
-                    <Route path="/*" element={<App />} />
-                </Routes>
+                <ThemeProvider>
+                    <Routes>
+                        <Route path="/*" element={<App />} />
+                    </Routes>
+                </ThemeProvider>
             </AuthProvider>
         </BrowserRouter>
     </React.StrictMode>
