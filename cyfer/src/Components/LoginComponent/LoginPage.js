@@ -8,6 +8,7 @@ import {
     Divider,
     Stack,
     Button,
+    Hidden,
 } from "@mui/material";
 // hooks
 import useResponsive from "../../hooks/useResponsive";
@@ -27,7 +28,7 @@ const StyledRoot = styled("div")(({ theme }) => ({
 
 const StyledSection = styled("div")(({ theme }) => ({
     width: "100%",
-    maxWidth: 480,
+    maxWidth: 1280,
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
@@ -76,7 +77,7 @@ export default function LoginPage() {
 
                 <Container maxWidth="sm">
                     <StyledContent>
-                        <Typography variant="h4" gutterBottom>
+                        {/* <Typography variant="h4" gutterBottom>
                             Sign in to Minimal
                         </Typography>
 
@@ -127,16 +128,16 @@ export default function LoginPage() {
                                     height={22}
                                 />
                             </Button>
-                        </Stack>
+                        </Stack> */}
 
-                        <Divider sx={{ my: 3 }}>
+                        {/* <Divider sx={{ my: 3 }}>
                             <Typography
                                 variant="body2"
                                 sx={{ color: "text.secondary" }}
                             >
                                 OR
                             </Typography>
-                        </Divider>
+                        </Divider> */}
 
                         <Outlet />
                     </StyledContent>
