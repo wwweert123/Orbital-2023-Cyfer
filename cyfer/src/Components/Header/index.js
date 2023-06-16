@@ -6,6 +6,7 @@ import { bgBlur } from "../../utils/cssStyles";
 import { Box, Stack, AppBar, Toolbar, IconButton } from "@mui/material";
 //
 import AccountPopover from "./AccountPopover";
+import Searchbar from "./Searchbar";
 
 const NAV_WIDTH = 280;
 
@@ -44,7 +45,7 @@ export default function Header({ onOpenNav }) {
                     {/* <Iconify icon="eva:menu-2-fill" /> */}
                 </IconButton>
 
-                {/* <Searchbar /> */}
+                <Searchbar />
                 <Box sx={{ flexGrow: 1 }} />
 
                 <Stack

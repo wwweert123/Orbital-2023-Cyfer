@@ -11,6 +11,13 @@ import {
     IconButton,
     Popover,
 } from "@mui/material";
+
+import { useNavigate } from "react-router-dom";
+
+import useAuth from "../../hooks/useAuth";
+
+import useLogout from "../../hooks/useLogout";
+
 // mocks_
 // import account from "../../../_mock/account";
 const account = {
@@ -41,12 +48,23 @@ const MENU_OPTIONS = [
 export default function AccountPopover() {
     const [open, setOpen] = useState(null);
 
+    const { auth } = useAuth();
+    const navigate = useNavigate();
+
     const handleOpen = (event) => {
         setOpen(event.currentTarget);
     };
 
     const handleClose = () => {
         setOpen(null);
+    };
+
+    const logout = useLogout();
+
+    const signOut = async () => {
+        handleClose();
+        await logout();
+        navigate("/login");
     };
 
     return (
@@ -93,7 +111,7 @@ export default function AccountPopover() {
             >
                 <Box sx={{ my: 1.5, px: 2.5 }}>
                     <Typography variant="subtitle2" noWrap>
-                        {account.displayName}
+                        {auth?.user}
                     </Typography>
                     <Typography
                         variant="body2"
@@ -116,7 +134,7 @@ export default function AccountPopover() {
 
                 <Divider sx={{ borderStyle: "dashed" }} />
 
-                <MenuItem onClick={handleClose} sx={{ m: 1 }}>
+                <MenuItem onClick={signOut} sx={{ m: 1 }}>
                     Logout
                 </MenuItem>
             </Popover>
