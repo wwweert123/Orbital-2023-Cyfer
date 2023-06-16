@@ -1,262 +1,180 @@
-import { useState } from "react";
-import {} from "react-pro-sidebar";
-import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
-import { Box, IconButton, Typography, useTheme } from "@mui/material";
-import { Link } from "react-router-dom";
-import "react-pro-sidebar/dist/css/styles.css";
-import { tokens } from "../../theme";
-import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
-import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
-import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
-import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
-import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
-import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
-import BarChartOutlinedIcon from "@mui/icons-material/BarChartOutlined";
-import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutlined";
-import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
-import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
-import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
-import User from "../../Assets/user.png";
-
-import useAuth from "../../hooks/useAuth";
-import jwt_decode from "jwt-decode";
-
-const ROLES = {
-    2001: "User",
-    1984: "Editor",
-    5150: "Admin",
+import PropTypes from "prop-types";
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
+// @mui
+import { styled, alpha } from "@mui/material/styles";
+import {
+    Box,
+    Link,
+    Button,
+    Drawer,
+    Typography,
+    Avatar,
+    Stack,
+} from "@mui/material";
+// mock
+const account = {
+    displayName: "Jaydon Frankie",
+    email: "demo@minimals.cc",
+    photoURL: "/assets/images/avatars/avatar_default.jpg",
 };
 
-const Item = ({ title, to, icon, selected, setSelected }) => {
-    const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
-    return (
-        <MenuItem
-            active={selected === title}
-            style={{
-                color: colors.grey[100],
+// hooks
+import useResponsive from "../../../hooks/useResponsive";
+// components
+import Logo from "../../../components/logo";
+import Scrollbar from "../../../components/scrollbar";
+import NavSection from "../../../components/nav-section";
+//
+import navConfig from "./config";
+
+// ----------------------------------------------------------------------
+
+const NAV_WIDTH = 280;
+
+const StyledAccount = styled("div")(({ theme }) => ({
+    display: "flex",
+    alignItems: "center",
+    padding: theme.spacing(2, 2.5),
+    borderRadius: Number(theme.shape.borderRadius) * 1.5,
+    backgroundColor: alpha(theme.palette.grey[500], 0.12),
+}));
+
+// ----------------------------------------------------------------------
+
+Nav.propTypes = {
+    openNav: PropTypes.bool,
+    onCloseNav: PropTypes.func,
+};
+
+export default function Nav({ openNav, onCloseNav }) {
+    const { pathname } = useLocation();
+
+    const isDesktop = useResponsive("up", "lg");
+
+    useEffect(() => {
+        if (openNav) {
+            onCloseNav();
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [pathname]);
+
+    const renderContent = (
+        <Scrollbar
+            sx={{
+                height: 1,
+                "& .simplebar-content": {
+                    height: 1,
+                    display: "flex",
+                    flexDirection: "column",
+                },
             }}
-            onClick={() => setSelected(title)}
-            icon={icon}
         >
-            <Typography>{title}</Typography>
-            <Link to={to} />
-        </MenuItem>
+            <Box sx={{ px: 2.5, py: 3, display: "inline-flex" }}>
+                <Logo />
+            </Box>
+
+            <Box sx={{ mb: 5, mx: 2.5 }}>
+                <Link underline="none">
+                    <StyledAccount>
+                        <Avatar src={account.photoURL} alt="photoURL" />
+
+                        <Box sx={{ ml: 2 }}>
+                            <Typography
+                                variant="subtitle2"
+                                sx={{ color: "text.primary" }}
+                            >
+                                {account.displayName}
+                            </Typography>
+
+                            <Typography
+                                variant="body2"
+                                sx={{ color: "text.secondary" }}
+                            >
+                                {account.role}
+                            </Typography>
+                        </Box>
+                    </StyledAccount>
+                </Link>
+            </Box>
+
+            <NavSection data={navConfig} />
+
+            <Box sx={{ flexGrow: 1 }} />
+
+            <Box sx={{ px: 2.5, pb: 3, mt: 10 }}>
+                <Stack
+                    alignItems="center"
+                    spacing={3}
+                    sx={{ pt: 5, borderRadius: 2, position: "relative" }}
+                >
+                    <Box
+                        component="img"
+                        src="/assets/illustrations/illustration_avatar.png"
+                        sx={{ width: 100, position: "absolute", top: -50 }}
+                    />
+
+                    <Box sx={{ textAlign: "center" }}>
+                        <Typography gutterBottom variant="h6">
+                            Get more?
+                        </Typography>
+
+                        <Typography
+                            variant="body2"
+                            sx={{ color: "text.secondary" }}
+                        >
+                            From only $69
+                        </Typography>
+                    </Box>
+
+                    <Button
+                        href="https://material-ui.com/store/items/minimal-dashboard/"
+                        target="_blank"
+                        variant="contained"
+                    >
+                        Upgrade to Pro
+                    </Button>
+                </Stack>
+            </Box>
+        </Scrollbar>
     );
-};
-
-const Sidebar = () => {
-    const theme = useTheme();
-    const colors = tokens(theme.palette.mode);
-    const [isCollapsed, setIsCollapsed] = useState(false);
-    const [selected, setSelected] = useState("Dashboard");
-
-    //display username
-    const { auth } = useAuth();
-    //display roles
-    const decoded = auth?.accessToken
-        ? jwt_decode(auth.accessToken)
-        : undefined;
-    const role = ROLES[decoded?.UserInfo?.roles[1] || 2001];
 
     return (
         <Box
+            component="nav"
             sx={{
-                "& .pro-sidebar-inner": {
-                    background: `${colors.primary[400]} !important`,
-                },
-                "& .pro-icon-wrapper": {
-                    backgroundColor: "transparent !important",
-                },
-                "& .pro-inner-item": {
-                    padding: "5px 35px 5px 20px !important",
-                },
-                "& .pro-inner-item:hover": {
-                    color: "#868dfb !important",
-                },
-                "& .pro-menu-item.active": {
-                    color: "#6870fa !important",
-                },
+                flexShrink: { lg: 0 },
+                width: { lg: NAV_WIDTH },
             }}
         >
-            <ProSidebar collapsed={isCollapsed}>
-                <Menu iconShape="square">
-                    {/* LOGO AND MENU ICON */}
-                    <MenuItem
-                        onClick={() => setIsCollapsed(!isCollapsed)}
-                        icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
-                        style={{
-                            margin: "10px 0 20px 0",
-                            color: colors.grey[100],
-                        }}
-                    >
-                        {!isCollapsed && (
-                            <Box
-                                display="flex"
-                                justifyContent="space-between"
-                                alignItems="center"
-                                ml="15px"
-                            >
-                                <Typography
-                                    variant="h3"
-                                    color={colors.grey[100]}
-                                >
-                                    ADMIN
-                                </Typography>
-                                <IconButton
-                                    onClick={() => setIsCollapsed(!isCollapsed)}
-                                >
-                                    <MenuOutlinedIcon />
-                                </IconButton>
-                            </Box>
-                        )}
-                    </MenuItem>
-
-                    {!isCollapsed && (
-                        <Box mb="25px">
-                            <Box
-                                display="flex"
-                                justifyContent="center"
-                                alignItems="center"
-                            >
-                                <img
-                                    alt="profile-user"
-                                    width="100px"
-                                    height="100px"
-                                    src={User}
-                                    style={{
-                                        cursor: "pointer",
-                                        borderRadius: "50%",
-                                    }}
-                                />
-                            </Box>
-                            <Box textAlign="center">
-                                <Typography
-                                    variant="h2"
-                                    color={colors.grey[100]}
-                                    fontWeight="bold"
-                                    sx={{ m: "10px 0 0 0" }}
-                                >
-                                    {auth?.user || "Username"}
-                                </Typography>
-                                <Typography
-                                    variant="h5"
-                                    color={colors.greenAccent[500]}
-                                >
-                                    {role}
-                                </Typography>
-                            </Box>
-                        </Box>
-                    )}
-
-                    <Box paddingLeft={isCollapsed ? undefined : "10%"}>
-                        <Item
-                            title="Dashboard"
-                            to="/"
-                            icon={<HomeOutlinedIcon />}
-                            selected={selected}
-                            setSelected={setSelected}
-                        />
-
-                        <Typography
-                            variant="h6"
-                            color={colors.grey[300]}
-                            sx={{ m: "15px 0 5px 20px" }}
-                        >
-                            Data
-                        </Typography>
-                        <Item
-                            title="Manage Team"
-                            to="/team"
-                            icon={<PeopleOutlinedIcon />}
-                            selected={selected}
-                            setSelected={setSelected}
-                        />
-                        <Item
-                            title="Contacts Information"
-                            to="/contacts"
-                            icon={<ContactsOutlinedIcon />}
-                            selected={selected}
-                            setSelected={setSelected}
-                        />
-                        <Item
-                            title="Invoices Balances"
-                            to="/invoices"
-                            icon={<ReceiptOutlinedIcon />}
-                            selected={selected}
-                            setSelected={setSelected}
-                        />
-
-                        <Typography
-                            variant="h6"
-                            color={colors.grey[300]}
-                            sx={{ m: "15px 0 5px 20px" }}
-                        >
-                            Pages
-                        </Typography>
-                        <Item
-                            title="Profile Form"
-                            to="/form"
-                            icon={<PersonOutlinedIcon />}
-                            selected={selected}
-                            setSelected={setSelected}
-                        />
-                        <Item
-                            title="Calendar"
-                            to="/calendar"
-                            icon={<CalendarTodayOutlinedIcon />}
-                            selected={selected}
-                            setSelected={setSelected}
-                        />
-                        <Item
-                            title="FAQ Page"
-                            to="/faq"
-                            icon={<HelpOutlineOutlinedIcon />}
-                            selected={selected}
-                            setSelected={setSelected}
-                        />
-
-                        <Typography
-                            variant="h6"
-                            color={colors.grey[300]}
-                            sx={{ m: "15px 0 5px 20px" }}
-                        >
-                            Charts
-                        </Typography>
-                        <Item
-                            title="Bar Chart"
-                            to="/bar"
-                            icon={<BarChartOutlinedIcon />}
-                            selected={selected}
-                            setSelected={setSelected}
-                        />
-                        <Item
-                            title="Pie Chart"
-                            to="/pie"
-                            icon={<PieChartOutlineOutlinedIcon />}
-                            selected={selected}
-                            setSelected={setSelected}
-                        />
-                        <Item
-                            title="Line Chart"
-                            to="/line"
-                            icon={<TimelineOutlinedIcon />}
-                            selected={selected}
-                            setSelected={setSelected}
-                        />
-                        <Item
-                            title="Geography Chart"
-                            to="/geography"
-                            icon={<MapOutlinedIcon />}
-                            selected={selected}
-                            setSelected={setSelected}
-                        />
-                    </Box>
-                </Menu>
-            </ProSidebar>
+            {isDesktop ? (
+                <Drawer
+                    open
+                    variant="permanent"
+                    PaperProps={{
+                        sx: {
+                            width: NAV_WIDTH,
+                            bgcolor: "background.default",
+                            borderRightStyle: "dashed",
+                        },
+                    }}
+                >
+                    {renderContent}
+                </Drawer>
+            ) : (
+                <Drawer
+                    open={openNav}
+                    onClose={onCloseNav}
+                    ModalProps={{
+                        keepMounted: true,
+                    }}
+                    PaperProps={{
+                        sx: { width: NAV_WIDTH },
+                    }}
+                >
+                    {renderContent}
+                </Drawer>
+            )}
         </Box>
     );
-};
-
-export default Sidebar;
+}

@@ -4,14 +4,13 @@ import useRefreshToken from "../hooks/useRefreshToken";
 import useAuth from "../hooks/useAuth";
 import Loader from "./Loader";
 import Sidebar from "./SideNav/Sidebar";
-import { CssBaseline, ThemeProvider } from "@mui/material";
-import { ColorModeContext, useMode } from "../theme";
+import ThemeProvider from "../theme";
 import "./persistlogin.css";
 import useLocalStorage from "../hooks/useLocalStorage";
 import Header from "./Header";
 
 const PersistLogin = () => {
-    const [theme, colorMode] = useMode();
+    // const [theme, colorMode] = useMode();
     //warning when there is setisSideBar
     const [isSidebar] = useState(true);
     // let isMounted = true;
@@ -47,25 +46,20 @@ const PersistLogin = () => {
         <>
             {!persist ? (
                 <div className="homeLayout">
-                    <Header />
-                    <ColorModeContext.Provider value={colorMode}>
-                        <ThemeProvider theme={theme}>
-                            <CssBaseline />
-                            <Sidebar isSidebar={isSidebar} />
-                        </ThemeProvider>
-                    </ColorModeContext.Provider>
+                    <ThemeProvider>
+                        <Header />
+                        <Sidebar isSidebar={isSidebar} />
+                    </ThemeProvider>
                     <Outlet />
                 </div>
             ) : isLoading ? (
                 <Loader />
             ) : (
                 <div className="homeLayout">
-                    <ColorModeContext.Provider value={colorMode}>
-                        <ThemeProvider theme={theme}>
-                            <CssBaseline />
-                            <Sidebar isSidebar={isSidebar} />
-                        </ThemeProvider>
-                    </ColorModeContext.Provider>
+                    <ThemeProvider>
+                        <Header />
+                        <Sidebar isSidebar={isSidebar} />
+                    </ThemeProvider>
                     <Outlet />
                 </div>
             )}
