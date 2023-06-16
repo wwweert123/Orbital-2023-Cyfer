@@ -21,6 +21,7 @@ import Scrollbar from "../scrollbar";
 import NavSection from "../nav-section";
 //
 import navConfig from "./config.js";
+import useAuth from "../../hooks/useAuth";
 
 // mock
 const account = {
@@ -50,6 +51,7 @@ Nav.propTypes = {
 
 export default function Nav({ openNav, onCloseNav }) {
     const { pathname } = useLocation();
+    const { auth } = useAuth();
 
     const isDesktop = useResponsive("up", "lg");
 
@@ -85,7 +87,7 @@ export default function Nav({ openNav, onCloseNav }) {
                                 variant="subtitle2"
                                 sx={{ color: "text.primary" }}
                             >
-                                {account.displayName}
+                                {auth?.user}
                             </Typography>
 
                             <Typography
