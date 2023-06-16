@@ -10,9 +10,9 @@ import {
     ClickAwayListener,
 } from "@mui/material";
 // utils
-import { bgBlur } from "../../../utils/cssStyles";
+import { bgBlur } from "../../utils/cssStyles";
 // component
-import Iconify from "../../../components/iconify";
+import Iconify from "../iconify";
 
 // ----------------------------------------------------------------------
 
@@ -30,7 +30,7 @@ const StyledSearchbar = styled("div")(({ theme }) => ({
     alignItems: "center",
     height: HEADER_MOBILE,
     padding: theme.spacing(0, 3),
-    boxShadow: theme.customShadows.z8,
+    // boxShadow: theme.customShadows.z8,
     [theme.breakpoints.up("md")]: {
         height: HEADER_DESKTOP,
         padding: theme.spacing(0, 5),
