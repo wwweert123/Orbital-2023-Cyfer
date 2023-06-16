@@ -1,10 +1,13 @@
-import "./login.css";
+//import "./login.css";
 import React from "react";
 import { useRef, useState, useEffect } from "react";
 import useAuth from "../../hooks/useAuth";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import useInput from "../../hooks/useInput";
 import useToggle from "../../hooks/useToggle";
+
+//mui
+import { Stack, TextField, Checkbox } from "@mui/material";
 
 import axios from "../../api/axios";
 const LOGIN_URL = "/auth";
@@ -84,7 +87,37 @@ const Login = () => {
                     {errMsg}
                 </p>
                 <h1>Sign In</h1>
-                <form onSubmit={handleSubmit}>
+                <Stack spacing={3}>
+                    <TextField
+                        type="text"
+                        id="username"
+                        ref={userRef}
+                        name="email"
+                        label="Email address"
+                        autoComplete="off"
+                        {...userAttribs}
+                        required
+                    />
+                    <TextField
+                        type="password"
+                        id="password"
+                        onChange={(e) => setPwd(e.target.value)}
+                        value={pwd}
+                        required
+                        name="password"
+                        label="Password"
+                    />
+                    <div className="persistCheck">
+                        <Checkbox
+                            type="checkbox"
+                            id="persist"
+                            onChange={toggleCheck}
+                            checked={check}
+                        />
+                        <label htmlFor="persist">Trust This Device</label>
+                    </div>
+                </Stack>
+                {/* <form onSubmit={handleSubmit}>
                     <label htmlFor="username">Username:</label>
                     <input
                         type="text"
@@ -115,7 +148,7 @@ const Login = () => {
                         <label htmlFor="persist">Trust This Device</label>
                     </div>
                     {/* only button in the form so it triggers the submit event of the form*/}
-                </form>
+                {/* </form> */}
                 <p>
                     Need an Account?
                     <br />

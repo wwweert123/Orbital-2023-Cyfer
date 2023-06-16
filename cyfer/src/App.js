@@ -1,4 +1,5 @@
 import Login from "./Components/LoginComponent/Login";
+import LoginPage from "./Components/LoginComponent/LoginPage";
 import Register from "./Components/Register/Register";
 import { Routes, Route } from "react-router-dom";
 // import { useState } from "react";
@@ -23,7 +24,8 @@ function App() {
         <Routes>
             <Route path="/" element={<Layout />}>
                 {/* public routes */}
-                <Route path="login" element={<Login />} />
+
+                <Route path="login" element={<LoginPage />} />
                 <Route path="register" element={<Register />} />
                 <Route path="unauthorized" element={<Unauthorized />} />
 
