@@ -2,12 +2,19 @@
 import React from "react";
 import { useRef, useState, useEffect } from "react";
 import useAuth from "../../hooks/useAuth";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import useInput from "../../hooks/useInput";
 import useToggle from "../../hooks/useToggle";
 
 //mui
-import { Stack, TextField, Checkbox, Button, Typography } from "@mui/material";
+import {
+    Stack,
+    TextField,
+    Checkbox,
+    Button,
+    Typography,
+    Link,
+} from "@mui/material";
 
 import axios from "../../api/axios";
 const LOGIN_URL = "/auth";
@@ -132,9 +139,14 @@ const Login = () => {
                 <p>
                     Need an Account?
                     <br />
-                    <span className="line">
-                        <Link to="/register">Sign Up</Link>
-                    </span>
+                    <Link
+                        component={NavLink}
+                        to="/register"
+                        variant="subtitle2"
+                        underline="hover"
+                    >
+                        Sign Up
+                    </Link>
                 </p>
             </section>
         </div>
