@@ -1,4 +1,4 @@
-// import { Helmet } from "react-helmet-async";
+import { Helmet } from "react-helmet-async";
 // @mui
 import { styled } from "@mui/material/styles";
 import { Container, Typography } from "@mui/material";
@@ -47,9 +47,9 @@ export default function LoginPage() {
 
     return (
         <>
-            {/* <Helmet>
-                <title> Login | Minimal UI </title>
-            </Helmet> */}
+            <Helmet>
+                <title> Login | Cyfer </title>
+            </Helmet>
 
             <StyledRoot>
                 <Logo

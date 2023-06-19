@@ -8,6 +8,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 // eslint-disable-next-line
 import { disableReactDevTools } from "@fvilers/disable-react-devtools";
 import ThemeProvider from "./theme";
+import { HelmetProvider } from "react-helmet-async";
 
 // if (process.env.NODE_ENV === 'production') {
 //   disableReactDevTools();
@@ -16,15 +17,17 @@ import ThemeProvider from "./theme";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
     <React.StrictMode>
-        <BrowserRouter>
-            <AuthProvider>
-                <ThemeProvider>
-                    <Routes>
-                        <Route path="/*" element={<App />} />
-                    </Routes>
-                </ThemeProvider>
-            </AuthProvider>
-        </BrowserRouter>
+        <HelmetProvider>
+            <BrowserRouter>
+                <AuthProvider>
+                    <ThemeProvider>
+                        <Routes>
+                            <Route path="/*" element={<App />} />
+                        </Routes>
+                    </ThemeProvider>
+                </AuthProvider>
+            </BrowserRouter>
+        </HelmetProvider>
     </React.StrictMode>
 );
 
