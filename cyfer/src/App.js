@@ -11,6 +11,7 @@ import Home from "./Components/Home";
 import Admin from "./Components/Admin";
 import RequireAuth from "./Components/RequireAuth";
 import PersistLogin from "./Components/PersistLogin";
+import DashboardLayout from "./Components/DashboardLayout";
 
 const ROLES = {
     User: 2001,
@@ -31,16 +32,22 @@ function App() {
                 </Route>
                 {/* we want to protect these routes */}
                 <Route element={<PersistLogin />}>
-                    <Route
-                        element={<RequireAuth allowedRoles={[ROLES.User]} />}
-                    >
-                        <Route path="/" element={<Home />} />
-                    </Route>
+                    <Route element={<DashboardLayout />}>
+                        <Route
+                            element={
+                                <RequireAuth allowedRoles={[ROLES.User]} />
+                            }
+                        >
+                            <Route path="/" element={<Home />} />
+                        </Route>
 
-                    <Route
-                        element={<RequireAuth allowedRoles={[ROLES.Admin]} />}
-                    >
-                        <Route path="admin" element={<Admin />} />
+                        <Route
+                            element={
+                                <RequireAuth allowedRoles={[ROLES.Admin]} />
+                            }
+                        >
+                            <Route path="admin" element={<Admin />} />
+                        </Route>
                     </Route>
                 </Route>
                 {/* catch all */}
