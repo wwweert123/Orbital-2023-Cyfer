@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import useRefreshToken from "../hooks/useRefreshToken";
 import useAuth from "../hooks/useAuth";
 import Loader from "./Loader";
-import "./persistlogin.css";
 import useLocalStorage from "../hooks/useLocalStorage";
 
 const PersistLogin = () => {
