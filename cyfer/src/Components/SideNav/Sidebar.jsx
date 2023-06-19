@@ -3,15 +3,7 @@ import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 // @mui
 import { styled, alpha } from "@mui/material/styles";
-import {
-    Box,
-    Link,
-    Button,
-    Drawer,
-    Typography,
-    Avatar,
-    Stack,
-} from "@mui/material";
+import { Box, Link, Drawer, Typography, Avatar, Stack } from "@mui/material";
 
 // hooks
 import useResponsive from "../../hooks/useResponsive";
@@ -111,13 +103,13 @@ export default function Nav({ openNav, onCloseNav }) {
                     spacing={3}
                     sx={{ pt: 5, borderRadius: 2, position: "relative" }}
                 >
-                    <Box
+                    {/* <Box
                         component="img"
                         src="/assets/illustrations/illustration_avatar.png"
                         sx={{ width: 100, position: "absolute", top: -50 }}
-                    />
+                    /> */}
 
-                    <Box sx={{ textAlign: "center" }}>
+                    {/* <Box sx={{ textAlign: "center" }}>
                         <Typography gutterBottom variant="h6">
                             Get more?
                         </Typography>
@@ -136,7 +128,7 @@ export default function Nav({ openNav, onCloseNav }) {
                         variant="contained"
                     >
                         Upgrade to Pro
-                    </Button>
+                    </Button> */}
                 </Stack>
             </Box>
         </Scrollbar>

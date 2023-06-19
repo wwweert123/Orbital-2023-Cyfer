@@ -1,10 +1,19 @@
 import CircleLoader from "react-spinners/CircleLoader";
-import "./loader.css";
+//mui
+import { styled } from "@mui/material/styles";
+import { Typography } from "@mui/material";
+
+const StyledRoot = styled("div")({
+    display: "flex",
+    position: "absolute",
+    left: "50%",
+    top: "50%",
+});
 
 const Loader = () => {
     return (
-        <div className="loader-container">
-            <h1>Cyfer</h1>
+        <StyledRoot>
+            <Typography variant="h3">Cyfer</Typography>
             <CircleLoader
                 color="maroon"
                 loading={true}
@@ -13,7 +22,7 @@ const Loader = () => {
                 aria-label="Loading Spinner"
                 data-testid="loader"
             />
-        </div>
+        </StyledRoot>
     );
 };
 
