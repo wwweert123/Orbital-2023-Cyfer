@@ -94,7 +94,7 @@ const Login = () => {
                     {errMsg}
                 </p>
                 <Typography variant="h3" sx={{ px: 5, mb: 5 }}>
-                    Sign In
+                    Sign in to Cyfer
                 </Typography>
                 <Stack spacing={3}>
                     <TextField
@@ -102,8 +102,8 @@ const Login = () => {
                         type="text"
                         id="username"
                         ref={userRef}
-                        name="email"
-                        label="Email address"
+                        name="username"
+                        label="Username"
                         autoComplete="off"
                         {...userAttribs}
                         required

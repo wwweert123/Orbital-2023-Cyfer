@@ -91,18 +91,18 @@ const Register = () => {
     return (
         <>
             {success ? (
-                <section className="register--container">
+                <Stack spacing={3}>
                     <Typography variant="h3" sx={{ px: 5, mb: 5 }}>
                         Success!
                     </Typography>
                     <p>
                         <Link to="/login">Sign In</Link>
                     </p>
-                </section>
+                </Stack>
             ) : (
                 <>
                     <Typography variant="h3" sx={{ px: 5, mb: 0 }}>
-                        Register
+                        Register your Cyfer experience
                     </Typography>
                     <Stack spacing={3}>
                         <p
