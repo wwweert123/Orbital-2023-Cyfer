@@ -9,6 +9,9 @@ import Logo from "../logo";
 // sections
 import { Outlet } from "react-router-dom";
 
+// typewriter effect
+import { TypeAnimation } from "react-type-animation";
+
 // ----------------------------------------------------------------------
 
 const StyledRoot = styled("div")(({ theme }) => ({
@@ -52,7 +55,7 @@ export default function LoginPage() {
                 <Logo
                     sx={{
                         position: "fixed",
-                        top: { xs: 16, sm: 24, md: 40 },
+                        top: { xs: 0, sm: 0, md: 0 },
                         left: { xs: 16, sm: 24, md: 40 },
                     }}
                 />
@@ -60,7 +63,26 @@ export default function LoginPage() {
                 {mdUp && (
                     <StyledSection>
                         <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
-                            Hi, Welcome Back
+                            <TypeAnimation
+                                sequence={[
+                                    // Same substring at the start will only be typed out once, initially
+                                    "Create contracts on the blockchain",
+                                    1000, // wait 1s before replacing "Mice" with "Hamsters"
+                                    "Create contracts safely",
+                                    1000,
+                                    "Create contracts securely",
+                                    1000,
+                                    "Create contracts in seconds",
+                                    1000,
+                                ]}
+                                wrapper="span"
+                                speed={50}
+                                // style={{
+                                //     fontSize: "2em",
+                                //     display: "inline-block",
+                                // }}
+                                repeat={Infinity}
+                            />
                         </Typography>
                         <img src="assets/background.jpg" alt="login" />
                     </StyledSection>

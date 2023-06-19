@@ -92,12 +92,17 @@ const Register = () => {
         <>
             {success ? (
                 <Stack spacing={3}>
-                    <Typography variant="h3" sx={{ px: 5, mb: 5 }}>
+                    <Typography variant="h3" sx={{ px: 0, mb: 5 }}>
                         Success!
                     </Typography>
-                    <p>
-                        <Link to="/login">Sign In</Link>
-                    </p>
+                    <Link
+                        component={NavLink}
+                        to="/login"
+                        variant="subtitle2"
+                        underline="hover"
+                    >
+                        Sign In
+                    </Link>
                 </Stack>
             ) : (
                 <>
@@ -215,7 +220,7 @@ const Register = () => {
                             }
                             onClick={handleSubmit}
                         >
-                            Sign In
+                            Sign Up
                         </Button>
                         <p>
                             Already registered?
