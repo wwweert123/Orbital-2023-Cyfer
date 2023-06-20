@@ -1,5 +1,5 @@
 import Login from "./Components/LoginComponent/Login";
-import LoginPage from "./Components/LoginComponent/LoginPage";
+import LoginPage from "./Layouts/LoginPage";
 import Register from "./Components/Register/Register";
 import { Routes, Route } from "react-router-dom";
 // import { useState } from "react";
@@ -9,7 +9,7 @@ import Home from "./Pages/Home";
 import Admin from "./Pages/Admin";
 import RequireAuth from "./Components/RequireAuth";
 import PersistLogin from "./Components/PersistLogin";
-import DashboardLayout from "./Components/DashboardLayout";
+import DashboardLayout from "./Layouts/DashboardLayout";
 
 const ROLES = {
     User: 2001,

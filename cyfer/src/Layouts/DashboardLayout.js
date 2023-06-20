@@ -5,8 +5,8 @@ import { Outlet } from "react-router-dom";
 import { styled } from "@mui/material/styles";
 
 // sidebar and header
-import Sidebar from "./SideNav/Sidebar";
-import Header from "./Header";
+import Sidebar from "../Components/SideNav/Sidebar";
+import Header from "../Components/Header";
 
 const APP_BAR_MOBILE = 64;
 const APP_BAR_DESKTOP = 92;

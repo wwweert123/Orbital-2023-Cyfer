@@ -3,9 +3,9 @@ import { Helmet } from "react-helmet-async";
 import { styled } from "@mui/material/styles";
 import { Container, Typography } from "@mui/material";
 // hooks
-import useResponsive from "../../hooks/useResponsive";
+import useResponsive from "../hooks/useResponsive";
 // components
-import Logo from "../logo";
+import Logo from "../Components/logo";
 // sections
 import { Outlet } from "react-router-dom";
 
