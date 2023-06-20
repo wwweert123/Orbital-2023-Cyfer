@@ -3,8 +3,6 @@ import LoginPage from "./Components/LoginComponent/LoginPage";
 import Register from "./Components/Register/Register";
 import { Routes, Route } from "react-router-dom";
 // import { useState } from "react";
-
-import Layout from "./Components/Layout";
 import Missing from "./Pages/Missing";
 import Unauthorized from "./Pages/Unauthorized";
 import Home from "./Pages/Home";
