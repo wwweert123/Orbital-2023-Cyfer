@@ -81,14 +81,14 @@ const palette = {
     grey: GREY,
     divider: alpha(GREY[500], 0.24),
     text: {
-        primary: GREY[800],
-        secondary: GREY[600],
+        primary: GREY[100],
+        secondary: GREY[200],
         disabled: GREY[500],
     },
     background: {
         paper: "#fff",
-        default: GREY[100],
-        neutral: GREY[200],
+        default: GREY[900],
+        neutral: GREY[800],
     },
     action: {
         active: GREY[600],
