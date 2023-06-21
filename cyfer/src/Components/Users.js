@@ -85,7 +85,12 @@ const Users = () => {
             {users?.length ? (
                 <>
                     <Scrollbar>
-                        <TableContainer sx={{ minWidth: 800 }}>
+                        <TableContainer
+                            sx={{
+                                minWidth: 800,
+                                bgcolor: "background.neutral",
+                            }}
+                        >
                             <Table>
                                 <UserListHead
                                     headLabel={TABLE_HEAD}
