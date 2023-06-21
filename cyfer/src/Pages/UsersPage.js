@@ -4,7 +4,7 @@ import Users from "../Components/Users";
 import { Helmet } from "react-helmet-async";
 
 // mui
-import { Typography, Container } from "@mui/material";
+import { Typography, Container, Card } from "@mui/material";
 
 const UsersPage = () => {
     return (
@@ -16,7 +16,10 @@ const UsersPage = () => {
                 <Typography variant="h4" sx={{ mb: 5 }}>
                     User List
                 </Typography>
-                <Users />
+                {/* <Users /> */}
+                <Card>
+                    <Users />
+                </Card>
             </Container>
             {/* <section className="page">
                 <h1>Admin Page</h1>
