@@ -88,7 +88,6 @@ const Users = () => {
                         <TableContainer
                             sx={{
                                 minWidth: 800,
-                                bgcolor: "background.neutral",
                             }}
                         >
                             <Table>
@@ -96,7 +95,9 @@ const Users = () => {
                                     headLabel={TABLE_HEAD}
                                     rowCount={users.length}
                                 ></UserListHead>
-                                <TableBody>
+                                <TableBody
+                                    sx={{ bgcolor: "background.neutral" }}
+                                >
                                     {users
                                         .slice(
                                             page * rowsPerPage,
