@@ -109,6 +109,10 @@ const Users = () => {
                                                     hover
                                                     key={i}
                                                     tabIndex={-1}
+                                                    sx={{
+                                                        bgcolor:
+                                                            "background.neutral",
+                                                    }}
                                                 >
                                                     <TableCell
                                                         component="th"
@@ -170,6 +174,7 @@ const Users = () => {
                         page={page}
                         onPageChange={handleChangePage}
                         onRowsPerPageChange={handleChangeRowsPerPage}
+                        sx={{ bgcolor: "background.neutral" }}
                     />
                 </>
             ) : (
