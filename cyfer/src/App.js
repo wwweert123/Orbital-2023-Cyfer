@@ -6,7 +6,7 @@ import { Routes, Route } from "react-router-dom";
 import Missing from "./Pages/Missing";
 import Unauthorized from "./Pages/Unauthorized";
 import DashboardHome from "./Pages/DashboardHome";
-import Admin from "./Pages/Admin";
+import UsersPage from "./Pages/UsersPage";
 import RequireAuth from "./Components/RequireAuth";
 import PersistLogin from "./Components/PersistLogin";
 import DashboardLayout from "./Layouts/DashboardLayout";
@@ -39,7 +39,7 @@ function App() {
                     <Route
                         element={<RequireAuth allowedRoles={[ROLES.Admin]} />}
                     >
-                        <Route path="admin" element={<Admin />} />
+                        <Route path="admin" element={<UsersPage />} />
                     </Route>
                 </Route>
             </Route>
