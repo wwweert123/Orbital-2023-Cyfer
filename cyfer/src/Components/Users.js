@@ -82,94 +82,93 @@ const Users = () => {
     }, []);
     return (
         <>
-            <Scrollbar>
-                <TableContainer sx={{ minWidth: 800 }}>
-                    <Table>
-                        <UserListHead
-                            headLabel={TABLE_HEAD}
-                            rowCount={users.length}
-                        ></UserListHead>
-                        <TableBody>
-                            {users
-                                .slice(
-                                    page * rowsPerPage,
-                                    page * rowsPerPage + rowsPerPage
-                                )
-                                .map((row, i) => {
-                                    return (
-                                        <TableRow hover key={i} tabIndex={-1}>
-                                            <TableCell
-                                                component="th"
-                                                scope="row"
-                                                padding="none"
-                                            >
-                                                <Stack
-                                                    direction="row"
-                                                    alignItems="center"
-                                                    spacing={2}
+            {users?.length ? (
+                <>
+                    <Scrollbar>
+                        <TableContainer sx={{ minWidth: 800 }}>
+                            <Table>
+                                <UserListHead
+                                    headLabel={TABLE_HEAD}
+                                    rowCount={users.length}
+                                ></UserListHead>
+                                <TableBody>
+                                    {users
+                                        .slice(
+                                            page * rowsPerPage,
+                                            page * rowsPerPage + rowsPerPage
+                                        )
+                                        .map((row, i) => {
+                                            return (
+                                                <TableRow
+                                                    hover
+                                                    key={i}
+                                                    tabIndex={-1}
                                                 >
-                                                    <Avatar
-                                                        alt={row}
-                                                        src={avatarUrl}
-                                                    />
-                                                    <Typography
-                                                        variant="subtitle2"
-                                                        noWrap
+                                                    <TableCell
+                                                        component="th"
+                                                        scope="row"
+                                                        padding="none"
                                                     >
-                                                        {row}
-                                                    </Typography>
-                                                </Stack>
-                                            </TableCell>
-                                            <TableCell align="left">
-                                                {"Yes"}
-                                            </TableCell>
-                                            <TableCell align="left">
-                                                <Label color={"success"}>
-                                                    Banned
-                                                </Label>
-                                            </TableCell>
-                                            <TableCell align="right">
-                                                <IconButton
-                                                    size="large"
-                                                    color="inherit"
-                                                    // onClick={handleOpenMenu}
-                                                >
-                                                    <Iconify
-                                                        icon={
-                                                            "eva:more-vertical-fill"
-                                                        }
-                                                    />
-                                                </IconButton>
-                                            </TableCell>
-                                        </TableRow>
-                                    );
-                                })}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-            </Scrollbar>
-            <TablePagination
-                rowsPerPageOptions={[5, 10, 25]}
-                component="div"
-                count={users.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-            />
-
-            {/* <article>
-                <h2>Users List</h2>
-                {users?.length ? (
-                    <ul>
-                        {users.map((user, i) => (
-                            <li key={i}>{user}</li>
-                        ))}
-                    </ul>
-                ) : (
-                    <p>No users to display</p>
-                )}
-            </article> */}
+                                                        <Stack
+                                                            direction="row"
+                                                            alignItems="center"
+                                                            spacing={2}
+                                                        >
+                                                            <Avatar
+                                                                alt={row}
+                                                                src={avatarUrl}
+                                                            />
+                                                            <Typography
+                                                                variant="subtitle2"
+                                                                noWrap
+                                                            >
+                                                                {row}
+                                                            </Typography>
+                                                        </Stack>
+                                                    </TableCell>
+                                                    <TableCell align="left">
+                                                        {"Yes"}
+                                                    </TableCell>
+                                                    <TableCell align="left">
+                                                        <Label
+                                                            color={"success"}
+                                                        >
+                                                            Banned
+                                                        </Label>
+                                                    </TableCell>
+                                                    <TableCell align="right">
+                                                        <IconButton
+                                                            size="large"
+                                                            color="inherit"
+                                                            // onClick={handleOpenMenu}
+                                                        >
+                                                            <Iconify
+                                                                icon={
+                                                                    "eva:more-vertical-fill"
+                                                                }
+                                                            />
+                                                        </IconButton>
+                                                    </TableCell>
+                                                </TableRow>
+                                            );
+                                        })}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    </Scrollbar>
+                    <TablePagination
+                        rowsPerPageOptions={[5, 10, 25]}
+                        component="div"
+                        count={users.length}
+                        rowsPerPage={rowsPerPage}
+                        page={page}
+                        onPageChange={handleChangePage}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
+                    />
+                </>
+            ) : (
+                <p>No users to display</p>
+            )}
         </>
     );
 };
