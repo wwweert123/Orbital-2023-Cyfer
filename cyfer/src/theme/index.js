@@ -13,7 +13,7 @@ import shadows from "./shadows";
 import typography from "./typography";
 import GlobalStyles from "./globalStyles";
 import customShadows from "./customShadows";
-// import componentsOverride from "./overrides";
+import componentsOverride from "./overrides";
 
 // ----------------------------------------------------------------------
 
@@ -34,7 +34,7 @@ export default function ThemeProvider({ children }) {
     );
 
     const theme = createTheme(themeOptions);
-    // theme.components = componentsOverride(theme);
+    theme.components = componentsOverride(theme);
 
     return (
         <StyledEngineProvider injectFirst>
