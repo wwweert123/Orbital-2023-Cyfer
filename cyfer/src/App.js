@@ -7,6 +7,7 @@ import Missing from "./Pages/Missing";
 import Unauthorized from "./Pages/Unauthorized";
 import DashboardHome from "./Pages/DashboardHome";
 import UsersPage from "./Pages/UsersPage";
+import CreatePage from "./Pages/CreatePage";
 import RequireAuth from "./Components/RequireAuth";
 import PersistLogin from "./Components/PersistLogin";
 import DashboardLayout from "./Layouts/DashboardLayout";
@@ -34,6 +35,12 @@ function App() {
                         element={<RequireAuth allowedRoles={[ROLES.User]} />}
                     >
                         <Route path="/" element={<DashboardHome />} />
+                    </Route>
+
+                    <Route
+                        element={<RequireAuth allowedRoles={[ROLES.User]} />}
+                    >
+                        <Route path="create" element={<CreatePage />} />
                     </Route>
 
                     <Route

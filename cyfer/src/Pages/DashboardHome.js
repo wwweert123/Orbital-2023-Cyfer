@@ -22,42 +22,42 @@ export default function DashboardHome() {
                     <Grid item xs={12} sm={6} md={3}>
                         <ContractWidgetSummary
                             title="Weekly Sales"
-                            total="714K"
+                            address="714K"
                             icon={"ant-design:android-filled"}
                         />
                     </Grid>
                     <Grid item xs={12} sm={6} md={3}>
                         <ContractWidgetSummary
                             title="Weekly Sales"
-                            total="714K"
+                            address="714K"
                             icon={"ant-design:android-filled"}
                         />
                     </Grid>
                     <Grid item xs={12} sm={6} md={3}>
                         <ContractWidgetSummary
                             title="Weekly Sales"
-                            total="714K"
+                            address="714K"
                             icon={"ant-design:android-filled"}
                         />
                     </Grid>
                     <Grid item xs={12} sm={6} md={3}>
                         <ContractWidgetSummary
                             title="Weekly Sales"
-                            total="714K"
+                            address="714K"
                             icon={"ant-design:android-filled"}
                         />
                     </Grid>
                     <Grid item xs={12} sm={6} md={3}>
                         <ContractWidgetSummary
                             title="Weekly Sales"
-                            total="714K"
+                            address="714K"
                             icon={"ant-design:android-filled"}
                         />
                     </Grid>
                     <Grid item xs={12} sm={6} md={3}>
                         <ContractWidgetSummary
                             title="Weekly Sales"
-                            total="714K"
+                            address="714K"
                             icon={"ant-design:android-filled"}
                         />
                     </Grid>

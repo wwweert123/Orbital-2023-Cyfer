@@ -24,7 +24,7 @@ ContractWidgetSummary.propTypes = {
     color: PropTypes.string,
     icon: PropTypes.string,
     title: PropTypes.string.isRequired,
-    total: PropTypes.number.isRequired,
+    address: PropTypes.string.isRequired,
     sx: PropTypes.object,
 };
 

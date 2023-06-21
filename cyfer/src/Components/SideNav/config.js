@@ -18,7 +18,7 @@ const navConfig = [
     },
     {
         title: "create",
-        path: "/dashboard/user",
+        path: "/create",
         icon: icon("ic_user"),
     },
     {
