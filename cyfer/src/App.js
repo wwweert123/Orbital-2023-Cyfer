@@ -5,7 +5,7 @@ import { Routes, Route } from "react-router-dom";
 // import { useState } from "react";
 import Missing from "./Pages/Missing";
 import Unauthorized from "./Pages/Unauthorized";
-import Home from "./Pages/Home";
+import DashboardHome from "./Pages/DashboardHome";
 import Admin from "./Pages/Admin";
 import RequireAuth from "./Components/RequireAuth";
 import PersistLogin from "./Components/PersistLogin";
@@ -33,7 +33,7 @@ function App() {
                     <Route
                         element={<RequireAuth allowedRoles={[ROLES.User]} />}
                     >
-                        <Route path="/" element={<Home />} />
+                        <Route path="/" element={<DashboardHome />} />
                     </Route>
 
                     <Route
