@@ -7,13 +7,13 @@ import Connex from "../api/connex";
 import WalletBalanceWidget from "../sections/dashboardsections/WalletBalanceWidget";
 
 // axios
-// import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 // hooks
 import useLocalStorage from "../hooks/useLocalStorage";
 
 export default function DashboardHome() {
-    //const axiosPrivate = useAxiosPrivate();
+    const axiosPrivate = useAxiosPrivate();
     const [wallets, setWallets] = useLocalStorage("wallets", []);
     const message = {
         purpose: "identification",
@@ -33,6 +33,10 @@ export default function DashboardHome() {
                     console.log("address already exist");
                 } else {
                     setWallets((prev) => [...prev, certResponse.annex.signer]);
+                    const response = await axiosPrivate.get("/wallet", {
+                        address: certResponse.annex.signer,
+                    });
+                    console.log(response.data);
                 }
             }
         } catch (err) {
