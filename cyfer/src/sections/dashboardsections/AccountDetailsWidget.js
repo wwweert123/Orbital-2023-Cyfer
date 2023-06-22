@@ -79,7 +79,7 @@ export default function AccountDetailsWidget({
         };
         // return statement performs the cleanup when the component unmount or after the previous render
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [wallets]);
+    }, []);
     return (
         <Card
             sx={{
