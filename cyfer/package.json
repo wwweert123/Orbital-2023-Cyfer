@@ -32,6 +32,7 @@
         "react-spinners": "^0.13.8",
         "react-type-animation": "^3.1.0",
         "simplebar-react": "^3.2.1",
+        "wallet-short": "^1.0.2",
         "web-vitals": "^2.1.4"
     },
     "scripts": {

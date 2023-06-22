@@ -1,15 +1,23 @@
+// Login Stuff
 import Login from "./Components/LoginComponent/Login";
 import LoginPage from "./Layouts/LoginPage";
 import Register from "./Components/Register/Register";
 import { Routes, Route } from "react-router-dom";
 // import { useState } from "react";
+
+// Pages
 import Missing from "./Pages/Missing";
 import Unauthorized from "./Pages/Unauthorized";
-import DashboardHome from "./Pages/DashboardHome";
+import ViewPage from "./Pages/ViewPage";
 import UsersPage from "./Pages/UsersPage";
 import CreatePage from "./Pages/CreatePage";
+import DashboardHome from "./Pages/DashboardHome";
+
+// Hooks
 import RequireAuth from "./Components/RequireAuth";
 import PersistLogin from "./Components/PersistLogin";
+
+// Layout
 import DashboardLayout from "./Layouts/DashboardLayout";
 
 const ROLES = {
@@ -35,6 +43,12 @@ function App() {
                         element={<RequireAuth allowedRoles={[ROLES.User]} />}
                     >
                         <Route path="/" element={<DashboardHome />} />
+                    </Route>
+
+                    <Route
+                        element={<RequireAuth allowedRoles={[ROLES.User]} />}
+                    >
+                        <Route path="/view" element={<ViewPage />} />
                     </Route>
 
                     <Route
