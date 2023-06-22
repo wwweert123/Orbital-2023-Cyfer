@@ -29,7 +29,7 @@ export default function DashboardHome() {
                 .sign("cert", message)
                 .request();
             if (certResponse) {
-                if (wallets.indexOf(certResponse.annex.signer) === -1) {
+                if (wallets.indexOf(certResponse.annex.signer) !== -1) {
                     console.log("address already exist");
                 } else {
                     setWallets((prev) => prev.push(certResponse.annex.signer));
