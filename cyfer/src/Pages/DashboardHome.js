@@ -32,7 +32,7 @@ export default function DashboardHome() {
                 if (wallets.indexOf(certResponse.annex.signer) !== -1) {
                     console.log("address already exist");
                 } else {
-                    setWallets((prev) => prev.push(certResponse.annex.signer));
+                    setWallets((prev) => [...prev, certResponse.annex.signer]);
                 }
             }
         } catch (err) {
