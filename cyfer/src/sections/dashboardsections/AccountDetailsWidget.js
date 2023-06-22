@@ -1,3 +1,6 @@
+import { useEffect, useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+
 // @mui
 import PropTypes from "prop-types";
 import { alpha, styled } from "@mui/material/styles";
@@ -7,6 +10,9 @@ import Iconify from "../../Components/iconify";
 
 // utils
 import walletshort from "wallet-short";
+
+// axios
+import useAxiosPrivate from "../../hooks/useAxiosPrivate"; //import the hook
 
 // ----------------------------------------------------------------------
 
@@ -40,6 +46,40 @@ export default function AccountDetailsWidget({
     color = "primary",
     sx,
 }) {
+    const navigate = useNavigate();
+    const location = useLocation(); //current location
+    const [wallets, setWallets] = useState();
+    const axiosPrivate = useAxiosPrivate();
+    useEffect(() => {
+        let isMounted = true;
+        const controller = new AbortController(); // cancel any pending request if the component unmounts
+
+        const getWallets = async () => {
+            try {
+                const response = await axiosPrivate.get("/wallet", {
+                    signal: controller.signal,
+                });
+                const walletAddresses = response.data.map(
+                    (wallet) => wallet.address
+                );
+                console.log(response.data);
+                isMounted && setWallets(walletAddresses);
+            } catch (err) {
+                console.error(err);
+                navigate("/login", {
+                    state: { from: location },
+                    replace: true,
+                });
+            }
+        };
+        getWallets();
+        return () => {
+            isMounted = false;
+            controller.abort(); // abort request
+        };
+        // return statement performs the cleanup when the component unmount or after the previous render
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
     return (
         <Card
             sx={{
