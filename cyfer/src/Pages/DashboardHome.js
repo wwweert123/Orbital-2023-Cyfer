@@ -33,7 +33,7 @@ export default function DashboardHome() {
                     console.log("address already exist");
                 } else {
                     setWallets((prev) => [...prev, certResponse.annex.signer]);
-                    const response = await axiosPrivate.get("/wallet", {
+                    const response = await axiosPrivate.post("/wallet", {
                         address: certResponse.annex.signer,
                     });
                     console.log(response.data);
