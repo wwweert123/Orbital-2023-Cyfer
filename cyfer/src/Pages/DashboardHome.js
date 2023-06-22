@@ -14,7 +14,7 @@ import useLocalStorage from "../hooks/useLocalStorage";
 
 export default function DashboardHome() {
     //const axiosPrivate = useAxiosPrivate();
-    const [wallets, setWallets] = useLocalStorage("wallets", null);
+    const [wallets, setWallets] = useLocalStorage("wallets");
     const message = {
         purpose: "identification",
         payload: {
@@ -29,7 +29,7 @@ export default function DashboardHome() {
                 .sign("cert", message)
                 .request();
             if (certResponse) {
-                if (wallets.indexof(certResponse.annex.signer) === -1) {
+                if (wallets.indexOf(certResponse.annex.signer) === -1) {
                     console.log("address already exist");
                 } else {
                     setWallets((prev) => prev.push(certResponse.annex.signer));
