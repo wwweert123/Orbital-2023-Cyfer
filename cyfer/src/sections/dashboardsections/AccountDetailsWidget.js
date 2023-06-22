@@ -48,7 +48,7 @@ export default function AccountDetailsWidget({
 }) {
     const navigate = useNavigate();
     const location = useLocation(); //current location
-    const [setWallets] = useState();
+    const [wallets, setWallets] = useState();
     const axiosPrivate = useAxiosPrivate();
     useEffect(() => {
         let isMounted = true;
@@ -103,7 +103,7 @@ export default function AccountDetailsWidget({
             >
                 <Iconify icon={icon} width={24} height={24} />
             </StyledIcon>
-            <Typography variant="h3">{walletshort(address)}</Typography>
+            <Typography variant="h3">{walletshort(wallets[0])}</Typography>
             <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
                 {numContract}
             </Typography>
