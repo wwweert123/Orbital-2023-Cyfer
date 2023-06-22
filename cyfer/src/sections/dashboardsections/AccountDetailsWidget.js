@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
 // @mui
@@ -13,6 +13,7 @@ import walletshort from "wallet-short";
 
 // axios
 import useAxiosPrivate from "../../hooks/useAxiosPrivate"; //import the hook
+import useLocalStorage from "../../hooks/useLocalStorage";
 
 // ----------------------------------------------------------------------
 
@@ -39,7 +40,6 @@ AccountDetailsWidget.propTypes = {
 };
 
 export default function AccountDetailsWidget({
-    address,
     handleClick,
     numContract,
     icon,
@@ -48,7 +48,7 @@ export default function AccountDetailsWidget({
 }) {
     const navigate = useNavigate();
     const location = useLocation(); //current location
-    const [wallets, setWallets] = useState();
+    const [wallets, setWallets] = useLocalStorage("wallets", null);
     const axiosPrivate = useAxiosPrivate();
     useEffect(() => {
         let isMounted = true;
@@ -79,7 +79,7 @@ export default function AccountDetailsWidget({
         };
         // return statement performs the cleanup when the component unmount or after the previous render
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [wallets]);
     return (
         <Card
             sx={{
