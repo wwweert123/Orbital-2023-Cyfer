@@ -48,7 +48,7 @@ export default function AccountDetailsWidget({
 }) {
     const navigate = useNavigate();
     const location = useLocation(); //current location
-    const [wallets, setWallets] = useState();
+    const [setWallets] = useState();
     const axiosPrivate = useAxiosPrivate();
     useEffect(() => {
         let isMounted = true;
@@ -62,7 +62,7 @@ export default function AccountDetailsWidget({
                 const walletAddresses = response.data.map(
                     (wallet) => wallet.address
                 );
-                console.log(response.data);
+                console.log(walletAddresses);
                 isMounted && setWallets(walletAddresses);
             } catch (err) {
                 console.error(err);
