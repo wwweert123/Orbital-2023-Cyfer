@@ -48,7 +48,7 @@ export default function AccountDetailsWidget({
 }) {
     const navigate = useNavigate();
     const location = useLocation(); //current location
-    const [wallets, setWallets] = useLocalStorage("wallets", null);
+    const [wallets, setWallets] = useLocalStorage("wallets", []);
     const axiosPrivate = useAxiosPrivate();
     useEffect(() => {
         let isMounted = true;
