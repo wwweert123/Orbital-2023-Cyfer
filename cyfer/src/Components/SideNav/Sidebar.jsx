@@ -13,7 +13,7 @@ import Scrollbar from "../scrollbar";
 import NavSection from "../nav-section";
 //
 import navConfig from "./config.js";
-import useAuth from "../../hooks/useAuth";
+import useLocalStorage from "../../hooks/useLocalStorage";
 
 // mock
 const account = {
@@ -43,7 +43,7 @@ Nav.propTypes = {
 
 export default function Nav({ openNav, onCloseNav }) {
     const { pathname } = useLocation();
-    const { auth } = useAuth();
+    const [username] = useLocalStorage("user", null);
 
     const isDesktop = useResponsive("up", "lg");
 
@@ -79,7 +79,7 @@ export default function Nav({ openNav, onCloseNav }) {
                                 variant="subtitle2"
                                 sx={{ color: "text.primary" }}
                             >
-                                {auth?.user}
+                                {username}
                             </Typography>
 
                             <Typography

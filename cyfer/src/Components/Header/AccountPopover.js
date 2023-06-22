@@ -14,7 +14,7 @@ import {
 
 import { useNavigate } from "react-router-dom";
 
-import useAuth from "../../hooks/useAuth";
+import useLocalStorage from "../../hooks/useLocalStorage";
 
 import useLogout from "../../hooks/useLogout";
 
@@ -48,7 +48,7 @@ const MENU_OPTIONS = [
 export default function AccountPopover() {
     const [open, setOpen] = useState(null);
 
-    const { auth } = useAuth();
+    const [username] = useLocalStorage("user", null);
     const navigate = useNavigate();
 
     const handleOpen = (event) => {
@@ -112,7 +112,7 @@ export default function AccountPopover() {
             >
                 <Box sx={{ my: 1.5, px: 2.5 }}>
                     <Typography variant="subtitle2" noWrap>
-                        {auth?.user}
+                        {username}
                     </Typography>
                     <Typography
                         variant="body2"
