@@ -49,18 +49,19 @@ const Wallets = () => {
                 {wallet.owned.map((address) => (
                     <Grid item xs={12} sm={6} md={3}>
                         <ContractWidgetSummary
-                            title="Weekly Sales"
+                            title="Contract Owner"
                             address={walletShort(address)}
-                            icon={"ant-design:android-filled"}
+                            icon={"fluent-mdl2:party-leader"}
                         />
                     </Grid>
                 ))}
                 {wallet.editor.map((address) => (
                     <Grid item xs={12} sm={6} md={3}>
                         <ContractWidgetSummary
-                            title="Weekly Sales"
+                            title="Contract Editor"
                             address={walletShort(address)}
-                            icon={"ant-design:android-filled"}
+                            color="warning"
+                            icon={"material-symbols:edit"}
                         />
                     </Grid>
                 ))}
