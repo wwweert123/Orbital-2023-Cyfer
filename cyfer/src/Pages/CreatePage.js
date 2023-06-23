@@ -30,6 +30,7 @@ export default function CreatePage() {
 
     const sendContractDB = async (resp) => {
         try {
+            console.log(resp.signer);
             const Axiosresp = axiosPrivate.post("/wallet/addcontract", {
                 walletaddress: resp.signer,
                 contractaddress: resp.txid,
