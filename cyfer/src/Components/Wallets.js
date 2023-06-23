@@ -6,6 +6,8 @@ import { Grid, Stack, Typography } from "@mui/material";
 import ContractWidgetSummary from "../sections/viewsections/ContractWidgetSummary";
 import walletShort from "wallet-short";
 
+import { Divider } from "@mui/material";
+
 const Wallets = () => {
     const [walletsObjects, setWalletsObjects] = useState([]);
     const axiosPrivate = useAxiosPrivate();
@@ -63,6 +65,7 @@ const Wallets = () => {
                     </Grid>
                 ))}
             </Grid>
+            <Divider variant="middle" />
         </Stack>
     ));
 
