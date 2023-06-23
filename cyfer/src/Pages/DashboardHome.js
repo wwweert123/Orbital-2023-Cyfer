@@ -11,8 +11,39 @@ import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 // hooks
 import useLocalStorage from "../hooks/useLocalStorage";
+import { useState } from "react";
 
 export default function DashboardHome() {
+    const [selectedWallet, setSelectedWallet] = useState();
+
+    const [numContract, setnumContract] = useState("");
+
+    const checkContractNum = async (wallet) => {
+        if (wallet === "") {
+            setnumContract("?");
+            return;
+        }
+        try {
+            const response = await axiosPrivate.get(
+                `/wallet/contracts/${wallet}`,
+                {
+                    signal: AbortSignal.timeout(5000),
+                }
+            );
+            console.log(response.data);
+            const total =
+                response.data.owned.length + response.data.editor.length;
+            setnumContract(total);
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    const handleChange = (e) => {
+        setSelectedWallet(e.target.value);
+        checkContractNum(e.target.value);
+    };
+
     const axiosPrivate = useAxiosPrivate();
     const [wallets, setWallets] = useLocalStorage("wallets", []);
     const message = {
@@ -58,12 +89,16 @@ export default function DashboardHome() {
                     <Grid item xs={12} sm={6} md={8}>
                         <AccountDetailsWidget
                             handleClick={handleIdentification}
-                            numContract={5}
+                            numContract={numContract}
                             icon={"mdi:contract"}
+                            handleSelected={handleChange}
                         />
                     </Grid>
                     <Grid item xs={12} sm={6} md={4}>
-                        <WalletBalanceWidget icon={"ion:wallet-outline"} />
+                        <WalletBalanceWidget
+                            icon={"ion:wallet-outline"}
+                            addres={selectedWallet}
+                        />
                     </Grid>
                 </Grid>
             </Container>

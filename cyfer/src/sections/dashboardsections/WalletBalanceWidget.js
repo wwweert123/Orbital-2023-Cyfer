@@ -9,9 +9,6 @@ import Iconify from "../../Components/iconify";
 // connex
 import Connex from "../../api/connex";
 
-// hooks
-import useLocalStorage from "../../hooks/useLocalStorage";
-
 // ----------------------------------------------------------------------
 
 const StyledIcon = styled("div")(({ theme }) => ({
@@ -31,15 +28,15 @@ AccountDetailsWidget.propTypes = {
     color: PropTypes.string,
     icon: PropTypes.string,
     sx: PropTypes.object,
+    address: PropTypes.string.isRequired,
 };
 
 export default function AccountDetailsWidget({
     icon,
     color = "secondary",
     sx,
+    address,
 }) {
-    const [address] = useLocalStorage("selected", "");
-
     const [vet, setVet] = useState("");
     const [vtho, setVtho] = useState("");
     const connex = Connex();

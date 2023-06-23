@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
 // @mui
@@ -37,6 +37,9 @@ AccountDetailsWidget.propTypes = {
     //numContract: PropTypes.number.isRequired,
     handleClick: PropTypes.func.isRequired,
     sx: PropTypes.object,
+    handleSelected: PropTypes.func.isRequired,
+    selected: PropTypes.string,
+    numContract: PropTypes.string,
 };
 
 export default function AccountDetailsWidget({
@@ -45,40 +48,14 @@ export default function AccountDetailsWidget({
     icon,
     color = "primary",
     sx,
+    handleSelected,
+    selected,
+    numContract,
 }) {
     const navigate = useNavigate();
     const location = useLocation(); //current location
     const [wallets, setWallets] = useLocalStorage("wallets", []);
     const axiosPrivate = useAxiosPrivate();
-
-    const [selectedWallet, setSelectedWallet] = useLocalStorage("selected", "");
-    const [numContract, setnumContract] = useState("");
-
-    const checkContractNum = async (wallet) => {
-        if (wallet === "") {
-            setnumContract("?");
-            return;
-        }
-        try {
-            const response = await axiosPrivate.get(
-                `/wallet/contracts/${wallet}`,
-                {
-                    signal: AbortSignal.timeout(5000),
-                }
-            );
-            console.log(response.data);
-            const total =
-                response.data.owned.length + response.data.editor.length;
-            setnumContract(total);
-        } catch (err) {
-            console.log(err);
-        }
-    };
-
-    const handleChange = (e) => {
-        setSelectedWallet(e.target.value);
-        checkContractNum(e.target.value);
-    };
 
     const selectItems = wallets.map((wallet) => (
         <MenuItem value={wallet}>
@@ -158,9 +135,9 @@ export default function AccountDetailsWidget({
                 <Select
                     labelId="select-wallet-label"
                     id="select-wallet"
-                    value={selectedWallet}
+                    value={selected}
                     label="Wallet"
-                    onChange={handleChange}
+                    onChange={handleSelected}
                 >
                     {selectItems}
                 </Select>
