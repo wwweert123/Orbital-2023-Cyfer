@@ -77,7 +77,7 @@ export default function AccountDetailsWidget({
 
     const handleChange = (e) => {
         setSelectedWallet(e.target.value);
-        checkContractNum(selectedWallet);
+        checkContractNum(e.target.value);
     };
 
     const selectItems = wallets.map((wallet) => (
