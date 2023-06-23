@@ -97,7 +97,7 @@ export default function DashboardHome() {
                     <Grid item xs={12} sm={6} md={4}>
                         <WalletBalanceWidget
                             icon={"ion:wallet-outline"}
-                            addres={selectedWallet}
+                            address={selectedWallet}
                         />
                     </Grid>
                 </Grid>
