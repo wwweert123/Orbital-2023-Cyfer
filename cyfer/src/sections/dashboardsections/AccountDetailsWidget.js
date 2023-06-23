@@ -10,7 +10,7 @@ import { FormControl, Select, MenuItem, InputLabel } from "@mui/material";
 import Iconify from "../../Components/iconify";
 
 // utils
-//import walletshort from "wallet-short";
+import walletshort from "wallet-short";
 
 // axios
 import useAxiosPrivate from "../../hooks/useAxiosPrivate"; //import the hook
@@ -58,7 +58,9 @@ export default function AccountDetailsWidget({
     };
 
     const selectItems = wallets.map((wallet) => (
-        <MenuItem value={wallet}>{wallet}</MenuItem>
+        <MenuItem value={wallet}>
+            <Typography variant="h3">{walletshort(wallet)}</Typography>
+        </MenuItem>
     ));
 
     useEffect(() => {
