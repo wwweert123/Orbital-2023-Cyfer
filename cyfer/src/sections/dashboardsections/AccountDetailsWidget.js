@@ -1,15 +1,16 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
 // @mui
 import PropTypes from "prop-types";
 import { alpha, styled } from "@mui/material/styles";
 import { Card, Typography, Stack, Button } from "@mui/material";
+import { FormControl, Select, MenuItem, InputLabel } from "@mui/material";
 // components
 import Iconify from "../../Components/iconify";
 
 // utils
-import walletshort from "wallet-short";
+//import walletshort from "wallet-short";
 
 // axios
 import useAxiosPrivate from "../../hooks/useAxiosPrivate"; //import the hook
@@ -49,6 +50,13 @@ export default function AccountDetailsWidget({
     const location = useLocation(); //current location
     const [wallets, setWallets] = useLocalStorage("wallets", null);
     const axiosPrivate = useAxiosPrivate();
+
+    const [selectedWallet, setSelectedWallet] = useState("");
+
+    const handleChange = (e) => {
+        setSelectedWallet(e.target.value);
+    };
+
     useEffect(() => {
         let isMounted = true;
         const controller = new AbortController(); // cancel any pending request if the component unmounts
@@ -102,9 +110,21 @@ export default function AccountDetailsWidget({
             >
                 <Iconify icon={icon} width={24} height={24} />
             </StyledIcon>
-            <Typography variant="h3">
-                {wallets ? walletshort(wallets[0]) : ""}
-            </Typography>
+            <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Wallet</InputLabel>
+                <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    value={selectedWallet}
+                    label="Age"
+                    onChange={handleChange}
+                >
+                    <MenuItem value={10}>Ten</MenuItem>
+                    <MenuItem value={20}>Twenty</MenuItem>
+                    <MenuItem value={30}>Thirty</MenuItem>
+                </Select>
+            </FormControl>
+            <Typography variant="h3">{wallets ? wallets[0] : ""}</Typography>
             <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
                 {numContract}
             </Typography>
