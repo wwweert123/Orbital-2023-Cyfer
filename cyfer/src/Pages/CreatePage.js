@@ -32,7 +32,7 @@ export default function CreatePage() {
         try {
             const Axiosresp = axiosPrivate.post("/wallet/addcontract", {
                 walletaddress: resp.signer,
-                contractAddress: resp.txid,
+                contractaddress: resp.txid,
             });
             console.log(Axiosresp.data);
         } catch (err) {
@@ -69,6 +69,7 @@ export default function CreatePage() {
                         Create your very own contract
                     </Typography>
                     <Button
+                        sx={{ width: 1 / 8 }}
                         onClick={handleCreateContract}
                         variant="contained"
                         startIcon={<Iconify icon="eva:plus-fill" />}
