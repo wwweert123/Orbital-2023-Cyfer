@@ -51,10 +51,14 @@ export default function AccountDetailsWidget({
     const [wallets, setWallets] = useLocalStorage("wallets", []);
     const axiosPrivate = useAxiosPrivate();
 
-    const [selectedWallet, setSelectedWallet] = useState("");
-    const [numContract, setnumContract] = useState(0);
+    const [selectedWallet, setSelectedWallet] = useLocalStorage("selected", "");
+    const [numContract, setnumContract] = useState("");
 
     const checkContractNum = async (wallet) => {
+        if (wallet === "") {
+            setnumContract("?");
+            return;
+        }
         try {
             const response = await axiosPrivate.get(
                 `/wallet/contracts/${wallet}`,
@@ -161,8 +165,8 @@ export default function AccountDetailsWidget({
                     {selectItems}
                 </Select>
             </FormControl>
-            <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
-                {numContract}
+            <Typography variant="h5" sx={{ opacity: 0.72 }}>
+                You Owned or have Editor rights to {numContract} contracts
             </Typography>
             <Stack
                 direction="row"
@@ -173,7 +177,7 @@ export default function AccountDetailsWidget({
                 mx={5}
             >
                 <Typography variant="h5" gutterBottom>
-                    Can't see your Account?
+                    Can't see your Wallet?
                 </Typography>
                 <Button
                     onClick={handleClick}
