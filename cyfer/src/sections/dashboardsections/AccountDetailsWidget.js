@@ -35,7 +35,6 @@ AccountDetailsWidget.propTypes = {
     icon: PropTypes.string,
     numContract: PropTypes.number.isRequired,
     handleClick: PropTypes.func.isRequired,
-    address: PropTypes.string.isRequired,
     sx: PropTypes.object,
 };
 
@@ -48,7 +47,7 @@ export default function AccountDetailsWidget({
 }) {
     const navigate = useNavigate();
     const location = useLocation(); //current location
-    const [wallets, setWallets] = useLocalStorage("wallets", []);
+    const [wallets, setWallets] = useLocalStorage("wallets", null);
     const axiosPrivate = useAxiosPrivate();
     useEffect(() => {
         let isMounted = true;

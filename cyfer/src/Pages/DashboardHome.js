@@ -14,7 +14,7 @@ import useLocalStorage from "../hooks/useLocalStorage";
 
 export default function DashboardHome() {
     const axiosPrivate = useAxiosPrivate();
-    const [wallets, setWallets] = useLocalStorage("wallets", []);
+    const [wallets, setWallets] = useLocalStorage("wallets", null);
     const message = {
         purpose: "identification",
         payload: {
