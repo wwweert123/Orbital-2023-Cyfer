@@ -59,7 +59,14 @@ export default function AccountDetailsWidget({
 
     const selectItems = wallets.map((wallet) => (
         <MenuItem value={wallet}>
-            <Typography variant="h3">{walletshort(wallet)}</Typography>
+            <Typography
+                variant="h3"
+                sx={{
+                    color: (theme) => (theme) => theme.palette[color].darker,
+                }}
+            >
+                {walletshort(wallet)}
+            </Typography>
         </MenuItem>
     ));
 
@@ -116,7 +123,7 @@ export default function AccountDetailsWidget({
             >
                 <Iconify icon={icon} width={24} height={24} />
             </StyledIcon>
-            <FormControl fullWidth>
+            <FormControl sx={{ width: 1 / 2 }}>
                 <InputLabel id="select-wallet-label">Wallet</InputLabel>
                 <Select
                     labelId="select-wallet-label"
