@@ -45,6 +45,7 @@ export default function AccountDetailsWidget({
     const connex = Connex();
     const handleCheckBalance = async () => {
         try {
+            console.log(address);
             const resp = await connex.thor.account(address).get();
             setVet(resp?.balance / 1e18);
             setVtho(resp?.energy / 1e18);
