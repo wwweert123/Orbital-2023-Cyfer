@@ -52,14 +52,25 @@ export default function AccountDetailsWidget({
     const axiosPrivate = useAxiosPrivate();
 
     const [selectedWallet, setSelectedWallet] = useState("");
-    const [numContract] = useState(0);
+    const [numContract, setnumContract] = useState(0);
 
-    // const checkContractNum = () => {
-    //     setnumContract(1);
-    // }
+    const checkContractNum = async (wallet) => {
+        try {
+            const response = await axiosPrivate.get(`/contracts/${wallet}`, {
+                signal: AbortSignal.timeout(5000),
+            });
+            console.log(response.data);
+            const total =
+                response.data.owned.length + response.data.editor.length;
+            setnumContract(total);
+        } catch (err) {
+            console.log(err);
+        }
+    };
 
     const handleChange = (e) => {
         setSelectedWallet(e.target.value);
+        checkContractNum(selectedWallet);
     };
 
     const selectItems = wallets.map((wallet) => (
@@ -129,7 +140,14 @@ export default function AccountDetailsWidget({
                 <Iconify icon={icon} width={24} height={24} />
             </StyledIcon>
             <FormControl sx={{ width: 1 / 2 }}>
-                <InputLabel id="select-wallet-label">Wallet</InputLabel>
+                <InputLabel
+                    id="select-wallet-label"
+                    sx={{
+                        color: (theme) => theme.palette[color].darker,
+                    }}
+                >
+                    Wallet
+                </InputLabel>
                 <Select
                     labelId="select-wallet-label"
                     id="select-wallet"
