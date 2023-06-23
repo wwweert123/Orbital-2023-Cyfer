@@ -56,9 +56,12 @@ export default function AccountDetailsWidget({
 
     const checkContractNum = async (wallet) => {
         try {
-            const response = await axiosPrivate.get(`/contracts/${wallet}`, {
-                signal: AbortSignal.timeout(5000),
-            });
+            const response = await axiosPrivate.get(
+                `/wallet/contracts/${wallet}`,
+                {
+                    signal: AbortSignal.timeout(5000),
+                }
+            );
             console.log(response.data);
             const total =
                 response.data.owned.length + response.data.editor.length;
