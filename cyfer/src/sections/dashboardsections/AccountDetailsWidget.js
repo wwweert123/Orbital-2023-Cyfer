@@ -57,6 +57,10 @@ export default function AccountDetailsWidget({
         setSelectedWallet(e.target.value);
     };
 
+    const selectItems = wallets.map((wallet) => (
+        <MenuItem value={wallet}>{wallet}</MenuItem>
+    ));
+
     useEffect(() => {
         let isMounted = true;
         const controller = new AbortController(); // cancel any pending request if the component unmounts
@@ -111,17 +115,15 @@ export default function AccountDetailsWidget({
                 <Iconify icon={icon} width={24} height={24} />
             </StyledIcon>
             <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">Wallet</InputLabel>
+                <InputLabel id="select-wallet-label">Wallet</InputLabel>
                 <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
+                    labelId="select-wallet-label"
+                    id="select-wallet"
                     value={selectedWallet}
-                    label="Age"
+                    label="Wallet"
                     onChange={handleChange}
                 >
-                    <MenuItem value={10}>Ten</MenuItem>
-                    <MenuItem value={20}>Twenty</MenuItem>
-                    <MenuItem value={30}>Thirty</MenuItem>
+                    {selectItems}
                 </Select>
             </FormControl>
             <Typography variant="h3">{wallets ? wallets[0] : ""}</Typography>
