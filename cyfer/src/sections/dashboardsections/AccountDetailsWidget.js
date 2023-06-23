@@ -103,7 +103,7 @@ export default function AccountDetailsWidget({
                 <Iconify icon={icon} width={24} height={24} />
             </StyledIcon>
             <Typography variant="h3">
-                {walletshort(wallets ? wallets[0] : "")}
+                {wallets ? walletshort(wallets[0]) : ""}
             </Typography>
             <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
                 {numContract}
