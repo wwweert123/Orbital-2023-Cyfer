@@ -34,24 +34,29 @@ const StyledIcon = styled("div")(({ theme }) => ({
 AccountDetailsWidget.propTypes = {
     color: PropTypes.string,
     icon: PropTypes.string,
-    numContract: PropTypes.number.isRequired,
+    //numContract: PropTypes.number.isRequired,
     handleClick: PropTypes.func.isRequired,
     sx: PropTypes.object,
 };
 
 export default function AccountDetailsWidget({
     handleClick,
-    numContract,
+    // numContract,
     icon,
     color = "primary",
     sx,
 }) {
     const navigate = useNavigate();
     const location = useLocation(); //current location
-    const [wallets, setWallets] = useLocalStorage("wallets", null);
+    const [wallets, setWallets] = useLocalStorage("wallets", []);
     const axiosPrivate = useAxiosPrivate();
 
     const [selectedWallet, setSelectedWallet] = useState("");
+    const [numContract] = useState(0);
+
+    // const checkContractNum = () => {
+    //     setnumContract(1);
+    // }
 
     const handleChange = (e) => {
         setSelectedWallet(e.target.value);
@@ -62,7 +67,7 @@ export default function AccountDetailsWidget({
             <Typography
                 variant="h3"
                 sx={{
-                    color: (theme) => (theme) => theme.palette[color].darker,
+                    color: (theme) => theme.palette[color].darker,
                 }}
             >
                 {walletshort(wallet)}
@@ -135,7 +140,6 @@ export default function AccountDetailsWidget({
                     {selectItems}
                 </Select>
             </FormControl>
-            <Typography variant="h3">{wallets ? wallets[0] : ""}</Typography>
             <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
                 {numContract}
             </Typography>
