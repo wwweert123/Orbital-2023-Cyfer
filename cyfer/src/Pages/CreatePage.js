@@ -1,16 +1,18 @@
 import { useState } from "react";
 
 // mui
-import { Alert, Button, Container, Typography } from "@mui/material";
+import { Alert, Button, Container, Stack, Typography } from "@mui/material";
 
 // Components
 import Iconify from "../Components/iconify/Iconify";
 
 // Vechain
 import Connex from "../api/connex";
-//import { Connex } from "@vechain/connex";
 
 import { Helmet } from "react-helmet-async";
+
+// Axios
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 // Contract bytecode
 const contractByteCode =
@@ -24,6 +26,21 @@ export default function CreatePage() {
     const connex = Connex();
     const [contractAddress, setcontractAddress] = useState("");
 
+    const axiosPrivate = useAxiosPrivate();
+
+    const sendContractDB = async (resp) => {
+        try {
+            const Axiosresp = axiosPrivate.post("/wallet/addcontract", {
+                walletaddress: resp.signer,
+                contractAddress: resp.txid,
+            });
+            console.log(Axiosresp.data);
+        } catch (err) {
+            console.log(err);
+            console.log("could not send to db");
+        }
+    };
+
     const handleCreateContract = async () => {
         try {
             const resp = await connex.vendor
@@ -32,6 +49,7 @@ export default function CreatePage() {
                 .request();
             if (resp) {
                 setcontractAddress(resp.txid);
+                sendContractDB(resp);
             } else {
                 Alert("Failed");
             }
@@ -46,17 +64,22 @@ export default function CreatePage() {
                 <title> Create | Minimal UI </title>
             </Helmet>
             <Container maxWidth="xl">
-                <Typography variant="h4" sx={{ mb: 5 }}>
-                    Create your very own contract
-                </Typography>
-                <Button
-                    onClick={handleCreateContract}
-                    variant="contained"
-                    startIcon={<Iconify icon="eva:plus-fill" />}
-                >
-                    Begin your journey here
-                </Button>
-                <Typography>{contractAddress}</Typography>
+                <Stack spacing={3}>
+                    <Typography variant="h4" sx={{ mb: 5 }}>
+                        Create your very own contract
+                    </Typography>
+                    <Button
+                        onClick={handleCreateContract}
+                        variant="contained"
+                        startIcon={<Iconify icon="eva:plus-fill" />}
+                    >
+                        Begin your journey here
+                    </Button>
+                    <Typography variant="h5">
+                        You have created a contract with address:{" "}
+                        {contractAddress}
+                    </Typography>
+                </Stack>
             </Container>
         </>
     );
