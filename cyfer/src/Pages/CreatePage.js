@@ -32,7 +32,7 @@ export default function CreatePage() {
         try {
             console.log(resp.signer);
             const Axiosresp = axiosPrivate.post("/wallet/addcontract", {
-                walletaddress: resp.signer,
+                walletaddress: resp.signer.toLowerCase(),
                 contractaddress: resp.txid,
             });
             console.log(Axiosresp.data);
