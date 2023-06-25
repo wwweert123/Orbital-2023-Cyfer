@@ -36,7 +36,7 @@ export default function EditPage() {
     const { wallet } = useWallet();
 
     const selectItems = contracts.map((contract) => (
-        <MenuItem value={wallet}>
+        <MenuItem value={wallet} sx={{ color: "black" }}>
             <Typography
                 variant="h5"
                 sx={{
@@ -127,7 +127,6 @@ export default function EditPage() {
                                 value={contract}
                                 label="Contract"
                                 onChange={handleChange}
-                                sx={{ color: "black" }}
                             >
                                 {selectItems}
                             </Select>
@@ -142,7 +141,6 @@ export default function EditPage() {
                                 value={clause}
                                 label="Clause"
                                 onChange={handleClause}
-                                sx={{ color: "black" }}
                             >
                                 <MenuItem value={0}>0</MenuItem>
                                 <MenuItem value={1}>1</MenuItem>
