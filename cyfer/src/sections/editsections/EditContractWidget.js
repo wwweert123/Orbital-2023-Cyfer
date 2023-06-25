@@ -68,7 +68,7 @@ export default function EditContractWidget({
             <TextField
                 variant="outlined"
                 multiline
-                sx={{ width: "100%" }}
+                sx={{ width: "100%", m: 1, backgroundColor: "black" }}
                 type="text"
                 id="clause"
                 name="clause"
