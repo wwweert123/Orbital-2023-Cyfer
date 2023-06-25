@@ -50,12 +50,12 @@ export default function EditPage() {
     const handleSubmit = async () => {
         const writeABI = ABI.find(({ name }) => name === "store");
         console.log(wallet, contract);
-        const clause = connex.thor
-            .signer(wallet)
-            .account(contract)
+        const visitor = connex.thor.account(contract);
+        console.log("hello");
+        const clause = visitor
             .method(writeABI)
             .asClause(clauseNumber, clausetext);
-        console.log("hello");
+
         try {
             const result = await connex.vendor
                 .signer(wallet)
