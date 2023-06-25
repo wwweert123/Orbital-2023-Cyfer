@@ -51,6 +51,7 @@ export default function EditPage() {
         const writeABI = ABI.find(({ name }) => name === "store");
         console.log(wallet, contract);
         const clause = connex.thor
+            .signer(wallet)
             .account(contract)
             .method(writeABI)
             .asClause(clauseNumber, clausetext);

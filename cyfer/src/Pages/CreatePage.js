@@ -103,7 +103,7 @@ export default function CreatePage() {
                         </Grid>
                         <Grid item xs={12} sm={6} md={4}>
                             <Button
-                                sx={{ width: 1 / 4 }}
+                                sx={{ width: 1 / 2 }}
                                 onClick={handleCreateContract}
                                 variant="contained"
                                 startIcon={<Iconify icon="eva:plus-fill" />}
