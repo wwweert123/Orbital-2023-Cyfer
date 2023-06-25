@@ -48,18 +48,16 @@ export default function EditPage() {
     const { wallet } = useWallet();
 
     const handleSubmit = async () => {
-        // eslint-disable-next-line
         const writeABI = ABI.find(({ name }) => name === "store");
         console.log(wallet, contract);
         try {
-            // eslint-disable-next-line
             const visitor = await connex.thor.account(
                 "0x306CC7633584aBd31f95AE42Ca57d857Dc3D4857"
             );
             // eslint-disable-next-line
-            // const clause = visitor
-            //     .method(writeABI)
-            //     .asClause(clauseNumber, clausetext);
+            const clause = visitor
+                .method(writeABI)
+                .asClause(clauseNumber, clausetext);
         } catch (err) {
             console.log(err);
         }
