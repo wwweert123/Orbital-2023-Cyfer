@@ -54,6 +54,7 @@ export default function EditPage() {
             .account(contract)
             .method(writeABI)
             .asClause(clauseNumber, clausetext);
+        console.log("hello");
         try {
             const result = await connex.vendor
                 .signer(wallet)
