@@ -27,28 +27,53 @@ import walletShort from "wallet-short";
 // components
 import EditContractWidget from "../sections/editsections/EditContractWidget";
 
+// connex
+import Connex from "../api/connex";
+import { ABI } from "../Vechain/abi";
+
 export default function EditPage() {
+    const connex = Connex();
     const axiosPrivate = useAxiosPrivate();
     const [contracts, setContracts] = useState([]);
 
-    const [clause, setClause] = useState(0);
+    const [clauseNumber, setClauseNumber] = useState(0);
 
     const [clausetext, setClauseText] = useState("");
+
+    const [contract, setContract] = useState("");
 
     const navigate = useNavigate();
     const location = useLocation(); //current location
 
     const { wallet } = useWallet();
 
+    const handleSubmit = async () => {
+        const writeABI = ABI.find(({ name }) => name === "store");
+        console.log(clausetext);
+        const clause = connex.thor
+            .account(contract)
+            .method(writeABI)
+            .asClause(clauseNumber, clausetext);
+        try {
+            const result = await connex.vendor
+                .sign("tx", [clause])
+                .comment("writing info")
+                .request();
+            alert("transaction done: ", result.txid);
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
     const selectItems = contracts.map((contract) => (
-        <MenuItem value={wallet} sx={{ color: "black" }}>
+        <MenuItem value={contract} sx={{ color: "black" }}>
             <Typography
                 variant="h5"
                 sx={{
                     color: (theme) => theme.palette.primary.dark,
                 }}
             >
-                {walletShort(wallet)}
+                {walletShort(contract)}
             </Typography>
         </MenuItem>
     ));
@@ -57,7 +82,7 @@ export default function EditPage() {
         let isMounted = true;
         const controller = new AbortController(); // cancel any pending request if the component unmounts
 
-        const getWallets = async () => {
+        const getContracts = async () => {
             try {
                 const response = await axiosPrivate.get(
                     `/wallet/contracts/${wallet}`,
@@ -80,7 +105,7 @@ export default function EditPage() {
                 }
             }
         };
-        getWallets();
+        getContracts();
         return () => {
             isMounted = false;
             controller.abort(); // abort request
@@ -89,14 +114,12 @@ export default function EditPage() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const [contract, setContract] = useState("");
-
     const handleChange = (e) => {
         setContract(e.target.value);
     };
 
     const handleClause = (e) => {
-        setClause(e.target.value);
+        setClauseNumber(e.target.value);
     };
 
     const handleClauseText = (e) => {
@@ -147,7 +170,7 @@ export default function EditPage() {
                             <Select
                                 labelId="clause-select-label"
                                 id="clause-select"
-                                value={clause}
+                                value={clauseNumber}
                                 label="Clause"
                                 onChange={handleClause}
                             >
@@ -269,9 +292,10 @@ export default function EditPage() {
                     <Grid item xs={12} sm={12} md={12}>
                         <EditContractWidget
                             icon={"mdi:contract"}
-                            number={clause}
+                            number={clauseNumber}
                             clausetext={clausetext}
                             handleClauseText={handleClauseText}
+                            handleSubmit={handleSubmit}
                         />
                     </Grid>
                 </Grid>

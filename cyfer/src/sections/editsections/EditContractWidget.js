@@ -6,9 +6,6 @@ import { Card, Typography, Stack, Button, TextField } from "@mui/material";
 // components
 import Iconify from "../../Components/iconify";
 
-// connex
-// import Connex from "../../api/connex";
-
 // ----------------------------------------------------------------------
 
 const StyledIcon = styled("div")(({ theme }) => ({
@@ -30,6 +27,7 @@ EditContractWidget.propTypes = {
     sx: PropTypes.object,
     number: PropTypes.number.isRequired,
     clausetext: PropTypes.string,
+    handleSubmit: PropTypes.func.isRequired,
 };
 
 export default function EditContractWidget({
@@ -39,8 +37,8 @@ export default function EditContractWidget({
     number,
     clausetext,
     handleClauseText,
+    handleSubmit,
 }) {
-    // const connex = Connex();
     return (
         <Card
             sx={{
@@ -94,6 +92,7 @@ export default function EditContractWidget({
                     variant="contained"
                     color="success"
                     startIcon={<Iconify icon="nimbus:money" />}
+                    onClick={handleSubmit}
                 >
                     Submit
                 </Button>
