@@ -24,11 +24,16 @@ import useAxiosPrivate from "../hooks/useAxiosPrivate";
 // utils
 import walletShort from "wallet-short";
 
+// components
+import EditContractWidget from "../sections/editsections/EditContractWidget";
+
 export default function EditPage() {
     const axiosPrivate = useAxiosPrivate();
     const [contracts, setContracts] = useState([]);
 
     const [clause, setClause] = useState(0);
+
+    const [clausetext, setClauseText] = useState("");
 
     const navigate = useNavigate();
     const location = useLocation(); //current location
@@ -92,6 +97,10 @@ export default function EditPage() {
 
     const handleClause = (e) => {
         setClause(e.target.value);
+    };
+
+    const handleClauseText = (e) => {
+        setClauseText(e.target.value);
     };
     //const theme = useTheme();
     return (
@@ -257,7 +266,14 @@ export default function EditPage() {
                     </Stack>
                 </Box>
                 <Grid container spacing={2}>
-                    <Grid item xs={12} sm={12} md={12}></Grid>
+                    <Grid item xs={12} sm={12} md={12}>
+                        <EditContractWidget
+                            icon={"mdi:contract"}
+                            number={clause}
+                            clausetext={clausetext}
+                            handleClauseText={handleClauseText}
+                        />
+                    </Grid>
                 </Grid>
             </Container>
         </>
