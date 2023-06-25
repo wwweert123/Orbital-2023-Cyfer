@@ -49,30 +49,20 @@ export default function EditPage() {
 
     const handleSubmit = async () => {
         const writeABI = ABI.find(({ name }) => name === "store");
-        console.log(wallet, contract);
         try {
-            const visitor = await connex.thor.account(
-                "0x306CC7633584aBd31f95AE42Ca57d857Dc3D4857"
-            );
-            // eslint-disable-next-line
+            const visitor = await connex.thor.account(contract);
             const clause = visitor
                 .method(writeABI)
                 .asClause(clauseNumber, clausetext);
+            const result = await connex.vendor
+                .signer(wallet)
+                .sign("tx", [clause])
+                .comment("writing info")
+                .request();
+            alert("transaction done: ", result.txid);
         } catch (err) {
             console.log(err);
         }
-        console.log("hello");
-
-        // try {
-        //     const result = await connex.vendor
-        //         .signer(wallet)
-        //         .sign("tx", [clause])
-        //         .comment("writing info")
-        //         .request();
-        //     alert("transaction done: ", result.txid);
-        // } catch (err) {
-        //     console.log(err);
-        // }
     };
 
     const selectItems = contracts.map((contract) => (

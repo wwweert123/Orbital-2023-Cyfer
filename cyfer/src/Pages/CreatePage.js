@@ -49,7 +49,7 @@ export default function CreatePage() {
             console.log(resp.signer);
             const Axiosresp = axiosPrivate.post("/wallet/addcontract", {
                 walletaddress: resp.signer.toLowerCase(),
-                contractaddress: resp.txid,
+                contractaddress: resp.outputs[0].contractAddress,
             });
             console.log(Axiosresp.data);
         } catch (err) {
@@ -65,7 +65,7 @@ export default function CreatePage() {
                 .comment("Deploy contract")
                 .request();
             if (resp) {
-                setcontractAddress(resp.txid);
+                setcontractAddress(resp.outputs[0].contractAddress);
                 sendContractDB(resp);
             } else {
                 Alert("Failed");
