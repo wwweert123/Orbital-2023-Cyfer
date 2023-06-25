@@ -12,10 +12,10 @@ import useAxiosPrivate from "../hooks/useAxiosPrivate";
 // hooks
 import useLocalStorage from "../hooks/useLocalStorage";
 import { useState } from "react";
-import useWallet from "../hooks/useWallet";
+//import useWallet from "../hooks/useWallet";
 
 export default function DashboardHome() {
-    const [selectedWallet, setSelectedWallet] = useWallet();
+    const [selectedWallet, setSelectedWallet] = useState();
 
     const [numContract, setnumContract] = useState("");
 
