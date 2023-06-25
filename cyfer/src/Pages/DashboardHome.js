@@ -17,7 +17,7 @@ import useWallet from "../hooks/useWallet";
 export default function DashboardHome() {
     const [selectedWallet, setSelectedWallet] = useState();
 
-    const [setWallet] = useWallet;
+    const { setWallet } = useWallet();
 
     const [numContract, setnumContract] = useState("");
 
