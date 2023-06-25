@@ -115,6 +115,7 @@ export default function EditPage() {
                         mb={5}
                         mt={5}
                         mx={5}
+                        spacing={3}
                     >
                         <FormControl fullWidth>
                             <InputLabel id="contract-select-label">
@@ -126,6 +127,7 @@ export default function EditPage() {
                                 value={contract}
                                 label="Contract"
                                 onChange={handleChange}
+                                sx={{ color: "black" }}
                             >
                                 {selectItems}
                             </Select>
@@ -140,6 +142,7 @@ export default function EditPage() {
                                 value={clause}
                                 label="Clause"
                                 onChange={handleClause}
+                                sx={{ color: "black" }}
                             >
                                 <MenuItem value={0}>0</MenuItem>
                                 <MenuItem value={1}>1</MenuItem>
