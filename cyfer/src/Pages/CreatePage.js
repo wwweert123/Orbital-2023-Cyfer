@@ -89,7 +89,7 @@ export default function CreatePage() {
                         Your selected wallet is :{wallet}
                     </Typography>
                     <Grid container spacing={2}>
-                        <Grid item xs={12} sm={6} md={8}>
+                        <Grid item xs={12} sm={6} md={4}>
                             <TextField
                                 type="text"
                                 id="contractName"
@@ -101,9 +101,9 @@ export default function CreatePage() {
                                 onChange={handleChange}
                             ></TextField>
                         </Grid>
-                        <Grid item xs={12} sm={6} md={8}>
+                        <Grid item xs={12} sm={6} md={4}>
                             <Button
-                                sx={{ width: 1 / 8 }}
+                                sx={{ width: 1 / 4 }}
                                 onClick={handleCreateContract}
                                 variant="contained"
                                 startIcon={<Iconify icon="eva:plus-fill" />}
