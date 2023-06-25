@@ -63,10 +63,12 @@ export default function EditPage() {
                 isMounted && setContracts(contracts);
             } catch (err) {
                 console.error(err);
-                navigate("/login", {
-                    state: { from: location },
-                    replace: true,
-                });
+                if (err.response.status === 403) {
+                    navigate("/login", {
+                        state: { from: location },
+                        replace: true,
+                    });
+                }
             }
         };
         getWallets();
