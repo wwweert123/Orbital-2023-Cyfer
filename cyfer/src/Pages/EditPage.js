@@ -49,7 +49,7 @@ export default function EditPage() {
 
     const handleSubmit = async () => {
         const writeABI = ABI.find(({ name }) => name === "store");
-        console.log(clausetext);
+        console.log(wallet, contract);
         const clause = connex.thor
             .account(contract)
             .method(writeABI)
