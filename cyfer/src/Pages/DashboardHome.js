@@ -12,9 +12,10 @@ import useAxiosPrivate from "../hooks/useAxiosPrivate";
 // hooks
 import useLocalStorage from "../hooks/useLocalStorage";
 import { useState } from "react";
+import useWallet from "../hooks/useWallet";
 
 export default function DashboardHome() {
-    const [selectedWallet, setSelectedWallet] = useState();
+    const [selectedWallet, setSelectedWallet] = useWallet();
 
     const [numContract, setnumContract] = useState("");
 
@@ -92,6 +93,7 @@ export default function DashboardHome() {
                             numContract={numContract}
                             icon={"mdi:contract"}
                             handleSelected={handleChange}
+                            selected={selectedWallet}
                         />
                     </Grid>
                     <Grid item xs={12} sm={6} md={4}>

@@ -1,8 +1,8 @@
 import { useContext } from "react";
 import WalletContext from "../context/WalletProvider";
 
-const useAuth = () => {
+const useWallet = () => {
     return useContext(WalletContext);
 };
 
-export default useAuth;
+export default useWallet;

@@ -7,6 +7,7 @@ import { styled } from "@mui/material/styles";
 // sidebar and header
 import Sidebar from "../Components/SideNav/Sidebar";
 import Header from "../Components/Header";
+import { WalletProvider } from "../context/WalletProvider";
 
 const APP_BAR_MOBILE = 64;
 const APP_BAR_DESKTOP = 92;
@@ -40,7 +41,9 @@ export default function DashboardLayout() {
             <Sidebar openNav={open} onCloseNav={() => setOpen(false)} />
 
             <Main>
-                <Outlet />
+                <WalletProvider>
+                    <Outlet />
+                </WalletProvider>
             </Main>
         </StyledRoot>
     );
