@@ -67,6 +67,8 @@ export default function EditContractWidget({
             <Typography variant="h4">Clause {number}</Typography>
             <TextField
                 variant="outlined"
+                multiline
+                sx={{ width: "100%" }}
                 type="text"
                 id="clause"
                 name="clause"
