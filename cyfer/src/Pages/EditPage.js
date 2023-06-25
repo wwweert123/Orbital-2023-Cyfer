@@ -22,7 +22,7 @@ import useAxiosPrivate from "../hooks/useAxiosPrivate";
 // utils
 import walletShort from "wallet-short";
 
-export default function EditPage(color = "primary") {
+export default function EditPage(color = "warning") {
     const axiosPrivate = useAxiosPrivate();
     const [contracts, setContracts] = useState([]);
 
