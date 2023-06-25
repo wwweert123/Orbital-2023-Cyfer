@@ -56,6 +56,7 @@ export default function EditPage() {
             .asClause(clauseNumber, clausetext);
         try {
             const result = await connex.vendor
+                .signer(wallet)
                 .sign("tx", [clause])
                 .comment("writing info")
                 .request();
