@@ -1,7 +1,15 @@
 import { useState } from "react";
 
 // mui
-import { Alert, Button, Container, Stack, Typography } from "@mui/material";
+import {
+    Alert,
+    Button,
+    Container,
+    Grid,
+    Stack,
+    TextField,
+    Typography,
+} from "@mui/material";
 
 // Components
 import Iconify from "../Components/iconify/Iconify";
@@ -28,7 +36,13 @@ export default function CreatePage() {
     const connex = Connex();
     const [contractAddress, setcontractAddress] = useState("");
 
+    const [contractName, setContractname] = useState("");
+
     const axiosPrivate = useAxiosPrivate();
+
+    const handleChange = (e) => {
+        setContractname(e.target.value);
+    };
 
     const sendContractDB = async (resp) => {
         try {
@@ -74,14 +88,31 @@ export default function CreatePage() {
                     <Typography variant="h5" sx={{ mb: 5 }}>
                         Your selected wallet is :{wallet}
                     </Typography>
-                    <Button
-                        sx={{ width: 1 / 8 }}
-                        onClick={handleCreateContract}
-                        variant="contained"
-                        startIcon={<Iconify icon="eva:plus-fill" />}
-                    >
-                        Begin your journey here
-                    </Button>
+                    <Grid container spacing={2}>
+                        <Grid item xs={12} sm={6} md={8}>
+                            <TextField
+                                type="text"
+                                id="contractName"
+                                name="contract name"
+                                autoComplete="off"
+                                variant="outlined"
+                                label="Contract Name"
+                                value={contractName}
+                                onChange={handleChange}
+                            ></TextField>
+                        </Grid>
+                        <Grid item xs={12} sm={6} md={8}>
+                            <Button
+                                sx={{ width: 1 / 8 }}
+                                onClick={handleCreateContract}
+                                variant="contained"
+                                startIcon={<Iconify icon="eva:plus-fill" />}
+                            >
+                                Begin your journey here
+                            </Button>
+                        </Grid>
+                    </Grid>
+
                     <Typography variant="h5">
                         You have created a contract with address:{" "}
                         {contractAddress}
