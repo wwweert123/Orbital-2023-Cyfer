@@ -15,9 +15,7 @@ import { useState } from "react";
 import useWallet from "../hooks/useWallet";
 
 export default function DashboardHome() {
-    const [selectedWallet, setSelectedWallet] = useState();
-
-    const { setWallet } = useWallet();
+    const { wallet, setWallet } = useWallet();
 
     const [numContract, setnumContract] = useState("");
 
@@ -43,7 +41,6 @@ export default function DashboardHome() {
     };
 
     const handleChange = (e) => {
-        setSelectedWallet(e.target.value);
         setWallet(e.target.value);
         checkContractNum(e.target.value);
     };
@@ -96,13 +93,13 @@ export default function DashboardHome() {
                             numContract={numContract}
                             icon={"mdi:contract"}
                             handleSelected={handleChange}
-                            selected={selectedWallet}
+                            selected={wallet}
                         />
                     </Grid>
                     <Grid item xs={12} sm={6} md={4}>
                         <WalletBalanceWidget
                             icon={"ion:wallet-outline"}
-                            address={selectedWallet}
+                            address={wallet}
                         />
                     </Grid>
                 </Grid>
