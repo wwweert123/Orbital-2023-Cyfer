@@ -22,7 +22,7 @@ import useAxiosPrivate from "../hooks/useAxiosPrivate";
 // utils
 import walletShort from "wallet-short";
 
-export default function EditPage(color = "warning") {
+export default function EditPage() {
     const axiosPrivate = useAxiosPrivate();
     const [contracts, setContracts] = useState([]);
 
@@ -35,9 +35,9 @@ export default function EditPage(color = "warning") {
         <MenuItem value={wallet}>
             <Typography
                 variant="h5"
-                sx={{
-                    color: (theme) => theme.palette[color].darker,
-                }}
+                // sx={{
+                //     color: (theme) => theme.palette[color].darker,
+                // }}
             >
                 {walletShort(wallet)}
             </Typography>
