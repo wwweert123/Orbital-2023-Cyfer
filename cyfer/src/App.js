@@ -12,6 +12,7 @@ import ViewPage from "./Pages/ViewPage";
 import UsersPage from "./Pages/UsersPage";
 import CreatePage from "./Pages/CreatePage";
 import DashboardHome from "./Pages/DashboardHome";
+import EditPage from "./Pages/EditPage";
 
 // Hooks
 import RequireAuth from "./Components/RequireAuth";
@@ -43,6 +44,12 @@ function App() {
                         element={<RequireAuth allowedRoles={[ROLES.User]} />}
                     >
                         <Route path="/" element={<DashboardHome />} />
+                    </Route>
+
+                    <Route
+                        element={<RequireAuth allowedRoles={[ROLES.User]} />}
+                    >
+                        <Route path="/edit" element={<EditPage />} />
                     </Route>
 
                     <Route
