@@ -142,16 +142,116 @@ export default function EditPage() {
                                 label="Clause"
                                 onChange={handleClause}
                             >
-                                <MenuItem value={0}>0</MenuItem>
-                                <MenuItem value={1}>1</MenuItem>
-                                <MenuItem value={2}>2</MenuItem>
-                                <MenuItem value={3}>3</MenuItem>
-                                <MenuItem value={4}>4</MenuItem>
-                                <MenuItem value={5}>5</MenuItem>
-                                <MenuItem value={6}>6</MenuItem>
-                                <MenuItem value={7}>7</MenuItem>
-                                <MenuItem value={8}>8</MenuItem>
-                                <MenuItem value={9}>9</MenuItem>
+                                <MenuItem value={0}>
+                                    <Typography
+                                        variant="subtitle2"
+                                        sx={{
+                                            color: (theme) =>
+                                                theme.palette.primary.dark,
+                                        }}
+                                    >
+                                        0
+                                    </Typography>
+                                </MenuItem>
+                                <MenuItem value={1}>
+                                    <Typography
+                                        variant="subtitle2"
+                                        sx={{
+                                            color: (theme) =>
+                                                theme.palette.primary.dark,
+                                        }}
+                                    >
+                                        1
+                                    </Typography>
+                                </MenuItem>
+                                <MenuItem value={2}>
+                                    <Typography
+                                        variant="subtitle2"
+                                        sx={{
+                                            color: (theme) =>
+                                                theme.palette.primary.dark,
+                                        }}
+                                    >
+                                        2
+                                    </Typography>
+                                </MenuItem>
+                                <MenuItem value={3}>
+                                    <Typography
+                                        variant="subtitle2"
+                                        sx={{
+                                            color: (theme) =>
+                                                theme.palette.primary.dark,
+                                        }}
+                                    >
+                                        3
+                                    </Typography>
+                                </MenuItem>
+                                <MenuItem value={4}>
+                                    <Typography
+                                        variant="subtitle2"
+                                        sx={{
+                                            color: (theme) =>
+                                                theme.palette.primary.dark,
+                                        }}
+                                    >
+                                        4
+                                    </Typography>
+                                </MenuItem>
+                                <MenuItem value={5}>
+                                    <Typography
+                                        variant="subtitle2"
+                                        sx={{
+                                            color: (theme) =>
+                                                theme.palette.primary.dark,
+                                        }}
+                                    >
+                                        5
+                                    </Typography>
+                                </MenuItem>
+                                <MenuItem value={6}>
+                                    <Typography
+                                        variant="subtitle2"
+                                        sx={{
+                                            color: (theme) =>
+                                                theme.palette.primary.dark,
+                                        }}
+                                    >
+                                        6
+                                    </Typography>
+                                </MenuItem>
+                                <MenuItem value={7}>
+                                    <Typography
+                                        variant="subtitle2"
+                                        sx={{
+                                            color: (theme) =>
+                                                theme.palette.primary.dark,
+                                        }}
+                                    >
+                                        7
+                                    </Typography>
+                                </MenuItem>
+                                <MenuItem value={8}>
+                                    <Typography
+                                        variant="subtitle2"
+                                        sx={{
+                                            color: (theme) =>
+                                                theme.palette.primary.dark,
+                                        }}
+                                    >
+                                        8
+                                    </Typography>
+                                </MenuItem>
+                                <MenuItem value={9}>
+                                    <Typography
+                                        variant="subtitle2"
+                                        sx={{
+                                            color: (theme) =>
+                                                theme.palette.primary.dark,
+                                        }}
+                                    >
+                                        9
+                                    </Typography>
+                                </MenuItem>
                             </Select>
                         </FormControl>
                     </Stack>
