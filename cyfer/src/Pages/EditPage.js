@@ -35,9 +35,9 @@ export default function EditPage() {
         <MenuItem value={wallet}>
             <Typography
                 variant="h5"
-                // sx={{
-                //     color: (theme) => theme.palette[color].darker,
-                // }}
+                sx={{
+                    color: (theme) => theme.palette.primary.darker,
+                }}
             >
                 {walletShort(wallet)}
             </Typography>
