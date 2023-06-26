@@ -2,7 +2,6 @@
 import PropTypes from "prop-types";
 import { alpha, styled } from "@mui/material/styles";
 import { Card, Link, Typography, Collapse, Box } from "@mui/material";
-import { Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
 // components
 import Iconify from "../../Components/iconify";
 
@@ -13,6 +12,7 @@ import { useState, useEffect } from "react";
 
 // Utils
 import walletShort from "wallet-short";
+import ClauseAccordion from "./ClauseAccordion";
 
 // ----------------------------------------------------------------------
 
@@ -49,19 +49,20 @@ export default function ContractWidgetSummary({
     handleExpanded,
     ...other
 }) {
-    const [expanded, setExpanded] = useState("panel1");
-
+    // For the Accordian Clauses
+    const [expanded, setExpanded] = useState(1);
     const handleChange = (panel) => (event, newExpanded) => {
         setExpanded(newExpanded ? panel : false);
     };
 
+    // For the expanding of the entire accordion
     const [checked, setChecked] = useState(false);
-
     const handleCollapse = () => {
         setChecked((prev) => !prev);
         handleExpanded(id);
     };
 
+    // For getting the name of contract from thor
     const [contractName, setContractname] = useState("<Name>");
     const connex = Connex();
     useEffect(() => {
@@ -79,6 +80,18 @@ export default function ContractWidgetSummary({
         getContractName();
         // eslint-disable-next-line
     }, []);
+
+    // For generating the Accordion Clauses
+    const getClauses = () => {
+        for (let i = 0; i < 10; i++) {
+            <ClauseAccordion
+                expanded={expanded}
+                handleChange={handleChange}
+                clauseNum={i}
+                contractAddress={address}
+            />;
+        }
+    };
 
     return (
         <Card
@@ -120,101 +133,7 @@ export default function ContractWidgetSummary({
                 Expand
             </Link>
             <Collapse in={checked}>
-                <Box>
-                    <Accordion
-                        expanded={expanded === "panel1"}
-                        onChange={handleChange("panel1")}
-                        sx={{ border: (theme) => theme.palette.divider }}
-                    >
-                        <AccordionSummary
-                            aria-controls="panel1d-content"
-                            id="panel1d-header"
-                            sx={{
-                                backgroundColor: (theme) =>
-                                    theme.palette.background.neutral,
-                            }}
-                        >
-                            <Typography>Collapsible Group Item #1</Typography>
-                        </AccordionSummary>
-                        <AccordionDetails
-                            sx={{
-                                backgroundColor: (theme) =>
-                                    theme.palette.grey[700],
-                            }}
-                        >
-                            <Typography>
-                                Lorem ipsum dolor sit amet, consectetur
-                                adipiscing elit. Suspendisse malesuada lacus ex,
-                                sit amet blandit leo lobortis eget. Lorem ipsum
-                                dolor sit amet, consectetur adipiscing elit.
-                                Suspendisse malesuada lacus ex, sit amet blandit
-                                leo lobortis eget.
-                            </Typography>
-                        </AccordionDetails>
-                    </Accordion>
-                    <Accordion
-                        expanded={expanded === "panel2"}
-                        onChange={handleChange("panel2")}
-                        sx={{ border: (theme) => theme.palette.divider }}
-                    >
-                        <AccordionSummary
-                            aria-controls="panel2d-content"
-                            id="panel2d-header"
-                            sx={{
-                                backgroundColor: (theme) =>
-                                    theme.palette.background.neutral,
-                            }}
-                        >
-                            <Typography>Collapsible Group Item #2</Typography>
-                        </AccordionSummary>
-                        <AccordionDetails
-                            sx={{
-                                backgroundColor: (theme) =>
-                                    theme.palette.grey[700],
-                            }}
-                        >
-                            <Typography>
-                                Lorem ipsum dolor sit amet, consectetur
-                                adipiscing elit. Suspendisse malesuada lacus ex,
-                                sit amet blandit leo lobortis eget. Lorem ipsum
-                                dolor sit amet, consectetur adipiscing elit.
-                                Suspendisse malesuada lacus ex, sit amet blandit
-                                leo lobortis eget.
-                            </Typography>
-                        </AccordionDetails>
-                    </Accordion>
-                    <Accordion
-                        expanded={expanded === "panel3"}
-                        onChange={handleChange("panel3")}
-                        sx={{ border: (theme) => theme.palette.divider }}
-                    >
-                        <AccordionSummary
-                            aria-controls="panel3d-content"
-                            id="panel3d-header"
-                            sx={{
-                                backgroundColor: (theme) =>
-                                    theme.palette.background.neutral,
-                            }}
-                        >
-                            <Typography>Collapsible Group Item #3</Typography>
-                        </AccordionSummary>
-                        <AccordionDetails
-                            sx={{
-                                backgroundColor: (theme) =>
-                                    theme.palette.grey[700],
-                            }}
-                        >
-                            <Typography>
-                                Lorem ipsum dolor sit amet, consectetur
-                                adipiscing elit. Suspendisse malesuada lacus ex,
-                                sit amet blandit leo lobortis eget. Lorem ipsum
-                                dolor sit amet, consectetur adipiscing elit.
-                                Suspendisse malesuada lacus ex, sit amet blandit
-                                leo lobortis eget.
-                            </Typography>
-                        </AccordionDetails>
-                    </Accordion>
-                </Box>
+                <Box>{getClauses}</Box>
             </Collapse>
         </Card>
     );
