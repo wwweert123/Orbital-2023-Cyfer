@@ -27,6 +27,8 @@ const StyledIcon = styled("div")(({ theme }) => ({
     marginBottom: theme.spacing(3),
 }));
 
+const NUMCLAUSES = 10;
+
 // ----------------------------------------------------------------------
 
 ContractWidgetSummary.propTypes = {
@@ -80,18 +82,18 @@ export default function ContractWidgetSummary({
         getContractName();
         // eslint-disable-next-line
     }, []);
-
     // For generating the Accordion Clauses
-    const getClauses = () => {
-        for (let i = 0; i < 10; i++) {
+    const clauseItems = [];
+    for (let i = 0; i < NUMCLAUSES; i++) {
+        clauseItems.push(
             <ClauseAccordion
                 expanded={expanded}
                 handleChange={handleChange}
                 clauseNum={i}
                 contractAddress={address}
-            />;
-        }
-    };
+            />
+        );
+    }
 
     return (
         <Card
@@ -133,7 +135,7 @@ export default function ContractWidgetSummary({
                 Expand
             </Link>
             <Collapse in={checked}>
-                <Box>{getClauses}</Box>
+                <Box>{clauseItems}</Box>
             </Collapse>
         </Card>
     );
