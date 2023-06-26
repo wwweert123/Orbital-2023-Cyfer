@@ -65,7 +65,7 @@ export default function CreatePage() {
                 .comment("Deploy contract")
                 .request();
             if (resp) {
-                setcontractAddress(resp.outputs[0].contractAddress);
+                setcontractAddress(resp.txid);
                 sendContractDB(resp);
             } else {
                 Alert("Failed");
