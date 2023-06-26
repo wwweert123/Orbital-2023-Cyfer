@@ -5,6 +5,11 @@ import { Card, Typography } from "@mui/material";
 // components
 import Iconify from "../../Components/iconify";
 
+// Connex
+import Connex from "../../api/connex";
+import { ABI } from "../../Vechain/abi";
+import { useState, useEffect } from "react";
+
 // ----------------------------------------------------------------------
 
 const StyledIcon = styled("div")(({ theme }) => ({
@@ -36,6 +41,24 @@ export default function ContractWidgetSummary({
     sx,
     ...other
 }) {
+    const [contractName, setContractname] = useState("<Name>");
+    const connex = Connex();
+    useEffect(() => {
+        const getContractName = async () => {
+            const getNameABI = ABI.find(({ name }) => name === "getName");
+
+            const result = await connex.thor
+                .account(address)
+                .method(getNameABI)
+                .call();
+            if (result) {
+                setContractname(result.decoded[0]);
+            }
+        };
+        getContractName();
+        // eslint-disable-next-line
+    }, []);
+
     return (
         <Card
             sx={{
@@ -60,9 +83,12 @@ export default function ContractWidgetSummary({
             >
                 <Iconify icon={icon} width={24} height={24} />
             </StyledIcon>
-            <Typography variant="h3">{address}</Typography>
             <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
                 {title}
+            </Typography>
+            <Typography variant="h3">{address}</Typography>
+            <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
+                {contractName}
             </Typography>
         </Card>
     );

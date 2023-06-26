@@ -100,6 +100,10 @@ export default function CreatePage() {
     };
 
     const handleCreateName = async () => {
+        if (contractName === "") {
+            alert("Please Give a Name");
+            return;
+        }
         const setNameABI = ABI.find(({ name }) => name === "changeName");
         try {
             const clause = connex.thor
