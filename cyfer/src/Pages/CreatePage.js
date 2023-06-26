@@ -65,7 +65,7 @@ export default function CreatePage() {
             const resp = await axiosPrivate.get(
                 `/wallet/getcontractaddress/0x443594012a1320f5c62cc2ae484bf96434821d3c6a4953377ac99ac4421411d4`
             );
-            console.log(resp);
+            console.log(resp.data.data[0].contractAddress);
             return resp.data[0].contractAddress;
         } catch (err) {
             console.log(err);
