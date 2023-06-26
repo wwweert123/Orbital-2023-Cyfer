@@ -16,6 +16,7 @@ import Iconify from "../Components/iconify/Iconify";
 
 // Vechain
 import Connex from "../api/connex";
+import { ABI } from "../Vechain/abi";
 
 import { Helmet } from "react-helmet-async";
 
@@ -74,7 +75,10 @@ export default function CreatePage() {
 
     useEffect(() => {
         console.log(contractAddress);
-        sendContractDB(wallet, contractAddress);
+        if (contractAddress !== "") {
+            sendContractDB(wallet, contractAddress);
+        }
+
         // eslint-disable-next-line
     }, [contractAddress]);
 
@@ -95,6 +99,23 @@ export default function CreatePage() {
         }
     };
 
+    const handleCreateName = async () => {
+        const setNameABI = ABI.find(({ name }) => name === "changeName");
+        try {
+            const clause = connex.thor
+                .account(contractAddress)
+                .method(setNameABI)
+                .asClause(contractName);
+            const result = await connex.vendor
+                .sign("tx", [clause])
+                .comment("setting name")
+                .request();
+            alert("transaction done: ", result.txid);
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
     return (
         <>
             <Helmet>
@@ -107,6 +128,18 @@ export default function CreatePage() {
                     </Typography>
                     <Typography variant="h5" sx={{ mb: 5 }}>
                         Your selected wallet is :{wallet}
+                    </Typography>
+                    <Button
+                        sx={{ width: 1 / 2 }}
+                        onClick={handleCreateContract}
+                        variant="contained"
+                        startIcon={<Iconify icon="eva:plus-fill" />}
+                    >
+                        Begin your journey here
+                    </Button>
+                    <Typography variant="h5">
+                        You have created a contract with address:{" "}
+                        {contractAddress}
                     </Typography>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={6} md={4}>
@@ -124,19 +157,15 @@ export default function CreatePage() {
                         <Grid item xs={12} sm={6} md={4}>
                             <Button
                                 sx={{ width: 1 / 2 }}
-                                onClick={handleCreateContract}
+                                onClick={handleCreateName}
                                 variant="contained"
                                 startIcon={<Iconify icon="eva:plus-fill" />}
+                                disabled={contractAddress === "" ? true : false}
                             >
                                 Begin your journey here
                             </Button>
                         </Grid>
                     </Grid>
-
-                    <Typography variant="h5">
-                        You have created a contract with address:{" "}
-                        {contractAddress}
-                    </Typography>
                 </Stack>
             </Container>
         </>
