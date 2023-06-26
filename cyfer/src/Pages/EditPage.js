@@ -55,8 +55,8 @@ export default function EditPage() {
                 .method(writeABI)
                 .asClause(clauseNumber, clausetext);
             const result = await connex.vendor
-                .signer(wallet)
                 .sign("tx", [clause])
+                .signer(wallet)
                 .comment("writing info")
                 .request();
             alert("transaction done: ", result.txid);
