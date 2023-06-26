@@ -66,7 +66,7 @@ export default function CreatePage() {
                 `/wallet/getcontractaddress/${trans}`
             );
             console.log(resp.data);
-            setcontractAddress(contractAddress);
+            setcontractAddress(resp.data);
         } catch (err) {
             console.log(err);
         }
@@ -80,7 +80,7 @@ export default function CreatePage() {
                 .request();
             if (resp) {
                 await delay(10000);
-                const contractAddress = seeContractAddress(resp.txid);
+                seeContractAddress(resp.txid);
                 console.log(contractAddress);
                 sendContractDB(resp.signer, contractAddress);
             } else {
