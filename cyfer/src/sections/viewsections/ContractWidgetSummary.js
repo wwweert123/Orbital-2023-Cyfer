@@ -1,7 +1,7 @@
 // @mui
 import PropTypes from "prop-types";
 import { alpha, styled } from "@mui/material/styles";
-import { Card, Link, Typography } from "@mui/material";
+import { Card, Link, Typography, Collapse } from "@mui/material";
 // components
 import Iconify from "../../Components/iconify";
 
@@ -44,6 +44,12 @@ export default function ContractWidgetSummary({
     sx,
     ...other
 }) {
+    const [checked, setChecked] = useState(false);
+
+    const handleCollapse = () => {
+        setChecked((prev) => !prev);
+    };
+
     const [contractName, setContractname] = useState("<Name>");
     const connex = Connex();
     useEffect(() => {
@@ -93,9 +99,19 @@ export default function ContractWidgetSummary({
             <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
                 {contractName}
             </Typography>
-            <Link variant="subtitle2" underline="hover" sx={{ mr: "2%" }}>
+            <Link
+                onClick={handleCollapse}
+                variant="subtitle2"
+                underline="hover"
+                sx={{ mr: "2%" }}
+            >
                 Expand
             </Link>
+            <Collapse in={checked}>
+                <Typography variant="subtitle2">
+                    soidhgsfddddddddddddddddddddddddohsdoifgnsldfnglsnfdgifsgfdfghsdfhgusdgh
+                </Typography>
+            </Collapse>
         </Card>
     );
 }
