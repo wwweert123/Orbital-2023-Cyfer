@@ -57,16 +57,16 @@ export default function CreatePage() {
         }
     };
 
-    //const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+    const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
     const seeContractAddress = async (trans) => {
-        //await delay(2000);
+        await delay(2000);
         try {
             const resp = await axiosPrivate.get(
-                `/wallet/getcontractaddress/0x443594012a1320f5c62cc2ae484bf96434821d3c6a4953377ac99ac4421411d4`
+                `/wallet/getcontractaddress/${trans}`
             );
             console.log(resp.data);
-            return resp.data.contractAddress;
+            return resp.data;
         } catch (err) {
             console.log(err);
         }
