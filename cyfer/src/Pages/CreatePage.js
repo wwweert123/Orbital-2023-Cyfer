@@ -57,12 +57,15 @@ export default function CreatePage() {
         }
     };
 
+    const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
     const seeContractAddress = async (trans) => {
+        await delay(2000);
         try {
             const resp = await axiosPrivate.get(
                 `/wallet/getcontractaddress/${trans}`
             );
-            console.log(resp.data);
+            console.log(resp.data[0].contractAddress);
             return resp.data[0].contractAddress;
         } catch (err) {
             console.log(err);
