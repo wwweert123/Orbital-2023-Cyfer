@@ -46,7 +46,7 @@ const Wallets = () => {
             <Typography variant="h3">{wallet.address}</Typography>
             <Grid container spacing={3}>
                 {wallet.owned.map((address) => (
-                    <Grid item xs={12} sm={6} md={3}>
+                    <Grid item xs={12} sm={6} md="auto">
                         <ContractWidgetSummary
                             title="Contract Owner"
                             address={address}
@@ -55,7 +55,7 @@ const Wallets = () => {
                     </Grid>
                 ))}
                 {wallet.editor.map((address) => (
-                    <Grid item xs={12} sm={6} md={3}>
+                    <Grid item xs={12} sm={6} md="auto">
                         <ContractWidgetSummary
                             title="Contract Editor"
                             address={address}

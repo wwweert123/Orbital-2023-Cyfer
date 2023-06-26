@@ -1,7 +1,7 @@
 // @mui
 import PropTypes from "prop-types";
 import { alpha, styled } from "@mui/material/styles";
-import { Card, Typography } from "@mui/material";
+import { Card, Link, Typography } from "@mui/material";
 // components
 import Iconify from "../../Components/iconify";
 
@@ -93,6 +93,9 @@ export default function ContractWidgetSummary({
             <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
                 {contractName}
             </Typography>
+            <Link variant="subtitle2" underline="hover" sx={{ mr: "2%" }}>
+                Expand
+            </Link>
         </Card>
     );
 }
