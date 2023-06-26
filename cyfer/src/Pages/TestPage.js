@@ -2,21 +2,17 @@ import { Helmet } from "react-helmet-async";
 import { useState } from "react";
 // @mui
 //import { useTheme } from "@mui/material/styles";
-import {
-    Container,
-    Typography,
-    Accordion,
-    AccordionSummary,
-    AccordionDetails,
-    Box,
-} from "@mui/material";
+import { Container, Typography, Grid } from "@mui/material";
+
+import ContractWidgetSummary from "../sections/viewsections/ContractWidgetSummary";
 
 export default function TestPage() {
-    const [expanded, setExpanded] = useState("panel1");
+    const [expandedID, setExpandedID] = useState();
 
-    const handleChange = (panel) => (event, newExpanded) => {
-        setExpanded(newExpanded ? panel : false);
+    const handleExpanded = (id) => {
+        setExpandedID(expandedID !== id ? id : false);
     };
+
     //const theme = useTheme();
     return (
         <>
@@ -28,101 +24,22 @@ export default function TestPage() {
                 <Typography variant="h4" sx={{ mb: 5 }}>
                     View your Contracts here
                 </Typography>
-                <Box>
-                    <Accordion
-                        expanded={expanded === "panel1"}
-                        onChange={handleChange("panel1")}
-                        sx={{ border: (theme) => theme.palette.divider }}
+                <Grid container spacing={3}>
+                    <Grid
+                        item
+                        xs={12}
+                        sm={6}
+                        md={expandedID === "hehehe" ? 12 : 3}
                     >
-                        <AccordionSummary
-                            aria-controls="panel1d-content"
-                            id="panel1d-header"
-                            sx={{
-                                backgroundColor: (theme) =>
-                                    theme.palette.background.neutral,
-                            }}
-                        >
-                            <Typography>Collapsible Group Item #1</Typography>
-                        </AccordionSummary>
-                        <AccordionDetails
-                            sx={{
-                                backgroundColor: (theme) =>
-                                    theme.palette.grey[700],
-                            }}
-                        >
-                            <Typography>
-                                Lorem ipsum dolor sit amet, consectetur
-                                adipiscing elit. Suspendisse malesuada lacus ex,
-                                sit amet blandit leo lobortis eget. Lorem ipsum
-                                dolor sit amet, consectetur adipiscing elit.
-                                Suspendisse malesuada lacus ex, sit amet blandit
-                                leo lobortis eget.
-                            </Typography>
-                        </AccordionDetails>
-                    </Accordion>
-                    <Accordion
-                        expanded={expanded === "panel2"}
-                        onChange={handleChange("panel2")}
-                        sx={{ border: (theme) => theme.palette.divider }}
-                    >
-                        <AccordionSummary
-                            aria-controls="panel2d-content"
-                            id="panel2d-header"
-                            sx={{
-                                backgroundColor: (theme) =>
-                                    theme.palette.background.neutral,
-                            }}
-                        >
-                            <Typography>Collapsible Group Item #2</Typography>
-                        </AccordionSummary>
-                        <AccordionDetails
-                            sx={{
-                                backgroundColor: (theme) =>
-                                    theme.palette.grey[700],
-                            }}
-                        >
-                            <Typography>
-                                Lorem ipsum dolor sit amet, consectetur
-                                adipiscing elit. Suspendisse malesuada lacus ex,
-                                sit amet blandit leo lobortis eget. Lorem ipsum
-                                dolor sit amet, consectetur adipiscing elit.
-                                Suspendisse malesuada lacus ex, sit amet blandit
-                                leo lobortis eget.
-                            </Typography>
-                        </AccordionDetails>
-                    </Accordion>
-                    <Accordion
-                        expanded={expanded === "panel3"}
-                        onChange={handleChange("panel3")}
-                        sx={{ border: (theme) => theme.palette.divider }}
-                    >
-                        <AccordionSummary
-                            aria-controls="panel3d-content"
-                            id="panel3d-header"
-                            sx={{
-                                backgroundColor: (theme) =>
-                                    theme.palette.background.neutral,
-                            }}
-                        >
-                            <Typography>Collapsible Group Item #3</Typography>
-                        </AccordionSummary>
-                        <AccordionDetails
-                            sx={{
-                                backgroundColor: (theme) =>
-                                    theme.palette.grey[700],
-                            }}
-                        >
-                            <Typography>
-                                Lorem ipsum dolor sit amet, consectetur
-                                adipiscing elit. Suspendisse malesuada lacus ex,
-                                sit amet blandit leo lobortis eget. Lorem ipsum
-                                dolor sit amet, consectetur adipiscing elit.
-                                Suspendisse malesuada lacus ex, sit amet blandit
-                                leo lobortis eget.
-                            </Typography>
-                        </AccordionDetails>
-                    </Accordion>
-                </Box>
+                        <ContractWidgetSummary
+                            title="Contract Owner"
+                            address="hehehe"
+                            icon={"fluent-mdl2:party-leader"}
+                            id="hehehe"
+                            handleExpanded={handleExpanded}
+                        />
+                    </Grid>
+                </Grid>
             </Container>
         </>
     );

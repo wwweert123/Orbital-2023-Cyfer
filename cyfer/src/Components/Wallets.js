@@ -63,6 +63,7 @@ const Wallets = () => {
                             address={address}
                             icon={"fluent-mdl2:party-leader"}
                             id={address}
+                            handleExpanded={handleExpanded}
                         />
                     </Grid>
                 ))}
@@ -74,6 +75,7 @@ const Wallets = () => {
                         md={expandedID === address ? 12 : 3}
                     >
                         <ContractWidgetSummary
+                            id={address}
                             title="Contract Editor"
                             address={address}
                             color="warning"
