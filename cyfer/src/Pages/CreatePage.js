@@ -44,17 +44,28 @@ export default function CreatePage() {
         setContractname(e.target.value);
     };
 
-    const sendContractDB = async (resp) => {
+    const sendContractDB = async (signer, address) => {
         try {
-            console.log(resp.signer);
-            const Axiosresp = axiosPrivate.post("/wallet/addcontract", {
-                walletaddress: resp.signer.toLowerCase(),
-                contractaddress: resp.txid,
+            const Axiosresp = await axiosPrivate.post("/wallet/addcontract", {
+                walletaddress: signer,
+                contractaddress: address,
             });
             console.log(Axiosresp.data);
         } catch (err) {
             console.log(err);
             console.log("could not send to db");
+        }
+    };
+
+    const seeContractAddress = async (trans) => {
+        try {
+            const resp = await axiosPrivate.get(
+                `/wallet/getcontractaddress/${trans}`
+            );
+            console.log(resp.data);
+            return resp.data[0].contractAddress;
+        } catch (err) {
+            console.log(err);
         }
     };
 
@@ -65,8 +76,10 @@ export default function CreatePage() {
                 .comment("Deploy contract")
                 .request();
             if (resp) {
-                setcontractAddress(resp.txid);
-                sendContractDB(resp);
+                const contractAddress = seeContractAddress(resp.txid);
+                console.log(contractAddress);
+                setcontractAddress(contractAddress);
+                sendContractDB(resp.signer, contractAddress);
             } else {
                 Alert("Failed");
             }
