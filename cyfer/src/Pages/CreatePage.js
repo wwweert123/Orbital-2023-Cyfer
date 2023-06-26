@@ -78,7 +78,7 @@ export default function CreatePage() {
                 .comment("Deploy contract")
                 .request();
             if (resp) {
-                await delay(2000);
+                await delay(10000);
                 const contractAddress = seeContractAddress(resp.txid);
                 console.log(contractAddress);
                 setcontractAddress(contractAddress);
