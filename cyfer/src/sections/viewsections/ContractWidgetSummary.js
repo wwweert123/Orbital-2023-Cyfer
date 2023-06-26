@@ -1,7 +1,8 @@
 // @mui
 import PropTypes from "prop-types";
 import { alpha, styled } from "@mui/material/styles";
-import { Card, Link, Typography, Collapse } from "@mui/material";
+import { Card, Link, Typography, Collapse, Box } from "@mui/material";
+import { Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
 // components
 import Iconify from "../../Components/iconify";
 
@@ -44,6 +45,12 @@ export default function ContractWidgetSummary({
     sx,
     ...other
 }) {
+    const [expanded, setExpanded] = useState("panel1");
+
+    const handleChange = (panel) => (event, newExpanded) => {
+        setExpanded(newExpanded ? panel : false);
+    };
+
     const [checked, setChecked] = useState(false);
 
     const handleCollapse = () => {
@@ -108,9 +115,71 @@ export default function ContractWidgetSummary({
                 Expand
             </Link>
             <Collapse in={checked}>
-                <Typography variant="subtitle2">
-                    soidhgsfddddddddddddddddddddddddohsdoifgnsldfnglsnfdgifsgfdfghsdfhgusdgh
-                </Typography>
+                <Box>
+                    <Accordion
+                        expanded={expanded === "panel1"}
+                        onChange={handleChange("panel1")}
+                    >
+                        <AccordionSummary
+                            aria-controls="panel1d-content"
+                            id="panel1d-header"
+                        >
+                            <Typography>Collapsible Group Item #1</Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            <Typography>
+                                Lorem ipsum dolor sit amet, consectetur
+                                adipiscing elit. Suspendisse malesuada lacus ex,
+                                sit amet blandit leo lobortis eget. Lorem ipsum
+                                dolor sit amet, consectetur adipiscing elit.
+                                Suspendisse malesuada lacus ex, sit amet blandit
+                                leo lobortis eget.
+                            </Typography>
+                        </AccordionDetails>
+                    </Accordion>
+                    <Accordion
+                        expanded={expanded === "panel2"}
+                        onChange={handleChange("panel2")}
+                    >
+                        <AccordionSummary
+                            aria-controls="panel2d-content"
+                            id="panel2d-header"
+                        >
+                            <Typography>Collapsible Group Item #2</Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            <Typography>
+                                Lorem ipsum dolor sit amet, consectetur
+                                adipiscing elit. Suspendisse malesuada lacus ex,
+                                sit amet blandit leo lobortis eget. Lorem ipsum
+                                dolor sit amet, consectetur adipiscing elit.
+                                Suspendisse malesuada lacus ex, sit amet blandit
+                                leo lobortis eget.
+                            </Typography>
+                        </AccordionDetails>
+                    </Accordion>
+                    <Accordion
+                        expanded={expanded === "panel3"}
+                        onChange={handleChange("panel3")}
+                    >
+                        <AccordionSummary
+                            aria-controls="panel3d-content"
+                            id="panel3d-header"
+                        >
+                            <Typography>Collapsible Group Item #3</Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            <Typography>
+                                Lorem ipsum dolor sit amet, consectetur
+                                adipiscing elit. Suspendisse malesuada lacus ex,
+                                sit amet blandit leo lobortis eget. Lorem ipsum
+                                dolor sit amet, consectetur adipiscing elit.
+                                Suspendisse malesuada lacus ex, sit amet blandit
+                                leo lobortis eget.
+                            </Typography>
+                        </AccordionDetails>
+                    </Accordion>
+                </Box>
             </Collapse>
         </Card>
     );
