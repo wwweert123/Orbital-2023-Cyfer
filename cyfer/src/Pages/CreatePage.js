@@ -60,7 +60,7 @@ export default function CreatePage() {
 
     const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-    const seeContractAddress = async (trans) => {
+    const seeContractAddress = async (trans, signer) => {
         try {
             const resp = await axiosPrivate.get(
                 `/wallet/getcontractaddress/${trans}`
@@ -68,7 +68,7 @@ export default function CreatePage() {
             console.log(resp.data);
             setcontractAddress(resp.data);
             console.log(contractAddress);
-            sendContractDB(resp.signer, contractAddress);
+            sendContractDB(signer, contractAddress);
         } catch (err) {
             console.log(err);
         }
@@ -82,12 +82,12 @@ export default function CreatePage() {
                 .request();
             if (resp) {
                 await delay(10000);
-                seeContractAddress(resp.txid);
+                seeContractAddress(resp.txid, resp.signer);
             } else {
                 Alert("Failed");
             }
         } catch (err) {
-            setcontractAddress("y u reject");
+            console.log(err);
         }
     };
 
