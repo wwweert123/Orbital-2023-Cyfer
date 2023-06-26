@@ -36,11 +36,11 @@ const navConfig = [
         path: "/admin",
         icon: icon("ic_lock"),
     },
-    // {
-    //     title: "Not found",
-    //     path: "/404",
-    //     icon: icon("ic_disabled"),
-    // },
+    {
+        title: "test",
+        path: "/test",
+        icon: icon("ic_disabled"),
+    },
 ];
 
 export default navConfig;
