@@ -49,7 +49,7 @@ export default function CreatePage() {
             console.log(resp.signer);
             const Axiosresp = axiosPrivate.post("/wallet/addcontract", {
                 walletaddress: resp.signer.toLowerCase(),
-                contractaddress: resp.outputs[0].contractAddress,
+                contractaddress: resp.txid,
             });
             console.log(Axiosresp.data);
         } catch (err) {
