@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 // mui
 import {
@@ -45,11 +45,11 @@ export default function CreatePage() {
         setContractname(e.target.value);
     };
 
-    const sendContractDB = async (signer, address) => {
+    const sendContractDB = async (signer) => {
         try {
             const Axiosresp = await axiosPrivate.post("/wallet/addcontract", {
-                walletaddress: signer,
-                contractaddress: address,
+                walletaddress: signer.toLowerCase(),
+                contractaddress: contractAddress,
             });
             console.log(Axiosresp.data);
         } catch (err) {
@@ -60,19 +60,23 @@ export default function CreatePage() {
 
     const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-    const seeContractAddress = async (trans, signer) => {
+    const seeContractAddress = async (trans) => {
         try {
             const resp = await axiosPrivate.get(
                 `/wallet/getcontractaddress/${trans}`
             );
             console.log(resp.data);
             setcontractAddress(resp.data);
-            console.log(contractAddress);
-            sendContractDB(signer, contractAddress);
         } catch (err) {
             console.log(err);
         }
     };
+
+    useEffect(() => {
+        console.log(contractAddress);
+        sendContractDB(wallet, contractAddress);
+        // eslint-disable-next-line
+    }, [contractAddress]);
 
     const handleCreateContract = async () => {
         try {
