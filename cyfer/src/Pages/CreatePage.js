@@ -67,6 +67,8 @@ export default function CreatePage() {
             );
             console.log(resp.data);
             setcontractAddress(resp.data);
+            console.log(contractAddress);
+            sendContractDB(resp.signer, contractAddress);
         } catch (err) {
             console.log(err);
         }
@@ -81,8 +83,6 @@ export default function CreatePage() {
             if (resp) {
                 await delay(10000);
                 seeContractAddress(resp.txid);
-                console.log(contractAddress);
-                sendContractDB(resp.signer, contractAddress);
             } else {
                 Alert("Failed");
             }
