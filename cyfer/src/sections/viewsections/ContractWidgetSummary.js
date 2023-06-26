@@ -10,6 +10,9 @@ import Connex from "../../api/connex";
 import { ABI } from "../../Vechain/abi";
 import { useState, useEffect } from "react";
 
+// Utils
+import walletShort from "wallet-short";
+
 // ----------------------------------------------------------------------
 
 const StyledIcon = styled("div")(({ theme }) => ({
@@ -86,7 +89,7 @@ export default function ContractWidgetSummary({
             <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
                 {title}
             </Typography>
-            <Typography variant="h3">{address}</Typography>
+            <Typography variant="h3">{walletShort(address)}</Typography>
             <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
                 {contractName}
             </Typography>

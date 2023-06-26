@@ -4,7 +4,6 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { Grid, Stack, Typography } from "@mui/material";
 
 import ContractWidgetSummary from "../sections/viewsections/ContractWidgetSummary";
-import walletShort from "wallet-short";
 
 import { Divider } from "@mui/material";
 
@@ -50,7 +49,7 @@ const Wallets = () => {
                     <Grid item xs={12} sm={6} md={3}>
                         <ContractWidgetSummary
                             title="Contract Owner"
-                            address={walletShort(address)}
+                            address={address}
                             icon={"fluent-mdl2:party-leader"}
                         />
                     </Grid>
@@ -59,7 +58,7 @@ const Wallets = () => {
                     <Grid item xs={12} sm={6} md={3}>
                         <ContractWidgetSummary
                             title="Contract Editor"
-                            address={walletShort(address)}
+                            address={address}
                             color="warning"
                             icon={"material-symbols:edit"}
                         />
