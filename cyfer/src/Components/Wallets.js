@@ -13,6 +13,12 @@ const Wallets = () => {
     const navigate = useNavigate();
     const location = useLocation(); //current location
 
+    const [expandedID, setExpandedID] = useState();
+
+    const handleExpanded = (id) => {
+        setExpandedID(expandedID !== id ? id : false);
+    };
+
     useEffect(() => {
         let isMounted = true;
         const controller = new AbortController(); // cancel any pending request if the component unmounts
@@ -46,21 +52,33 @@ const Wallets = () => {
             <Typography variant="h3">{wallet.address}</Typography>
             <Grid container spacing={3}>
                 {wallet.owned.map((address) => (
-                    <Grid item xs={12} sm={6} md={3}>
+                    <Grid
+                        item
+                        xs={12}
+                        sm={6}
+                        md={expandedID === address ? 12 : 3}
+                    >
                         <ContractWidgetSummary
                             title="Contract Owner"
                             address={address}
                             icon={"fluent-mdl2:party-leader"}
+                            id={address}
                         />
                     </Grid>
                 ))}
                 {wallet.editor.map((address) => (
-                    <Grid item xs={12} sm={6} md={3}>
+                    <Grid
+                        item
+                        xs={12}
+                        sm={6}
+                        md={expandedID === address ? 12 : 3}
+                    >
                         <ContractWidgetSummary
                             title="Contract Editor"
                             address={address}
                             color="warning"
                             icon={"material-symbols:edit"}
+                            handleExpanded={handleExpanded}
                         />
                     </Grid>
                 ))}

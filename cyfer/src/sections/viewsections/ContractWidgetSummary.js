@@ -30,19 +30,23 @@ const StyledIcon = styled("div")(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 ContractWidgetSummary.propTypes = {
+    id: PropTypes.string.isRequired,
     color: PropTypes.string,
     icon: PropTypes.string,
     title: PropTypes.string.isRequired,
     address: PropTypes.string.isRequired,
+    handleExpanded: PropTypes.func.isRequired,
     sx: PropTypes.object,
 };
 
 export default function ContractWidgetSummary({
+    id,
     title,
     address,
     icon,
     color = "primary",
     sx,
+    handleExpanded,
     ...other
 }) {
     const [expanded, setExpanded] = useState("panel1");
@@ -55,6 +59,7 @@ export default function ContractWidgetSummary({
 
     const handleCollapse = () => {
         setChecked((prev) => !prev);
+        handleExpanded(id);
     };
 
     const [contractName, setContractname] = useState("<Name>");
