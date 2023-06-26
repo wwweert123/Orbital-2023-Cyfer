@@ -7,8 +7,8 @@ import {
 import PropTypes from "prop-types";
 
 // Connex and ABI
-// import Connex from "../../api/connex";
-// import { ABI } from "../../Vechain/abi";
+import Connex from "../../api/connex";
+import { ABI } from "../../Vechain/abi";
 
 ClauseAccordion.propTypes = {
     expanded: PropTypes.oneOf([PropTypes.string, PropTypes.bool]).isRequired,
@@ -23,6 +23,20 @@ export default function ClauseAccordion({
     clauseNum,
     contractAddress,
 }) {
+    const connex = Connex();
+    const clauseText = async () => {
+        const readABI = ABI.find(({ name }) => name === "retrieve");
+        const result = await connex.thor
+            .account(contractAddress)
+            .method(readABI)
+            .call(clauseNum);
+        if (result) {
+            return result.decoded[0];
+        } else {
+            return "Empty";
+        }
+    };
+
     return (
         <Accordion
             expanded={expanded === clauseNum}
@@ -44,7 +58,7 @@ export default function ClauseAccordion({
                     backgroundColor: (theme) => theme.palette.grey[700],
                 }}
             >
-                <Typography>Hello</Typography>
+                <Typography>{clauseText}</Typography>
             </AccordionDetails>
         </Accordion>
     );

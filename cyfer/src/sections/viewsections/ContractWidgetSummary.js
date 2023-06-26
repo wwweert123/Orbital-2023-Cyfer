@@ -52,7 +52,7 @@ export default function ContractWidgetSummary({
     ...other
 }) {
     // For the Accordian Clauses
-    const [expanded, setExpanded] = useState(1);
+    const [expanded, setExpanded] = useState(0);
     const handleChange = (panel) => (event, newExpanded) => {
         setExpanded(newExpanded ? panel : false);
     };
@@ -135,7 +135,7 @@ export default function ContractWidgetSummary({
                 Expand
             </Link>
             <Collapse in={checked}>
-                <Box>{clauseItems}</Box>
+                <Box sx={{ m: "2rem" }}>{clauseItems}</Box>
             </Collapse>
         </Card>
     );
