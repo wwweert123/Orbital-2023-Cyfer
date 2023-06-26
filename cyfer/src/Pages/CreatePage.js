@@ -34,6 +34,7 @@ export default function CreatePage() {
     //     network: "test",
     // });
     const connex = Connex();
+    // eslint-disable-next-line
     const [contractAddress, setcontractAddress] = useState("");
 
     const [contractName, setContractname] = useState("");
@@ -65,7 +66,7 @@ export default function CreatePage() {
                 `/wallet/getcontractaddress/${trans}`
             );
             console.log(resp.data);
-            return resp.data;
+            setcontractAddress(contractAddress);
         } catch (err) {
             console.log(err);
         }
@@ -81,7 +82,6 @@ export default function CreatePage() {
                 await delay(10000);
                 const contractAddress = seeContractAddress(resp.txid);
                 console.log(contractAddress);
-                setcontractAddress(contractAddress);
                 sendContractDB(resp.signer, contractAddress);
             } else {
                 Alert("Failed");
