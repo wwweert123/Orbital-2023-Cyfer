@@ -60,7 +60,6 @@ export default function CreatePage() {
     const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
     const seeContractAddress = async (trans) => {
-        await delay(2000);
         try {
             const resp = await axiosPrivate.get(
                 `/wallet/getcontractaddress/${trans}`
@@ -79,6 +78,7 @@ export default function CreatePage() {
                 .comment("Deploy contract")
                 .request();
             if (resp) {
+                await delay(2000);
                 const contractAddress = seeContractAddress(resp.txid);
                 console.log(contractAddress);
                 setcontractAddress(contractAddress);
