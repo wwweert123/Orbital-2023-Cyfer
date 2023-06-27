@@ -144,7 +144,7 @@ export default function ContractWidgetSummary({
                 >
                     Expand
                 </Link>
-                <AddEditorDialog contract={address} />
+                <AddEditorDialog contract={address} wallet={address} />
             </Stack>
 
             <Collapse in={checked}>

@@ -26,7 +26,7 @@ AddEditorDialog.propTypes = {
     contract: PropTypes.string.isRequired,
 };
 
-export default function AddEditorDialog({ contract }) {
+export default function AddEditorDialog({ contract, wallet }) {
     // Axios Private Instance
     const axiosPrivate = useAxiosPrivate();
 
@@ -68,6 +68,7 @@ export default function AddEditorDialog({ contract }) {
                 .asClause(walletAddress);
             const result = await connex.vendor
                 .sign("tx", [clause])
+                .signer(wallet)
                 .comment("setting editor")
                 .request();
             alert("transaction done: ", result.txid);
