@@ -16,7 +16,13 @@ import { useState, useEffect } from "react";
 import Connex from "../../api/connex";
 import { ABI } from "../../Vechain/abi";
 
+// axios
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+
 export default function AddEditorDialog({ contract }) {
+    // Axios Private Instance
+    const axiosPrivate = useAxiosPrivate();
+
     // For fading of the alert message
     const [checked, setChecked] = useState(false);
 
@@ -27,6 +33,21 @@ export default function AddEditorDialog({ contract }) {
     const [textSeverity, setTextSeverity] = useState("success");
 
     const connex = Connex();
+
+    // Send editor information to DB
+    const sendEditorDB = async () => {
+        try {
+            const Axiosresp = await axiosPrivate.post("/wallet/addcontract", {
+                editor: username,
+                walletAddress: walletAddress,
+                contractaddress: contract,
+            });
+            console.log(Axiosresp.data);
+        } catch (err) {
+            console.log(err);
+            console.log("could not send to db");
+        }
+    };
 
     const AddEditor = async () => {
         const setEditorABI = ABI.find(
@@ -46,6 +67,7 @@ export default function AddEditorDialog({ contract }) {
             setInfoMsg("Success! Editor added to the contract");
             setTextSeverity("success");
             setChecked(true);
+            sendEditorDB();
         } catch (err) {
             console.log(err);
             setInfoMsg("Oh No! Something went wrong!");
