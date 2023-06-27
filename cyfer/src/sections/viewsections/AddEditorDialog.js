@@ -68,7 +68,7 @@ export default function AddEditorDialog({ contract, wallet }) {
                 .asClause(walletAddress);
             const result = await connex.vendor
                 .sign("tx", [clause])
-                .signer(wallet)
+                .signer("0x87338bBc81ac6d886436C0A0A5f94d4B2662eddE")
                 .comment("setting editor")
                 .request();
             alert("transaction done: ", result.txid);
