@@ -31,7 +31,7 @@ export default function ClauseAccordion({
             .method(readABI)
             .call(clauseNum);
         if (result) {
-            console.log(result.decoded[1]);
+            console.log(result);
             return result.decoded[{ clauseNum }];
         } else {
             return "Empty";
