@@ -46,7 +46,7 @@ export default function AddEditorDialog({ contract }) {
         try {
             const Axiosresp = await axiosPrivate.post("/wallet/addcontract", {
                 editor: username,
-                walletAddress: walletAddress,
+                walletaddress: walletAddress,
                 contractaddress: contract,
             });
             console.log(Axiosresp.data);
@@ -114,7 +114,7 @@ export default function AddEditorDialog({ contract }) {
 
     return (
         <div>
-            <Button variant="outlined" onClick={handleClickOpen}>
+            <Button variant="contained" onClick={handleClickOpen}>
                 Add Editor
             </Button>
             <Dialog open={open} onClose={handleClose}>
