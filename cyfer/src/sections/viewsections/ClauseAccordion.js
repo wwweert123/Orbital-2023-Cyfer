@@ -6,6 +6,8 @@ import {
 } from "@mui/material";
 import PropTypes from "prop-types";
 
+import { useEffect, useState } from "react";
+
 // Connex and ABI
 import Connex from "../../api/connex";
 import { ABI } from "../../Vechain/abi";
@@ -23,20 +25,25 @@ export default function ClauseAccordion({
     clauseNum,
     contractAddress,
 }) {
+    const [clauseText, setClauseText] = useState("Empty");
+
     const connex = Connex();
-    const clauseText = async () => {
-        const readABI = ABI.find(({ name }) => name === "retrieve");
-        const result = await connex.thor
-            .account(contractAddress)
-            .method(readABI)
-            .call(clauseNum);
-        if (result) {
-            console.log(result);
-            return result.decoded[{ clauseNum }];
-        } else {
-            return "Empty";
-        }
-    };
+    useEffect(() => {
+        const getClauseText = async () => {
+            console.log("hi");
+            const readABI = ABI.find(({ name }) => name === "retrieve");
+            const result = await connex.thor
+                .account(contractAddress)
+                .method(readABI)
+                .call(clauseNum);
+            if (result) {
+                console.log(result);
+                setClauseText(result.decoded[0]);
+            }
+        };
+        getClauseText();
+        // eslint-disable-next-line
+    }, []);
 
     return (
         <Accordion

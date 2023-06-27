@@ -1,17 +1,40 @@
 import { Helmet } from "react-helmet-async";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 // @mui
 //import { useTheme } from "@mui/material/styles";
-import { Container, Typography, Grid } from "@mui/material";
+// import { Container, Typography, Grid } from "@mui/material";
+import { Typography } from "@mui/material";
 
-import ContractWidgetSummary from "../sections/viewsections/ContractWidgetSummary";
+//import ContractWidgetSummary from "../sections/viewsections/ContractWidgetSummary";
+
+import Connex from "../api/connex";
+import { ABI } from "../Vechain/abi";
 
 export default function TestPage() {
-    const [expandedID, setExpandedID] = useState();
+    const [clauseText, setClauseText] = useState("Empty");
+    // const [expandedID, setExpandedID] = useState();
 
-    const handleExpanded = (id) => {
-        setExpandedID(expandedID !== id ? id : false);
-    };
+    // const handleExpanded = (id) => {
+    //     setExpandedID(expandedID !== id ? id : false);
+    // };
+
+    const connex = Connex();
+    useEffect(() => {
+        const getClauseText = async () => {
+            console.log("hi");
+            const readABI = ABI.find(({ name }) => name === "retrieve");
+            const result = await connex.thor
+                .account("0x9524bb149161edd41b13039b4ec4d95bc1e23f8b")
+                .method(readABI)
+                .call(2);
+            if (result) {
+                console.log(result);
+                setClauseText(result.decoded[0]);
+            }
+        };
+        getClauseText();
+        // eslint-disable-next-line
+    }, []);
 
     //const theme = useTheme();
     return (
@@ -20,7 +43,7 @@ export default function TestPage() {
                 <title> Test | Minimal UI </title>
             </Helmet>
 
-            <Container maxWidth="xl">
+            {/*<Container maxWidth="xl">
                 <Typography variant="h4" sx={{ mb: 5 }}>
                     View your Contracts here
                 </Typography>
@@ -39,8 +62,9 @@ export default function TestPage() {
                             handleExpanded={handleExpanded}
                         />
                     </Grid>
-                </Grid>
-            </Container>
+                </Grid> */}
+            <Typography>{clauseText}</Typography>
+            {/* </Container> */}
         </>
     );
 }
