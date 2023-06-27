@@ -41,6 +41,7 @@ ContractWidgetSummary.propTypes = {
     title: PropTypes.string.isRequired,
     address: PropTypes.string.isRequired,
     handleExpanded: PropTypes.func.isRequired,
+    wallet: PropTypes.string.isRequired,
     sx: PropTypes.object,
 };
 
@@ -52,6 +53,7 @@ export default function ContractWidgetSummary({
     color = "primary",
     sx,
     handleExpanded,
+    wallet,
     ...other
 }) {
     // For the Accordian Clauses
@@ -144,7 +146,7 @@ export default function ContractWidgetSummary({
                 >
                     Expand
                 </Link>
-                <AddEditorDialog contract={address} wallet={address} />
+                <AddEditorDialog contract={address} wallet={wallet} />
             </Stack>
 
             <Collapse in={checked}>

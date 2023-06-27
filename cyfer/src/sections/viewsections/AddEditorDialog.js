@@ -24,6 +24,7 @@ import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
 AddEditorDialog.propTypes = {
     contract: PropTypes.string.isRequired,
+    wallet: PropTypes.string.isRequired,
 };
 
 export default function AddEditorDialog({ contract, wallet }) {

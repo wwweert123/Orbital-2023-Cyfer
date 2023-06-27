@@ -64,6 +64,7 @@ const Wallets = () => {
                             icon={"fluent-mdl2:party-leader"}
                             id={address}
                             handleExpanded={handleExpanded}
+                            wallet={wallet.address}
                         />
                     </Grid>
                 ))}
@@ -81,6 +82,7 @@ const Wallets = () => {
                             color="warning"
                             icon={"material-symbols:edit"}
                             handleExpanded={handleExpanded}
+                            wallet={wallet.address}
                         />
                     </Grid>
                 ))}
