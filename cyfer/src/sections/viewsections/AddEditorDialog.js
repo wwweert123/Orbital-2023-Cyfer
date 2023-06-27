@@ -66,6 +66,8 @@ export default function AddEditorDialog({ contract, wallet }) {
                 .account(contract)
                 .method(setEditorABI)
                 .asClause(walletAddress);
+
+            console.log(wallet);
             const result = await connex.vendor
                 .sign("tx", [clause])
                 .signer("0x87338bBc81ac6d886436C0A0A5f94d4B2662eddE")
