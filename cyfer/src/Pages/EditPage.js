@@ -49,6 +49,7 @@ export default function EditPage() {
 
     const handleSubmit = async () => {
         const writeABI = ABI.find(({ name }) => name === "store");
+        console.log(clausetext);
         try {
             const visitor = await connex.thor.account(contract);
             const clause = visitor
