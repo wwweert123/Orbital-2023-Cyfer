@@ -7,6 +7,7 @@ import {
     DialogContentText,
     DialogTitle,
     Alert,
+    Collapse,
 } from "@mui/material";
 
 import { useState, useEffect } from "react";
@@ -16,6 +17,15 @@ import Connex from "../../api/connex";
 import { ABI } from "../../Vechain/abi";
 
 export default function AddEditorDialog({ contract }) {
+    // For fading of the alert message
+    const [checked, setChecked] = useState(false);
+
+    // Popup message
+    // For the info message
+    const [infoMsg, setInfoMsg] = useState("");
+    // For the type of message
+    const [textSeverity, setTextSeverity] = useState("success");
+
     const connex = Connex();
 
     const AddEditor = async () => {
@@ -23,15 +33,25 @@ export default function AddEditorDialog({ contract }) {
             ({ name }) => name === "addAuthorizedAddress"
         );
 
-        const clause = connex.thor
-            .account(contract)
-            .method(setEditorABI)
-            .asClause(walletAddress);
-        const result = await connex.vendor
-            .sign("tx", [clause])
-            .comment("setting editor")
-            .request();
-        alert("transaction done: ", result.txid);
+        try {
+            const clause = connex.thor
+                .account(contract)
+                .method(setEditorABI)
+                .asClause(walletAddress);
+            const result = await connex.vendor
+                .sign("tx", [clause])
+                .comment("setting editor")
+                .request();
+            alert("transaction done: ", result.txid);
+            setInfoMsg("Success! Editor added to the contract");
+            setTextSeverity("success");
+            setChecked(true);
+        } catch (err) {
+            console.log(err);
+            setInfoMsg("Oh No! Something went wrong!");
+            setTextSeverity("error");
+            setChecked(true);
+        }
     };
 
     const [open, setOpen] = useState(false);
@@ -58,9 +78,8 @@ export default function AddEditorDialog({ contract }) {
         setWalletAddress(e.target.value);
     };
 
-    // Popup message
-    const [infoMsg, setInfoMsg] = useState("");
     useEffect(() => {
+        setChecked(false);
         setInfoMsg("");
     }, [username, walletAddress]);
 
@@ -130,15 +149,17 @@ export default function AddEditorDialog({ contract }) {
                         Add
                     </Button>
                 </DialogActions>
-                <Alert
-                    severity="success"
-                    sx={{
-                        backgroundColor: (theme) =>
-                            theme.palette.background.default,
-                    }}
-                >
-                    Success! User Wallet Address added as Editor
-                </Alert>
+                <Collapse in={checked}>
+                    <Alert
+                        severity={textSeverity}
+                        sx={{
+                            backgroundColor: (theme) =>
+                                theme.palette.background.default,
+                        }}
+                    >
+                        {infoMsg}
+                    </Alert>
+                </Collapse>
             </Dialog>
         </div>
     );
