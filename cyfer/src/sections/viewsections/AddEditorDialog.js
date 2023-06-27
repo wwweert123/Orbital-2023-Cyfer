@@ -10,6 +10,9 @@ import {
     Collapse,
 } from "@mui/material";
 
+// Proptypes
+import PropTypes from "prop-types";
+
 import { useState, useEffect } from "react";
 
 // Conex
@@ -18,6 +21,10 @@ import { ABI } from "../../Vechain/abi";
 
 // axios
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+
+AddEditorDialog.propTypes = {
+    contract: PropTypes.string.isRequired,
+};
 
 export default function AddEditorDialog({ contract }) {
     // Axios Private Instance

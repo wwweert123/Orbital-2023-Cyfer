@@ -1,7 +1,7 @@
 // @mui
 import PropTypes from "prop-types";
 import { alpha, styled } from "@mui/material/styles";
-import { Card, Link, Typography, Collapse, Box } from "@mui/material";
+import { Card, Link, Typography, Collapse, Box, Stack } from "@mui/material";
 // components
 import Iconify from "../../Components/iconify";
 
@@ -13,6 +13,9 @@ import { useState, useEffect } from "react";
 // Utils
 import walletShort from "wallet-short";
 import ClauseAccordion from "./ClauseAccordion";
+
+// Dialog for adding contract to editor
+import AddEditorDialog from "./AddEditorDialog";
 
 // ----------------------------------------------------------------------
 
@@ -126,14 +129,24 @@ export default function ContractWidgetSummary({
             <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
                 {contractName}
             </Typography>
-            <Link
-                onClick={handleCollapse}
-                variant="subtitle2"
-                underline="hover"
-                sx={{ mr: "2%" }}
+            <Stack
+                direction="row"
+                alignItems="center"
+                justifyContent="space-between"
+                mb={5}
+                mt={5}
+                mx={5}
             >
-                Expand
-            </Link>
+                <Link
+                    onClick={handleCollapse}
+                    variant="subtitle2"
+                    underline="hover"
+                >
+                    Expand
+                </Link>
+                <AddEditorDialog contract={address} />
+            </Stack>
+
             <Collapse in={checked}>
                 <Box sx={{ m: "2rem" }}>{clauseItems}</Box>
             </Collapse>
