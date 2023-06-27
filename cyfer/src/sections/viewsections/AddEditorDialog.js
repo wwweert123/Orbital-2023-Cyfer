@@ -45,7 +45,7 @@ export default function AddEditorDialog({ contract, wallet }) {
     // Send editor information to DB
     const sendEditorDB = async () => {
         try {
-            const Axiosresp = await axiosPrivate.post("/wallet/addcontract", {
+            const Axiosresp = await axiosPrivate.post("/wallet/addeditor", {
                 editor: username,
                 walletaddress: walletAddress.toLowerCase(),
                 contractaddress: contract,
