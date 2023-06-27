@@ -46,7 +46,7 @@ export default function AddEditorDialog({ contract }) {
         try {
             const Axiosresp = await axiosPrivate.post("/wallet/addcontract", {
                 editor: username,
-                walletaddress: walletAddress,
+                walletaddress: walletAddress.toLowerCase(),
                 contractaddress: contract,
             });
             console.log(Axiosresp.data);
