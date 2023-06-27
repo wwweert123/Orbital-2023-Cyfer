@@ -10,6 +10,9 @@ import { Typography } from "@mui/material";
 import Connex from "../api/connex";
 import { ABI } from "../Vechain/abi";
 
+// Dialog
+import AddEditorDialog from "../sections/viewsections/AddEditorDialog";
+
 export default function TestPage() {
     const [clauseText, setClauseText] = useState("Empty");
     // const [expandedID, setExpandedID] = useState();
@@ -64,6 +67,7 @@ export default function TestPage() {
                     </Grid>
                 </Grid> */}
             <Typography>{clauseText}</Typography>
+            <AddEditorDialog />
             {/* </Container> */}
         </>
     );
