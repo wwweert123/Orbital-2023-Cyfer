@@ -11,11 +11,11 @@ import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 // hooks
 import useLocalStorage from "../hooks/useLocalStorage";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useWallet from "../hooks/useWallet";
 
 export default function DashboardHome() {
-    const { wallet, setWallet } = useWallet();
+    const { wallet } = useWallet();
 
     const [numContract, setnumContract] = useState("?");
 
@@ -40,10 +40,9 @@ export default function DashboardHome() {
         }
     };
 
-    const handleChange = (e) => {
-        setWallet(e.target.value);
-        checkContractNum(e.target.value);
-    };
+    useEffect(() => {
+        checkContractNum(wallet);
+    }, [wallet]);
 
     const axiosPrivate = useAxiosPrivate();
     const [wallets, setWallets] = useLocalStorage("wallets", []);
@@ -92,7 +91,6 @@ export default function DashboardHome() {
                             handleClick={handleIdentification}
                             numContract={numContract}
                             icon={"mdi:contract"}
-                            handleSelected={handleChange}
                             selected={wallet}
                         />
                     </Grid>

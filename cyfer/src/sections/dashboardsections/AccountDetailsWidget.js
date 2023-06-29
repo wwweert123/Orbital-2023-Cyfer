@@ -1,17 +1,10 @@
-import { useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-
 // @mui
 import PropTypes from "prop-types";
 import { alpha, styled } from "@mui/material/styles";
 import { Card, Typography, Stack, Button } from "@mui/material";
-import { FormControl, Select, MenuItem, InputLabel } from "@mui/material";
+
 // components
 import Iconify from "../../Components/iconify";
-
-// axios
-import useAxiosPrivate from "../../hooks/useAxiosPrivate"; //import the hook
-import useLocalStorage from "../../hooks/useLocalStorage";
 
 // ----------------------------------------------------------------------
 
@@ -49,54 +42,6 @@ export default function AccountDetailsWidget({
     selected,
     numContract,
 }) {
-    const navigate = useNavigate();
-    const location = useLocation(); //current location
-    const [wallets, setWallets] = useLocalStorage("wallets", []);
-    const axiosPrivate = useAxiosPrivate();
-
-    const selectItems = wallets.map((wallet) => (
-        <MenuItem value={wallet}>
-            <Typography
-                variant="h6"
-                sx={{
-                    color: (theme) => theme.palette[color].darker,
-                }}
-            >
-                {wallet}
-            </Typography>
-        </MenuItem>
-    ));
-
-    useEffect(() => {
-        let isMounted = true;
-        const controller = new AbortController(); // cancel any pending request if the component unmounts
-
-        const getWallets = async () => {
-            try {
-                const response = await axiosPrivate.get("/wallet", {
-                    signal: controller.signal,
-                });
-                const walletAddresses = response.data.map(
-                    (wallet) => wallet.address
-                );
-                console.log(walletAddresses);
-                isMounted && setWallets(walletAddresses);
-            } catch (err) {
-                console.error(err);
-                navigate("/", {
-                    state: { from: location },
-                    replace: true,
-                });
-            }
-        };
-        getWallets();
-        return () => {
-            isMounted = false;
-            controller.abort(); // abort request
-        };
-        // return statement performs the cleanup when the component unmount or after the previous render
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
     return (
         <Card
             sx={{
@@ -120,25 +65,7 @@ export default function AccountDetailsWidget({
             >
                 <Iconify icon={icon} width={24} height={24} />
             </StyledIcon>
-            <FormControl sx={{ width: 1 / 2 }}>
-                <InputLabel
-                    id="select-wallet-label"
-                    sx={{
-                        color: (theme) => theme.palette[color].darker,
-                    }}
-                >
-                    Wallet
-                </InputLabel>
-                <Select
-                    labelId="select-wallet-label"
-                    id="select-wallet"
-                    value={selected}
-                    label="Wallet"
-                    onChange={handleSelected}
-                >
-                    {selectItems}
-                </Select>
-            </FormControl>
+            <Typography variant="h4">{selected}</Typography>
             <Typography variant="h5" sx={{ opacity: 0.72 }}>
                 You Owned or have Editor rights to {numContract} contracts
             </Typography>
