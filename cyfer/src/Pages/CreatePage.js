@@ -86,6 +86,7 @@ export default function CreatePage() {
         try {
             const resp = await connex.vendor
                 .sign("tx", [{ value: 0, data: contractByteCode, to: null }])
+                .signer(wallet)
                 .comment("Deploy contract")
                 .request();
             if (resp) {
@@ -112,6 +113,7 @@ export default function CreatePage() {
                 .asClause(contractName);
             const result = await connex.vendor
                 .sign("tx", [clause])
+                .signer(wallet)
                 .comment("setting name")
                 .request();
             alert("transaction done: ", result.txid);
