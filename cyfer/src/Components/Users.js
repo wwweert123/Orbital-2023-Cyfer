@@ -66,10 +66,10 @@ const Users = () => {
                 isMounted && setUsers(userNames);
             } catch (err) {
                 console.error(err);
-                // navigate("/login", {
-                //     state: { from: location },
-                //     replace: true,
-                // });
+                navigate("/login", {
+                    state: { from: location },
+                    replace: true,
+                });
             }
         };
         getUsers();

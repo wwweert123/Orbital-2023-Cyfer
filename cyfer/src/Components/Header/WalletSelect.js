@@ -10,17 +10,7 @@ import useWallet from "../../hooks/useWallet";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
 // Mui
-import {
-    FormControl,
-    Select,
-    MenuItem,
-    InputLabel,
-    Typography,
-    Popover,
-    IconButton,
-    Stack,
-    Box,
-} from "@mui/material";
+import { MenuItem, Popover, IconButton, Stack } from "@mui/material";
 import { alpha } from "@mui/material/styles";
 
 export default function WalletSelect({ color = "primary" }) {
@@ -72,7 +62,7 @@ export default function WalletSelect({ color = "primary" }) {
                 isMounted && setWallets(walletAddresses);
             } catch (err) {
                 console.error(err);
-                navigate("/", {
+                navigate("/login", {
                     state: { from: location },
                     replace: true,
                 });

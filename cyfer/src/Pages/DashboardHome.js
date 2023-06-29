@@ -42,6 +42,7 @@ export default function DashboardHome() {
 
     useEffect(() => {
         checkContractNum(wallet);
+        // eslint-disable-next-line
     }, [wallet]);
 
     const axiosPrivate = useAxiosPrivate();
