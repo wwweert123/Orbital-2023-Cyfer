@@ -14,13 +14,10 @@ import NavSection from "../nav-section";
 //
 import navConfig from "./config.js";
 import useLocalStorage from "../../hooks/useLocalStorage";
+import useWallet from "../../hooks/useWallet";
 
-// mock
-const account = {
-    displayName: "Jaydon Frankie",
-    email: "demo@minimals.cc",
-    photoURL: "/assets/images/avatars/avatar_default.jpg",
-};
+// Utils
+import walletShort from "wallet-short";
 
 // ----------------------------------------------------------------------
 
@@ -53,6 +50,7 @@ export default function Nav({ openNav, onCloseNav }) {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pathname]);
+    const { wallet } = useWallet();
 
     const renderContent = (
         <Scrollbar
@@ -72,7 +70,7 @@ export default function Nav({ openNav, onCloseNav }) {
             <Box sx={{ mb: 5, mx: 2.5 }}>
                 <Link underline="none">
                     <StyledAccount>
-                        <Avatar src={account.photoURL} alt="photoURL" />
+                        <Avatar src="www.doge.png" alt="photoURL" />
 
                         <Box sx={{ ml: 2 }}>
                             <Typography
@@ -86,7 +84,7 @@ export default function Nav({ openNav, onCloseNav }) {
                                 variant="body2"
                                 sx={{ color: "text.secondary" }}
                             >
-                                {account.role}
+                                {walletShort(wallet)}
                             </Typography>
                         </Box>
                     </StyledAccount>
