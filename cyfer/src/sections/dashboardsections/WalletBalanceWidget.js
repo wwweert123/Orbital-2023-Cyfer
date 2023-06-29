@@ -2,7 +2,17 @@ import { useState } from "react";
 // @mui
 import PropTypes from "prop-types";
 import { alpha, styled } from "@mui/material/styles";
-import { Card, Typography, Stack, Button } from "@mui/material";
+import {
+    Card,
+    Typography,
+    Stack,
+    Button,
+    Dialog,
+    DialogContent,
+    DialogContentText,
+    DialogActions,
+    DialogTitle,
+} from "@mui/material";
 // components
 import Iconify from "../../Components/iconify";
 
@@ -47,67 +57,116 @@ export default function AccountDetailsWidget({
             setVet(resp?.balance / 1e18);
             setVtho(resp?.energy / 1e18);
         } catch (err) {
-            alert("tell us your wallet address first!");
+            console.log(err);
+            setOpen(true);
         }
     };
+
+    const [open, setOpen] = useState(false);
+
+    const handleClose = () => {
+        setOpen(false);
+    };
     return (
-        <Card
-            sx={{
-                py: 5,
-                boxShadow: 0,
-                textAlign: "center",
-                color: (theme) => theme.palette[color].darker,
-                bgcolor: (theme) => theme.palette[color].lighter,
-                ...sx,
-            }}
-        >
-            <StyledIcon
+        <>
+            <Card
                 sx={{
-                    color: (theme) => theme.palette[color].dark,
-                    backgroundImage: (theme) =>
-                        `linear-gradient(135deg, ${alpha(
-                            theme.palette[color].dark,
-                            0
-                        )} 0%, ${alpha(theme.palette[color].dark, 0.24)} 100%)`,
+                    py: 5,
+                    boxShadow: 0,
+                    textAlign: "center",
+                    color: (theme) => theme.palette[color].darker,
+                    bgcolor: (theme) => theme.palette[color].lighter,
+                    ...sx,
                 }}
             >
-                <Iconify icon={icon} width={24} height={24} />
-            </StyledIcon>
-            <Typography variant="h3">Balance</Typography>
-            <Typography variant="h4">VET : {vet}</Typography>
-            <Typography variant="h4" sx={{ opacity: 0.72 }}>
-                VTHO : {vtho}
-            </Typography>
-            <Stack
-                direction="row"
-                alignItems="center"
-                justifyContent="space-between"
-                mb={5}
-                mt={5}
-                mx={5}
-                spacing={2}
-            >
-                <Typography variant="h5" gutterBottom>
-                    Need more Currency?
+                <StyledIcon
+                    sx={{
+                        color: (theme) => theme.palette[color].dark,
+                        backgroundImage: (theme) =>
+                            `linear-gradient(135deg, ${alpha(
+                                theme.palette[color].dark,
+                                0
+                            )} 0%, ${alpha(
+                                theme.palette[color].dark,
+                                0.24
+                            )} 100%)`,
+                    }}
+                >
+                    <Iconify icon={icon} width={24} height={24} />
+                </StyledIcon>
+                <Typography variant="h3">Balance</Typography>
+                <Typography variant="h4">VET : {vet}</Typography>
+                <Typography variant="h4" sx={{ opacity: 0.72 }}>
+                    VTHO : {vtho}
                 </Typography>
-                <Button
-                    onClick={handleCheckBalance}
-                    variant="contained"
-                    color="success"
-                    startIcon={<Iconify icon="nimbus:money" />}
+                <Stack
+                    direction="row"
+                    alignItems="center"
+                    justifyContent="space-between"
+                    mb={5}
+                    mt={5}
+                    mx={5}
+                    spacing={2}
                 >
-                    Check Balance
-                </Button>
-                <Button
-                    href="https://faucet.vecha.in/"
-                    target="_blank"
-                    variant="contained"
-                    color="error"
-                    startIcon={<Iconify icon="circum:bitcoin" />}
+                    <Typography variant="h5" gutterBottom>
+                        Need more Currency?
+                    </Typography>
+                    <Button
+                        onClick={handleCheckBalance}
+                        variant="contained"
+                        color="success"
+                        startIcon={<Iconify icon="nimbus:money" />}
+                    >
+                        Check Balance
+                    </Button>
+                    <Button
+                        href="https://faucet.vecha.in/"
+                        target="_blank"
+                        variant="contained"
+                        color="error"
+                        startIcon={<Iconify icon="circum:bitcoin" />}
+                    >
+                        Get More!
+                    </Button>
+                </Stack>
+            </Card>
+            <Dialog
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle
+                    id="alert-dialog-title"
+                    sx={{
+                        backgroundColor: (theme) =>
+                            theme.palette.background.default,
+                    }}
                 >
-                    Get More!
-                </Button>
-            </Stack>
-        </Card>
+                    Error!
+                </DialogTitle>
+                <DialogContent
+                    sx={{
+                        backgroundColor: (theme) =>
+                            theme.palette.background.default,
+                    }}
+                >
+                    <DialogContentText id="alert-dialog-description">
+                        Unable to get account details! Have you selected a
+                        wallet address?
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions
+                    sx={{
+                        backgroundColor: (theme) =>
+                            theme.palette.background.default,
+                    }}
+                >
+                    <Button onClick={handleClose} autoFocus>
+                        Ok
+                    </Button>
+                </DialogActions>
+            </Dialog>
+        </>
     );
 }
