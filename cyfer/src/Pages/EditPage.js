@@ -84,6 +84,10 @@ export default function EditPage() {
         const controller = new AbortController(); // cancel any pending request if the component unmounts
 
         const getContracts = async () => {
+            if (wallet === "") {
+                console.log("no wallet selected");
+                return;
+            }
             try {
                 const response = await axiosPrivate.get(
                     `/wallet/contracts/${wallet}`,

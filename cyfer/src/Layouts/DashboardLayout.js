@@ -35,16 +35,16 @@ export default function DashboardLayout() {
     const [open, setOpen] = useState(false);
 
     return (
-        <StyledRoot>
-            <Header onOpenNav={() => setOpen(true)} />
+        <WalletProvider>
+            <StyledRoot>
+                <Header onOpenNav={() => setOpen(true)} />
 
-            <Sidebar openNav={open} onCloseNav={() => setOpen(false)} />
+                <Sidebar openNav={open} onCloseNav={() => setOpen(false)} />
 
-            <Main>
-                <WalletProvider>
+                <Main>
                     <Outlet />
-                </WalletProvider>
-            </Main>
-        </StyledRoot>
+                </Main>
+            </StyledRoot>
+        </WalletProvider>
     );
 }

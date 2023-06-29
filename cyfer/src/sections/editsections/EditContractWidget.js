@@ -32,7 +32,7 @@ EditContractWidget.propTypes = {
 
 export default function EditContractWidget({
     icon,
-    color = "secondary",
+    color = "error",
     sx,
     number,
     clausetext,
@@ -45,8 +45,8 @@ export default function EditContractWidget({
                 py: 5,
                 boxShadow: 0,
                 textAlign: "center",
-                color: (theme) => theme.palette[color].darker,
-                bgcolor: (theme) => theme.palette[color].lighter,
+                color: (theme) => theme.palette[color].lighter,
+                bgcolor: (theme) => theme.palette[color].darker,
                 ...sx,
             }}
         >
@@ -64,8 +64,9 @@ export default function EditContractWidget({
             </StyledIcon>
             <Typography variant="h4">Clause {number}</Typography>
             <TextField
-                variant="outlined"
+                variant="filled"
                 multiline
+                rows={4}
                 sx={{ width: "100%", mx: 1, color: "black" }}
                 type="text"
                 id="clause"

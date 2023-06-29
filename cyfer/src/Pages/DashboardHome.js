@@ -17,7 +17,7 @@ import useWallet from "../hooks/useWallet";
 export default function DashboardHome() {
     const { wallet, setWallet } = useWallet();
 
-    const [numContract, setnumContract] = useState("");
+    const [numContract, setnumContract] = useState("?");
 
     const checkContractNum = async (wallet) => {
         if (wallet === "") {

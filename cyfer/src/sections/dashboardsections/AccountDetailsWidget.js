@@ -9,9 +9,6 @@ import { FormControl, Select, MenuItem, InputLabel } from "@mui/material";
 // components
 import Iconify from "../../Components/iconify";
 
-// utils
-import walletshort from "wallet-short";
-
 // axios
 import useAxiosPrivate from "../../hooks/useAxiosPrivate"; //import the hook
 import useLocalStorage from "../../hooks/useLocalStorage";
@@ -60,12 +57,12 @@ export default function AccountDetailsWidget({
     const selectItems = wallets.map((wallet) => (
         <MenuItem value={wallet}>
             <Typography
-                variant="h3"
+                variant="h6"
                 sx={{
                     color: (theme) => theme.palette[color].darker,
                 }}
             >
-                {walletshort(wallet)}
+                {wallet}
             </Typography>
         </MenuItem>
     ));
@@ -86,7 +83,7 @@ export default function AccountDetailsWidget({
                 isMounted && setWallets(walletAddresses);
             } catch (err) {
                 console.error(err);
-                navigate("/login", {
+                navigate("/", {
                     state: { from: location },
                     replace: true,
                 });

@@ -3,12 +3,20 @@ import { styled } from "@mui/material/styles";
 // utils
 import { bgBlur } from "../../utils/cssStyles";
 
-import { Box, Stack, AppBar, Toolbar, IconButton } from "@mui/material";
+import {
+    Box,
+    Stack,
+    AppBar,
+    Toolbar,
+    IconButton,
+    Typography,
+} from "@mui/material";
 //
 import AccountPopover from "./AccountPopover";
 import Searchbar from "./Searchbar";
 import Iconify from "../iconify";
 import LanguagePopover from "./LanguagePopover";
+import WalletSelect from "./WalletSelect";
 
 const NAV_WIDTH = 280;
 
@@ -58,6 +66,10 @@ export default function Header({ onOpenNav }) {
                         sm: 1,
                     }}
                 >
+                    <Typography variant="subtitle2" sx={{ mx: 1 }}>
+                        Select your wallet here!
+                    </Typography>
+                    <WalletSelect />
                     <LanguagePopover />
                     <AccountPopover />
                 </Stack>
