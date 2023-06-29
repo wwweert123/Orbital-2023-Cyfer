@@ -31,7 +31,7 @@ const Logo = forwardRef(({ disabledLink = false, sx, ...other }, ref) => {
             component="img"
             src="/assets/cyferlogo.svg"
             sx={{
-                filter: "invert(15%) sepia(25%) saturate(5441%) hue-rotate(269deg) brightness(89%) contrast(120%)",
+                filter: "invert(95%) sepia(1%) saturate(6882%) hue-rotate(166deg) brightness(95%) contrast(93%)",
                 width: 100,
                 height: 100,
                 cursor: "pointer",

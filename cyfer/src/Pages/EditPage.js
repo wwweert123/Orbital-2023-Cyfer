@@ -102,7 +102,7 @@ export default function EditPage() {
                 isMounted && setContracts(contracts);
             } catch (err) {
                 console.error(err);
-                if (err.response.status === 403) {
+                if (err.response?.status === 403) {
                     navigate("/login", {
                         state: { from: location },
                         replace: true,
