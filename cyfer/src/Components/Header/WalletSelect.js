@@ -62,7 +62,7 @@ export default function WalletSelect({ color = "primary" }) {
                 isMounted && setWallets(walletAddresses);
             } catch (err) {
                 console.error(err);
-                navigate("/", {
+                navigate("/login", {
                     state: { from: location },
                     replace: true,
                 });
