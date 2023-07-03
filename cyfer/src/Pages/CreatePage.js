@@ -163,6 +163,7 @@ export default function CreatePage() {
                         <Grid item xs={12} sm={6} md={4}>
                             <Button
                                 sx={{ width: 1 / 2 }}
+                                color="info"
                                 onClick={handleCreateName}
                                 variant="contained"
                                 startIcon={<Iconify icon="subway:title" />}
