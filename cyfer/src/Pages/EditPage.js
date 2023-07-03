@@ -128,7 +128,7 @@ export default function EditPage() {
         };
         // return statement performs the cleanup when the component unmount or after the previous render
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [wallet]);
 
     const handleChange = (e) => {
         setContract(e.target.value);
