@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 // components
 import Iconify from "../../Components/iconify";
+import AlertDialog from "../../Components/AlertDialog";
 
 // connex
 import Connex from "../../api/connex";
@@ -130,43 +131,13 @@ export default function AccountDetailsWidget({
                     </Button>
                 </Stack>
             </Card>
-            <Dialog
+            <AlertDialog
                 open={open}
-                onClose={handleClose}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
-            >
-                <DialogTitle
-                    id="alert-dialog-title"
-                    sx={{
-                        backgroundColor: (theme) =>
-                            theme.palette.background.default,
-                    }}
-                >
-                    Error!
-                </DialogTitle>
-                <DialogContent
-                    sx={{
-                        backgroundColor: (theme) =>
-                            theme.palette.background.default,
-                    }}
-                >
-                    <DialogContentText id="alert-dialog-description">
-                        Unable to get account details! Have you selected a
-                        wallet address?
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions
-                    sx={{
-                        backgroundColor: (theme) =>
-                            theme.palette.background.default,
-                    }}
-                >
-                    <Button onClick={handleClose} autoFocus>
-                        Ok
-                    </Button>
-                </DialogActions>
-            </Dialog>
+                handleClose={handleClose}
+                errtitle="Error!"
+                errmsg="Unable to get account details! Have you selected a
+                        wallet address?"
+            />
         </>
     );
 }
