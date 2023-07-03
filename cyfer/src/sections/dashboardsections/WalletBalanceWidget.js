@@ -2,17 +2,7 @@ import { useState } from "react";
 // @mui
 import PropTypes from "prop-types";
 import { alpha, styled } from "@mui/material/styles";
-import {
-    Card,
-    Typography,
-    Stack,
-    Button,
-    Dialog,
-    DialogContent,
-    DialogContentText,
-    DialogActions,
-    DialogTitle,
-} from "@mui/material";
+import { Card, Typography, Stack, Button } from "@mui/material";
 // components
 import Iconify from "../../Components/iconify";
 import AlertDialog from "../../Components/AlertDialog";
