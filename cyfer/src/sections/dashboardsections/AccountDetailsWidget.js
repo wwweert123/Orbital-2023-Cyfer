@@ -1,11 +1,11 @@
 // @mui
 import PropTypes from "prop-types";
 import { alpha, styled } from "@mui/material/styles";
-import { Card, Typography, Stack, Button, Box, Grid } from "@mui/material";
+import { Card, Typography, Stack, Button, Grid } from "@mui/material";
 
 // components
 import Iconify from "../../Components/iconify";
-import Label from "../../Components/label";
+import DashboardContractCard from "./DashboardContractCard";
 
 // ----------------------------------------------------------------------
 
@@ -19,14 +19,6 @@ const StyledIcon = styled("div")(({ theme }) => ({
     justifyContent: "center",
     marginBottom: theme.spacing(3),
 }));
-
-const StyledProductImg = styled("img")({
-    top: 0,
-    width: "100%",
-    height: "100%",
-    objectFit: "cover",
-    position: "absolute",
-});
 
 // ----------------------------------------------------------------------
 
@@ -43,11 +35,10 @@ AccountDetailsWidget.propTypes = {
 
 export default function AccountDetailsWidget({
     handleClick,
-    // numContract,
     icon,
     color = "primary",
     sx,
-    handleSelected,
+    handleSelected, //?
     selected,
     numContract,
 }) {
@@ -98,65 +89,11 @@ export default function AccountDetailsWidget({
                 </Button>
             </Stack>
             <Grid container spacing={3} mx={1}>
-                <Grid item xs={12} sm={6} md={3}>
-                    <Card
-                        sx={{
-                            backgroundColor: (theme) =>
-                                theme.palette.background.neutral,
-                            color: (theme) => theme.palette.primary.light,
-                        }}
-                    >
-                        <Box sx={{ pt: "100%", position: "relative" }}>
-                            <Label
-                                variant="filled"
-                                color={"info"}
-                                sx={{
-                                    zIndex: 9,
-                                    top: 16,
-                                    right: 16,
-                                    position: "absolute",
-                                    textTransform: "uppercase",
-                                }}
-                            >
-                                Owner
-                            </Label>
-                            <StyledProductImg
-                                alt="contract"
-                                src={`/assets/images/contract.jpg`}
-                            />
-                        </Box>
-                        <Stack spacing={1} sx={{ p: 1 }}>
-                            <Typography variant="subtitle1" noWrap>
-                                Contract Name
-                            </Typography>
-
-                            <Stack
-                                direction="row"
-                                alignItems="center"
-                                justifyContent="space-between"
-                            >
-                                <Typography
-                                    variant="subtitle2"
-                                    sx={{
-                                        color: (theme) =>
-                                            theme.palette.text.primary,
-                                    }}
-                                >
-                                    0x...asfdadsf
-                                </Typography>
-                                <Typography
-                                    variant="subtitle2"
-                                    sx={{
-                                        color: (theme) =>
-                                            theme.palette.text.secondary,
-                                    }}
-                                >
-                                    Awaiting action
-                                </Typography>
-                            </Stack>
-                        </Stack>
-                    </Card>
-                </Grid>
+                <DashboardContractCard
+                    contractName="Hello"
+                    role="owner"
+                    contractAddress="0x231231"
+                />
             </Grid>
         </Card>
     );
