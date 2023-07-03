@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 
 // mui
 import {
-    Alert,
     Button,
     Container,
     Grid,
@@ -13,6 +12,7 @@ import {
 
 // Components
 import Iconify from "../Components/iconify/Iconify";
+import AlertDialog from "../Components/AlertDialog";
 
 // Vechain
 import Connex from "../api/connex";
@@ -93,16 +93,28 @@ export default function CreatePage() {
                 await delay(10000);
                 seeContractAddress(resp.txid, resp.signer);
             } else {
-                Alert("Failed");
+                setErrtitle("Error!");
+                setErrmsg(`Failed to create contract`);
+                setOpen(true);
             }
         } catch (err) {
             console.log(err);
         }
     };
 
+    const [open, setOpen] = useState(false);
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const [errmsg, setErrmsg] = useState("");
+    const [errtitle, setErrtitle] = useState("");
+
     const handleCreateName = async () => {
         if (contractName === "") {
-            alert("Please Give a Name");
+            setErrtitle("Error!");
+            setErrmsg(`Please give a name`);
+            setOpen(true);
             return;
         }
         const setNameABI = ABI.find(({ name }) => name === "changeName");
@@ -116,7 +128,9 @@ export default function CreatePage() {
                 .signer(wallet)
                 .comment("setting name")
                 .request();
-            alert("transaction done: ", result.txid);
+            setErrtitle("Success!");
+            setErrmsg(`transaction done! ${result.txid}`);
+            setOpen(true);
         } catch (err) {
             console.log(err);
         }
@@ -175,6 +189,12 @@ export default function CreatePage() {
                     </Grid>
                 </Stack>
             </Container>
+            <AlertDialog
+                open={open}
+                handleClose={handleClose}
+                errtitle={errtitle}
+                errmsg={errmsg}
+            />
         </>
     );
 }

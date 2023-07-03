@@ -26,6 +26,7 @@ import walletShort from "wallet-short";
 
 // components
 import EditContractWidget from "../sections/editsections/EditContractWidget";
+import AlertDialog from "../Components/AlertDialog";
 
 // connex
 import Connex from "../api/connex";
@@ -47,6 +48,14 @@ export default function EditPage() {
 
     const { wallet } = useWallet();
 
+    const [open, setOpen] = useState(false);
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const [errmsg, setErrmsg] = useState("");
+    const [errtitle, setErrtitle] = useState("");
+
     const handleSubmit = async () => {
         const writeABI = ABI.find(({ name }) => name === "store");
         console.log(clausetext);
@@ -60,7 +69,9 @@ export default function EditPage() {
                 .signer(wallet)
                 .comment("writing info")
                 .request();
-            alert("transaction done: ", result.txid);
+            setErrtitle("Success!");
+            setErrmsg(`Transaction done: ${result.txid}`);
+            setOpen(true);
         } catch (err) {
             console.log(err);
         }
@@ -305,6 +316,12 @@ export default function EditPage() {
                     </Grid>
                 </Grid>
             </Container>
+            <AlertDialog
+                open={open}
+                handleClose={handleClose}
+                errtitle={errtitle}
+                errmsg={errmsg}
+            />
         </>
     );
 }
