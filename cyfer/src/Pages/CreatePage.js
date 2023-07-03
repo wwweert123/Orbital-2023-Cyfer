@@ -165,10 +165,10 @@ export default function CreatePage() {
                                 sx={{ width: 1 / 2 }}
                                 onClick={handleCreateName}
                                 variant="contained"
-                                startIcon={<Iconify icon="eva:plus-fill" />}
+                                startIcon={<Iconify icon="subway:title" />}
                                 disabled={contractAddress === "" ? true : false}
                             >
-                                Begin your journey here
+                                Set Name
                             </Button>
                         </Grid>
                     </Grid>
