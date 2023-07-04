@@ -28,7 +28,6 @@ AccountDetailsWidget.propTypes = {
     //numContract: PropTypes.number.isRequired,
     handleClick: PropTypes.func.isRequired,
     sx: PropTypes.object,
-    handleSelected: PropTypes.func.isRequired,
     selected: PropTypes.string,
     numContract: PropTypes.string,
     walletObject: PropTypes.object,
@@ -39,7 +38,6 @@ export default function AccountDetailsWidget({
     icon,
     color = "primary",
     sx,
-    handleSelected, //?
     selected,
     numContract,
     walletObject,
@@ -98,11 +96,11 @@ export default function AccountDetailsWidget({
                         key={i}
                     />
                 ))}
-                {/* <DashboardContractCard
+                <DashboardContractCard
                     contractName="Hello"
                     role="owner"
                     contractAddress="0x231231"
-                /> */}
+                />
             </Grid>
         </Card>
     );
