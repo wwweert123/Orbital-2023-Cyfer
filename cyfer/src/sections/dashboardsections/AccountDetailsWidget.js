@@ -96,11 +96,6 @@ export default function AccountDetailsWidget({
                         key={i}
                     />
                 ))}
-                <DashboardContractCard
-                    contractName="Hello"
-                    role="owner"
-                    contractAddress="0x231231"
-                />
             </Grid>
         </Card>
     );
