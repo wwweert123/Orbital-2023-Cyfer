@@ -12,6 +12,9 @@ import Label from "../../Components/label";
 import Connex from "../../api/connex";
 import { ABI } from "../../Vechain/abi";
 
+// Utils
+import walletShort from "wallet-short";
+
 // ----------------------------------------------------------------------
 
 const StyledProductImg = styled("img")({
@@ -25,12 +28,11 @@ const StyledProductImg = styled("img")({
 // ----------------------------------------------------------------------
 
 DashboardContractCard.propTypes = {
-    key: PropTypes.number.isRequired,
     contractAddress: PropTypes.string.isRequired,
     role: PropTypes.string.isRequired,
 };
 
-export default function DashboardContractCard({ key, role, contractAddress }) {
+export default function DashboardContractCard({ role, contractAddress }) {
     const [contractName, setContractname] = useState("<Name>");
     const connex = Connex();
     useEffect(() => {
@@ -53,7 +55,7 @@ export default function DashboardContractCard({ key, role, contractAddress }) {
     }, []);
 
     return (
-        <Grid key={key} item xs={12} sm={6} md={3}>
+        <Grid item xs={12} sm={6} md={3}>
             <Card
                 sx={{
                     backgroundColor: (theme) =>
@@ -96,7 +98,7 @@ export default function DashboardContractCard({ key, role, contractAddress }) {
                                 color: (theme) => theme.palette.text.primary,
                             }}
                         >
-                            {contractAddress}
+                            {walletShort(contractAddress)}
                         </Typography>
                         <Typography
                             variant="subtitle2"

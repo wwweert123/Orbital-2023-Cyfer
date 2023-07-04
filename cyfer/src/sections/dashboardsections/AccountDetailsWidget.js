@@ -29,7 +29,7 @@ AccountDetailsWidget.propTypes = {
     handleClick: PropTypes.func.isRequired,
     sx: PropTypes.object,
     selected: PropTypes.string,
-    numContract: PropTypes.string,
+    numContract: PropTypes.number,
     walletObject: PropTypes.object,
 };
 
