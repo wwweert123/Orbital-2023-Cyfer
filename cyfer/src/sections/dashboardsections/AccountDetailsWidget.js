@@ -31,6 +31,7 @@ AccountDetailsWidget.propTypes = {
     handleSelected: PropTypes.func.isRequired,
     selected: PropTypes.string,
     numContract: PropTypes.string,
+    walletObject: PropTypes.object,
 };
 
 export default function AccountDetailsWidget({
@@ -41,6 +42,7 @@ export default function AccountDetailsWidget({
     handleSelected, //?
     selected,
     numContract,
+    walletObject,
 }) {
     return (
         <Card
@@ -89,11 +91,18 @@ export default function AccountDetailsWidget({
                 </Button>
             </Stack>
             <Grid container spacing={3} mx={1}>
-                <DashboardContractCard
+                {walletObject?.owned?.map((address, i) => (
+                    <DashboardContractCard
+                        role="Owned"
+                        contractAddress={address}
+                        key={i}
+                    />
+                ))}
+                {/* <DashboardContractCard
                     contractName="Hello"
                     role="owner"
                     contractAddress="0x231231"
-                />
+                /> */}
             </Grid>
         </Card>
     );

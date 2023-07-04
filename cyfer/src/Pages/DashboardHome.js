@@ -17,9 +17,11 @@ import useWallet from "../hooks/useWallet";
 export default function DashboardHome() {
     const { wallet } = useWallet();
 
+    const [walletObject, setWalletObject] = useState({});
+
     const [numContract, setnumContract] = useState("?");
 
-    const checkContractNum = async (wallet) => {
+    const getWalletObject = async (wallet) => {
         if (wallet === "") {
             setnumContract("?");
             return;
@@ -32,6 +34,7 @@ export default function DashboardHome() {
                 }
             );
             console.log(response.data);
+            setWalletObject(response.data);
             const total =
                 response.data.owned.length + response.data.editor.length;
             setnumContract(total);
@@ -41,7 +44,7 @@ export default function DashboardHome() {
     };
 
     useEffect(() => {
-        checkContractNum(wallet);
+        getWalletObject(wallet);
         // eslint-disable-next-line
     }, [wallet]);
 
@@ -93,6 +96,7 @@ export default function DashboardHome() {
                             numContract={numContract}
                             icon={"mdi:contract"}
                             selected={wallet}
+                            walletObject={walletObject}
                         />
                     </Grid>
                     <Grid item xs={12} sm={6} md={4}>

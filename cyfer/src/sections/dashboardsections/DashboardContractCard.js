@@ -1,3 +1,5 @@
+import { useState, useEffect } from "react";
+
 // mui
 import { Card, Grid, Box, Stack, Typography } from "@mui/material";
 import PropTypes from "prop-types";
@@ -5,6 +7,10 @@ import { styled } from "@mui/material/styles";
 
 // Components
 import Label from "../../Components/label";
+
+// Connex
+import Connex from "../../api/connex";
+import { ABI } from "../../Vechain/abi";
 
 // ----------------------------------------------------------------------
 
@@ -19,18 +25,35 @@ const StyledProductImg = styled("img")({
 // ----------------------------------------------------------------------
 
 DashboardContractCard.propTypes = {
-    role: PropTypes.string.isRequired,
-    contractName: PropTypes.string.isRequired,
+    key: PropTypes.number.isRequired,
     contractAddress: PropTypes.string.isRequired,
+    role: PropTypes.string.isRequired,
 };
 
-export default function DashboardContractCard({
-    role,
-    contractName,
-    contractAddress,
-}) {
+export default function DashboardContractCard({ key, role, contractAddress }) {
+    const [contractName, setContractname] = useState("<Name>");
+    const connex = Connex();
+    useEffect(() => {
+        const getContractName = async () => {
+            const getNameABI = ABI.find(({ name }) => name === "getName");
+            try {
+                const result = await connex.thor
+                    .account(contractAddress)
+                    .method(getNameABI)
+                    .call();
+                if (result) {
+                    setContractname(result.decoded[0]);
+                }
+            } catch (err) {
+                console.log(err);
+            }
+        };
+        getContractName();
+        // eslint-disable-next-line
+    }, []);
+
     return (
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid key={key} item xs={12} sm={6} md={3}>
             <Card
                 sx={{
                     backgroundColor: (theme) =>
