@@ -1,11 +1,12 @@
 // @mui
 import PropTypes from "prop-types";
 import { alpha, styled } from "@mui/material/styles";
-import { Card, Typography, Stack, Button, Grid } from "@mui/material";
+import { Card, Typography, Stack, Button } from "@mui/material";
 
 // components
 import Iconify from "../../Components/iconify";
 import DashboardContractCard from "./DashboardContractCard";
+import Scrollbar from "../../Components/scrollbar";
 
 // ----------------------------------------------------------------------
 
@@ -88,15 +89,33 @@ export default function AccountDetailsWidget({
                     Tell us who you are
                 </Button>
             </Stack>
-            <Grid container spacing={3} mx={1}>
+
+            <Scrollbar
+                sx={{
+                    height: 1,
+                    "& .simplebar-content": {
+                        height: 1,
+                        display: "flex",
+                        flexDirection: "row",
+                    },
+                    mx: 3,
+                }}
+            >
                 {walletObject?.owned?.map((address, i) => (
                     <DashboardContractCard
-                        role="Owned"
+                        role="Owner"
                         contractAddress={address}
                         key={i}
                     />
                 ))}
-            </Grid>
+                {walletObject?.editor?.map((address, i) => (
+                    <DashboardContractCard
+                        role="Editor"
+                        contractAddress={address}
+                        key={i + walletObject?.owned?.length}
+                    />
+                ))}
+            </Scrollbar>
         </Card>
     );
 }
