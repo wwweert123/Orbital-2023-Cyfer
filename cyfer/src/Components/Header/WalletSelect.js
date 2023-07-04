@@ -36,8 +36,9 @@ export default function WalletSelect({ color = "primary" }) {
         setOpen(null);
     };
 
-    const selectItems = wallets.map((currentwallet) => (
+    const selectItems = wallets.map((currentwallet, i) => (
         <MenuItem
+            key={i}
             value={currentwallet}
             selected={currentwallet === wallet}
             onClick={handleChange}
