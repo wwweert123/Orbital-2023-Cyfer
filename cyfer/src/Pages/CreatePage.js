@@ -74,17 +74,6 @@ export default function CreatePage() {
             console.log(err);
         }
     };
-    const seeContractHistory = async (trans) => {
-        try {
-            const resp = await axiosPrivate.get(
-                `/wallet/gettransactionhistory/${wallet}`
-            );
-            console.log(resp.data);
-            setTransactionHistoryCount(resp.data);
-        } catch (err) {
-            console.log(err);
-        }
-    };
 
     useEffect(() => {
         console.log(contractAddress);
