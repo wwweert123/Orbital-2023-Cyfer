@@ -74,17 +74,6 @@ export default function CreatePage() {
             console.log(err);
         }
     };
-    const seeContractHistory = async (trans) => {
-        try {
-            const resp = await axiosPrivate.get(
-                `/wallet/gettransactionhistory/${walletaddress}`
-            );
-            console.log(resp.data);
-            setTransactionHistoryCount(resp.data);
-        } catch (err) {
-            console.log(err);
-        }
-    };
 
     useEffect(() => {
         console.log(contractAddress);
@@ -145,18 +134,6 @@ export default function CreatePage() {
                     </Typography>
                     <Typography variant="h5" sx={{ mb: 5 }}>
                         Your selected wallet is :{wallet}
-                    </Typography>
-                    <Button
-                        sx={{ width: 1 / 2 }}
-                        onClick={seeContractHistory}
-                        variant="contained"
-                        startIcon={<Iconify icon="eva:plus-fill" />}
-                    >
-                        Check transaction Count
-                    </Button>
-                    <Typography variant="h5">
-                        You have created a contract with address:{" "}
-                        {transactionHistoryCount}
                     </Typography>
                     <Button
                         sx={{ width: 1 / 2 }}
