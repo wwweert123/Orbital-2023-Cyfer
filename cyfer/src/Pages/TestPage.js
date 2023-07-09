@@ -1,74 +1,125 @@
-import { Helmet } from "react-helmet-async";
 import { useEffect, useState } from "react";
-// @mui
-//import { useTheme } from "@mui/material/styles";
-// import { Container, Typography, Grid } from "@mui/material";
-import { Typography } from "@mui/material";
 
-//import ContractWidgetSummary from "../sections/viewsections/ContractWidgetSummary";
+// mui
+import {
+    Alert,
+    Button,
+    Container,
+    Grid,
+    Stack,
+    TextField,
+    Typography,
+} from "@mui/material";
 
+// Components
+import Iconify from "../Components/iconify/Iconify";
+
+// Vechain
 import Connex from "../api/connex";
 import { ABI } from "../Vechain/abi";
 
-// Dialog
-import AddEditorDialog from "../sections/viewsections/AddEditorDialog";
+import { Helmet } from "react-helmet-async";
+
+// Axios
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import useWallet from "../hooks/useWallet";
 
 export default function TestPage() {
-    const [clauseText, setClauseText] = useState("Empty");
-    // const [expandedID, setExpandedID] = useState();
-
-    // const handleExpanded = (id) => {
-    //     setExpandedID(expandedID !== id ? id : false);
-    // };
-
+    const { wallet } = useWallet();
+    // const connex = new Connex({
+    //     node: "https://vethor-node-test.vechaindev.com",
+    //     network: "test",
+    // });
     const connex = Connex();
-    useEffect(() => {
-        const getClauseText = async () => {
-            console.log("hi");
-            const readABI = ABI.find(({ name }) => name === "retrieve");
-            const result = await connex.thor
-                .account("0x9524bb149161edd41b13039b4ec4d95bc1e23f8b")
-                .method(readABI)
-                .call(2);
-            if (result) {
-                console.log(result);
-                setClauseText(result.decoded[0]);
-            }
-        };
-        getClauseText();
-        // eslint-disable-next-line
-    }, []);
 
-    //const theme = useTheme();
+    const [transactionDetails, setTransactionDetails] = useState([]);
+
+    const [transactionHistory, setTransactionHistory] = useState("");
+    
+    const [transactionHistoryCount, setTransactionHistoryCount] = useState("");
+
+    const axiosPrivate = useAxiosPrivate();
+
+    const handleChange = (e) => {
+        setContractname(e.target.value);
+    };
+
+    const sendContractDB = async (signer) => {
+        try {
+            const Axiosresp = await axiosPrivate.post("/wallet/addcontract", {
+                walletaddress: signer.toLowerCase(),
+                contractaddress: contractAddress,
+            });
+            console.log(Axiosresp.data);
+        } catch (err) {
+            console.log(err);
+            console.log("could not send to db");
+        }
+    };
+    setTransactionHistoryCount("loading");
+    const seeContractHistory = async (trans) => {
+        try {
+            const resp = await axiosPrivate.get(
+                `/wallet/gettransaction/${walletaddress}`
+            );
+            setTransactionHistoryCount(resp.data.count);
+            const details = resp.data.output.map(item => {
+                // For each item in the output array, return an object with the desired properties.
+                // Note: This assumes that each item in the clauses array only contains one object.
+                // If there are multiple objects, this will need to be adjusted.
+                return {
+                    txID: item.txID,
+                    origin: item.origin,
+                    to: item.clauses[0].to,
+                    data: item.clauses[0].data,
+                };
+            });
+            setTransactionDetails(details);
+            
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    useEffect(() => {
+        console.log(contractAddress);
+        if (contractAddress !== "") {
+            sendContractDB(wallet, contractAddress);
+            seeContractHistory();
+        }
+
+        // eslint-disable-next-line
+    }, [contractAddress]);
+
     return (
         <>
             <Helmet>
-                <title> Test | Minimal UI </title>
+                <title> Create | Minimal UI </title>
             </Helmet>
-
-            {/*<Container maxWidth="xl">
-                <Typography variant="h4" sx={{ mb: 5 }}>
-                    View your Contracts here
-                </Typography>
-                <Grid container spacing={3}>
-                    <Grid
-                        item
-                        xs={12}
-                        sm={6}
-                        md={expandedID === "hehehe" ? 12 : 3}
-                    >
-                        <ContractWidgetSummary
-                            title="Contract Owner"
-                            address="hehehe"
-                            icon={"fluent-mdl2:party-leader"}
-                            id="hehehe"
-                            handleExpanded={handleExpanded}
-                        />
-                    </Grid>
-                </Grid> */}
-            <Typography>{clauseText}</Typography>
-            <AddEditorDialog />
-            {/* </Container> */}
+            <Container maxWidth="xl">
+                <Stack spacing={3}>
+                    <Typography variant="h4" sx={{ mb: 5 }}>
+                        Create your very own contract
+                    </Typography>
+                    <Typography variant="h5" sx={{ mb: 5 }}>
+                        Your selected wallet is :{wallet}
+                    </Typography>
+                    <Typography variant="h5">
+                        Number of transaction History:{" "}
+                        {transactionHistoryCount}
+                    </Typography>
+                    {transactionDetails.map((detail, index) => (
+                    <div key={index}>
+                        <Typography variant="h6">Transaction ID: {detail.txID}</Typography>
+                        <Typography variant="h6">Origin: {detail.origin}</Typography>
+                        <Typography variant="h6">To: {detail.to}</Typography>
+                        <Typography variant="h6">Data: {detail.data}</Typography>
+                        {/* Add data dissection logic here */}
+                    </div>
+                    ))}
+                    
+                </Stack>
+            </Container>
         </>
     );
 }
