@@ -148,18 +148,6 @@ export default function CreatePage() {
                     </Typography>
                     <Button
                         sx={{ width: 1 / 2 }}
-                        onClick={seeContractHistory}
-                        variant="contained"
-                        startIcon={<Iconify icon="eva:plus-fill" />}
-                    >
-                        Check transaction Count
-                    </Button>
-                    <Typography variant="h5">
-                        You have created a contract with address:{" "}
-                        {transactionHistoryCount}
-                    </Typography>
-                    <Button
-                        sx={{ width: 1 / 2 }}
                         onClick={handleCreateContract}
                         variant="contained"
                         startIcon={<Iconify icon="eva:plus-fill" />}
