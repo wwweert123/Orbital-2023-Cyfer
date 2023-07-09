@@ -86,7 +86,7 @@ export default function AccountDetailsWidget({
                 isMounted && setWallets(walletAddresses);
             } catch (err) {
                 console.error(err);
-                navigate("/login", {
+                navigate("/", {
                     state: { from: location },
                     replace: true,
                 });

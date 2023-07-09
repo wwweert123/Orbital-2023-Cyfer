@@ -35,35 +35,40 @@ export default function TestPage() {
     const [transactionDetails, setTransactionDetails] = useState([]);
 
     const [transactionHistory, setTransactionHistory] = useState("");
-    
+
     const [transactionHistoryCount, setTransactionHistoryCount] = useState("");
 
     const axiosPrivate = useAxiosPrivate();
 
-    const handleChange = (e) => {
-        setContractname(e.target.value);
-    };
+    // const handleChange = (e) => {
+    //     setContractname(e.target.value);
+    // };
 
-    const sendContractDB = async (signer) => {
-        try {
-            const Axiosresp = await axiosPrivate.post("/wallet/addcontract", {
-                walletaddress: signer.toLowerCase(),
-                contractaddress: contractAddress,
-            });
-            console.log(Axiosresp.data);
-        } catch (err) {
-            console.log(err);
-            console.log("could not send to db");
+    // const sendContractDB = async (signer) => {
+    //     try {
+    //         const Axiosresp = await axiosPrivate.post("/wallet/addcontract", {
+    //             walletaddress: signer.toLowerCase(),
+    //             contractaddress: contractAddress,
+    //         });
+    //         console.log(Axiosresp.data);
+    //     } catch (err) {
+    //         console.log(err);
+    //         console.log("could not send to db");
+    //     }
+    // };
+    // setTransactionHistoryCount("loading");
+    const seeContractHistory = async () => {
+        if (wallet === "") {
+            console.log("no wallet selected");
+            return;
         }
-    };
-    setTransactionHistoryCount("loading");
-    const seeContractHistory = async (trans) => {
         try {
             const resp = await axiosPrivate.get(
-                `/wallet/gettransaction/${walletaddress}`
+                `/wallet/gettransaction/${wallet}`
             );
+            console.log(resp.data);
             setTransactionHistoryCount(resp.data.count);
-            const details = resp.data.output.map(item => {
+            const details = resp.data.txs.map((item) => {
                 // For each item in the output array, return an object with the desired properties.
                 // Note: This assumes that each item in the clauses array only contains one object.
                 // If there are multiple objects, this will need to be adjusted.
@@ -75,21 +80,24 @@ export default function TestPage() {
                 };
             });
             setTransactionDetails(details);
-            
         } catch (err) {
             console.log(err);
         }
     };
 
     useEffect(() => {
-        console.log(contractAddress);
-        if (contractAddress !== "") {
-            sendContractDB(wallet, contractAddress);
-            seeContractHistory();
-        }
+        seeContractHistory();
+    }, []);
 
-        // eslint-disable-next-line
-    }, [contractAddress]);
+    // useEffect(() => {
+    //     console.log(contractAddress);
+    //     if (contractAddress !== "") {
+    //         sendContractDB(wallet, contractAddress);
+    //         seeContractHistory();
+    //     }
+
+    //     // eslint-disable-next-line
+    // }, [contractAddress]);
 
     return (
         <>
@@ -105,19 +113,25 @@ export default function TestPage() {
                         Your selected wallet is :{wallet}
                     </Typography>
                     <Typography variant="h5">
-                        Number of transaction History:{" "}
-                        {transactionHistoryCount}
+                        Number of transaction History: {transactionHistoryCount}
                     </Typography>
                     {transactionDetails.map((detail, index) => (
-                    <div key={index}>
-                        <Typography variant="h6">Transaction ID: {detail.txID}</Typography>
-                        <Typography variant="h6">Origin: {detail.origin}</Typography>
-                        <Typography variant="h6">To: {detail.to}</Typography>
-                        <Typography variant="h6">Data: {detail.data}</Typography>
-                        {/* Add data dissection logic here */}
-                    </div>
+                        <div key={index}>
+                            <Typography variant="h6">
+                                Transaction ID: {detail.txID}
+                            </Typography>
+                            <Typography variant="h6">
+                                Origin: {detail.origin}
+                            </Typography>
+                            <Typography variant="h6">
+                                To: {detail.to}
+                            </Typography>
+                            <Typography variant="h6">
+                                Data: {detail.data}
+                            </Typography>
+                            Add data dissection logic here
+                        </div>
                     ))}
-                    
                 </Stack>
             </Container>
         </>

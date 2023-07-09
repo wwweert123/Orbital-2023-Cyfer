@@ -39,7 +39,7 @@ export default function CreatePage() {
     const [contractAddress, setcontractAddress] = useState("");
 
     const [contractName, setContractname] = useState("");
-    
+
     const [transactionHistoryCount, setTransactionHistoryCount] = useState("");
 
     const axiosPrivate = useAxiosPrivate();
@@ -77,7 +77,7 @@ export default function CreatePage() {
     const seeContractHistory = async (trans) => {
         try {
             const resp = await axiosPrivate.get(
-                `/wallet/gettransactionhistory/${walletaddress}`
+                `/wallet/gettransactionhistory/${wallet}`
             );
             console.log(resp.data);
             setTransactionHistoryCount(resp.data);
