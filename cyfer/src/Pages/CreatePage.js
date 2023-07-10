@@ -13,6 +13,7 @@ import {
 // Components
 import Iconify from "../Components/iconify/Iconify";
 import AlertDialog from "../Components/AlertDialog";
+import CreateSteps from "../sections/createsections/CreateSteps";
 
 // Vechain
 import Connex from "../api/connex";
@@ -195,6 +196,7 @@ export default function CreatePage() {
                 errtitle={errtitle}
                 errmsg={errmsg}
             />
+            <CreateSteps />
         </>
     );
 }
