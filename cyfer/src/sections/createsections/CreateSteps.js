@@ -22,6 +22,7 @@ import {
 import { useState } from "react";
 import ContractNameStep from "./ContractNameStep";
 import CreateContractStep from "./CreateContractStep";
+import SelectTypeStep from "./SelectTypeStep";
 
 const steps = [
     "Select a contract type",
@@ -98,7 +99,7 @@ function ColorlibStepIcon(props) {
 
 function StepsItems({ stepNum }) {
     const items = {
-        1: <>Select Contract Type</>,
+        1: <SelectTypeStep />,
         2: <ContractNameStep />,
         3: <CreateContractStep />,
         4: <>Add editors</>,
