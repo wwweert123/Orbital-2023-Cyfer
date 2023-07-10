@@ -15,10 +15,13 @@ import { styled } from "@mui/material/styles";
 import {
     Settings as SettingsIcon,
     GroupAdd as GroupAddIcon,
-    VideoLabel as VideoLabelIcon,
+    Abc as AbcIcon,
+    Upload as UploadIcon,
 } from "@mui/icons-material";
 
 import { useState } from "react";
+import ContractNameStep from "./ContractNameStep";
+import CreateContractStep from "./CreateContractStep";
 
 const steps = [
     "Select a contract type",
@@ -79,10 +82,10 @@ function ColorlibStepIcon(props) {
 
     const icons = {
         1: <SettingsIcon />,
-        2: <GroupAddIcon />,
-        3: <VideoLabelIcon />,
+        2: <AbcIcon />,
+        3: <UploadIcon />,
+        4: <GroupAddIcon />,
     };
-    console.log(props.icon);
     return (
         <ColorlibStepIconRoot
             ownerState={{ completed, active }}
@@ -91,6 +94,16 @@ function ColorlibStepIcon(props) {
             {icons[String(props.icon)]}
         </ColorlibStepIconRoot>
     );
+}
+
+function StepsItems({ stepNum }) {
+    const items = {
+        1: <>Select Contract Type</>,
+        2: <ContractNameStep />,
+        3: <CreateContractStep />,
+        4: <>Add editors</>,
+    };
+    return items[stepNum];
 }
 
 ColorlibStepIcon.propTypes = {
@@ -145,6 +158,7 @@ export default function CreateSteps() {
                 })}
             </Stepper>
             <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</Typography>
+            {<StepsItems stepNum={activeStep + 1} />}
             <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
                 <Button
                     color="inherit"
