@@ -13,6 +13,7 @@ import {
 import BasicCard from "./BasicCard";
 import VariantOCard from "./VariantOCard";
 import VariantTCard from "./VariantTCard";
+import { DisplaySettings } from "@mui/icons-material";
 
 export default function SelectTypeStep() {
     const [selectedContract, setSelectedContract] = useState(1);
@@ -52,13 +53,20 @@ export default function SelectTypeStep() {
                 </RadioGroup>
             </FormControl>
             <Grow in={selectedContract === 1}>
-                <BasicCard />
+                <BasicCard
+                    sx={{ display: selectedContract === 1 ? "" : "none" }}
+                />
             </Grow>
             <Grow in={selectedContract === 2}>
-                <VariantOCard />
+                <VariantOCard
+                    sx={{ display: selectedContract === 2 ? "" : "none" }}
+                />
             </Grow>
-
-            <VariantTCard hidden={selectedContract === 3 ? false : true} />
+            <Grow in={selectedContract === 3}>
+                <VariantTCard
+                    sx={{ display: selectedContract === 3 ? "" : "none" }}
+                />
+            </Grow>
         </Stack>
     );
 }

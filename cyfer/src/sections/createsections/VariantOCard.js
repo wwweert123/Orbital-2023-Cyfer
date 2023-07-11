@@ -1,8 +1,13 @@
+import { forwardRef } from "react";
+
 // Mui
 import { Card, Typography, Divider, Stack, Box } from "@mui/material";
 import { Done as DoneIcon } from "@mui/icons-material";
 
-export default function VariantOCard({ sx, color = "success" }) {
+const VariantOCard = forwardRef(function VariantOCard(
+    { sx, color = "success", ...props },
+    ref
+) {
     return (
         <Card
             sx={{
@@ -16,6 +21,8 @@ export default function VariantOCard({ sx, color = "success" }) {
                 border: 3,
                 borderColor: (theme) => theme.palette[color].dark,
             }}
+            {...props}
+            ref={ref}
         >
             <Stack spacing={3}>
                 <Typography variant="subtitle1">Variant 1</Typography>
@@ -73,4 +80,6 @@ export default function VariantOCard({ sx, color = "success" }) {
             </Stack>
         </Card>
     );
-}
+});
+
+export default VariantOCard;
