@@ -23,6 +23,7 @@ import { useState } from "react";
 import ContractNameStep from "./ContractNameStep";
 import CreateContractStep from "./CreateContractStep";
 import SelectTypeStep from "./SelectTypeStep";
+import AddEditorsStep from "./AddEditorsStep";
 
 const steps = [
     "Select a contract type",
@@ -127,7 +128,7 @@ function StepsItems({
                 handleCreateContract={handleCreateContract}
             />
         ),
-        4: <>Add editors</>,
+        4: <AddEditorsStep />,
     };
     return items[stepNum];
 }
@@ -168,6 +169,10 @@ export default function CreateSteps({
         setActiveStep((prevActiveStep) => prevActiveStep - 1);
     };
 
+    const handleReset = () => {
+        setActiveStep(0);
+    };
+
     return (
         <Box sx={{ width: "95%", m: "auto" }}>
             <Stepper
@@ -190,32 +195,48 @@ export default function CreateSteps({
                     );
                 })}
             </Stepper>
-            <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</Typography>
-            {
-                <StepsItems
-                    stepNum={activeStep + 1}
-                    selectedContractType={selectedContractType}
-                    handleChangeContractType={handleChangeContractType}
-                    contractName={contractName}
-                    handleChangeName={handleChangeName}
-                    contractAddress={contractAddress}
-                    handleCreateContract={handleCreateContract}
-                />
-            }
-            <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-                <Button
-                    color="inherit"
-                    disabled={activeStep === 0}
-                    onClick={handleBack}
-                    sx={{ mr: 1 }}
-                >
-                    Back
-                </Button>
-                <Box sx={{ flex: "1 1 auto" }} />
-                <Button onClick={handleNext}>
-                    {activeStep === steps.length - 1 ? "Add Editors" : "Next"}
-                </Button>
-            </Box>
+
+            {activeStep === steps.length ? (
+                <Box sx={{ p: 5 }}>
+                    <Button onClick={handleReset}>
+                        Create another contract
+                    </Button>
+                </Box>
+            ) : (
+                <>
+                    <Typography sx={{ mt: 2, mb: 1 }}>
+                        Step {activeStep + 1}
+                    </Typography>
+                    {
+                        <StepsItems
+                            stepNum={activeStep + 1}
+                            selectedContractType={selectedContractType}
+                            handleChangeContractType={handleChangeContractType}
+                            contractName={contractName}
+                            handleChangeName={handleChangeName}
+                            contractAddress={contractAddress}
+                            handleCreateContract={handleCreateContract}
+                        />
+                    }
+                    <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+                        <Button
+                            color="inherit"
+                            disabled={activeStep === 0}
+                            onClick={handleBack}
+                            sx={{ mr: 1 }}
+                        >
+                            Back
+                        </Button>
+                        <Box sx={{ flex: "1 1 auto" }} />
+
+                        <Button onClick={handleNext}>
+                            {activeStep === steps.length - 1
+                                ? "Add Editors"
+                                : "Next"}
+                        </Button>
+                    </Box>
+                </>
+            )}
         </Box>
     );
 }
