@@ -103,6 +103,7 @@ function StepsItems({
     handleChangeContractType,
     contractName,
     handleChangeName,
+    contractAddress,
     handleCreateContract,
 }) {
     const items = {
@@ -122,6 +123,7 @@ function StepsItems({
             <CreateContractStep
                 contractName={contractName}
                 selectedContractType={selectedContractType}
+                contractAddress={contractAddress}
                 handleCreateContract={handleCreateContract}
             />
         ),
@@ -153,6 +155,7 @@ export default function CreateSteps({
     handleChangeContractType,
     contractName,
     handleChangeName,
+    contractAddress,
     handleCreateContract,
 }) {
     const [activeStep, setActiveStep] = useState(0);
@@ -195,6 +198,7 @@ export default function CreateSteps({
                     handleChangeContractType={handleChangeContractType}
                     contractName={contractName}
                     handleChangeName={handleChangeName}
+                    contractAddress={contractAddress}
                     handleCreateContract={handleCreateContract}
                 />
             }

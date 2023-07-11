@@ -16,6 +16,7 @@ export default function ContractNameStep({ contractName, handleChangeName }) {
                 label="Contract Name"
                 value={contractName}
                 onChange={handleChangeName}
+                required
             ></TextField>
             <br></br>
             <TextField

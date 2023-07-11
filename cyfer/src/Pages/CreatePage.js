@@ -107,7 +107,7 @@ export default function CreatePage() {
             setcontractAddress(resp.data);
             if (resp.data !== "") {
                 console.log("sending contract DB", resp.data);
-                sendContractDB(wallet, contractAddress);
+                sendContractDB(wallet, resp.data);
             }
         } catch (err) {
             console.log(err);
@@ -128,6 +128,11 @@ export default function CreatePage() {
             setOpen(true);
             return;
         }
+        setErrtitle("Info");
+        setErrmsg(
+            `Please take note that you will need to sign twice: once for creation of contract, and once for setting contract name`
+        );
+        setOpen(true);
         console.log("creating contract with bytecode");
         try {
             const resp = await connex.vendor
@@ -214,6 +219,7 @@ export default function CreatePage() {
                         handleChangeContractType={handleChangeContractType}
                         contractName={contractName}
                         handleChangeName={handleChangeName}
+                        contractAddress={contractAddress}
                         handleCreateContract={handleCreateContract}
                     />
                 </Stack>
