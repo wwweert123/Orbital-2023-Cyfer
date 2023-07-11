@@ -9,7 +9,6 @@ import {
     FormLabel,
     RadioGroup,
     Grow,
-    Collapse,
 } from "@mui/material";
 import BasicCard from "./BasicCard";
 import VariantOCard from "./VariantOCard";
@@ -19,7 +18,7 @@ export default function SelectTypeStep() {
     const [selectedContract, setSelectedContract] = useState(1);
 
     const handleChange = (e) => {
-        setSelectedContract(e.target.value);
+        setSelectedContract(Number(e.target.value));
     };
 
     return (
@@ -52,10 +51,13 @@ export default function SelectTypeStep() {
                     />
                 </RadioGroup>
             </FormControl>
-            <Grow in={true}>
+            <Grow in={selectedContract === 1}>
                 <BasicCard />
             </Grow>
-            <VariantOCard hidden={selectedContract === 2 ? false : true} />
+            <Grow in={selectedContract === 2}>
+                <VariantOCard />
+            </Grow>
+
             <VariantTCard hidden={selectedContract === 3 ? false : true} />
         </Stack>
     );
