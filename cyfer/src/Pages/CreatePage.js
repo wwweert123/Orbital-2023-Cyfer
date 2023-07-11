@@ -45,6 +45,9 @@ export default function CreatePage() {
 
     // For getting the contract name from user in set name step
     const [contractName, setContractname] = useState("");
+    const handleChangeName = (e) => {
+        setContractname(e.target.value);
+    };
     // Function to set name of contract
     const handleCreateName = async () => {
         if (contractName === "") {
@@ -74,9 +77,6 @@ export default function CreatePage() {
 
     // Getting the newly created contract address
     const [contractAddress, setcontractAddress] = useState("");
-    const handleChange = (e) => {
-        setContractname(e.target.value);
-    };
 
     // Send the contract Address to the MongoDB
     const sendContractDB = async (signer) => {
@@ -202,6 +202,8 @@ export default function CreatePage() {
                     <CreateSteps
                         selectedContractType={selectedContractType}
                         handleChangeContractType={handleChangeContractType}
+                        contractName={contractName}
+                        handleChangeName={handleChangeName}
                     />
                 </Stack>
             </Container>

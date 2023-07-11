@@ -101,6 +101,8 @@ function StepsItems({
     stepNum,
     selectedContractType,
     handleChangeContractType,
+    contractName,
+    handleChangeName,
 }) {
     const items = {
         1: (
@@ -109,7 +111,12 @@ function StepsItems({
                 handleChangeContractType={handleChangeContractType}
             />
         ),
-        2: <ContractNameStep />,
+        2: (
+            <ContractNameStep
+                contractName={contractName}
+                handleChangeName={handleChangeName}
+            />
+        ),
         3: <CreateContractStep />,
         4: <>Add editors</>,
     };
@@ -137,6 +144,8 @@ ColorlibStepIcon.propTypes = {
 export default function CreateSteps({
     selectedContractType,
     handleChangeContractType,
+    contractName,
+    handleChangeName,
 }) {
     const [activeStep, setActiveStep] = useState(0);
 
@@ -176,6 +185,8 @@ export default function CreateSteps({
                     stepNum={activeStep + 1}
                     selectedContractType={selectedContractType}
                     handleChangeContractType={handleChangeContractType}
+                    contractName={contractName}
+                    handleChangeName={handleChangeName}
                 />
             }
             <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>

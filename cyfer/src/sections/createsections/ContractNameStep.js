@@ -1,12 +1,12 @@
 import { Stack, Typography, TextField, Button } from "@mui/material";
 
 // Components
-import Iconify from "../../Components/iconify/Iconify";
+// import Iconify from "../../Components/iconify/Iconify";
 
-export default function ContractNameStep() {
+export default function ContractNameStep({ contractName, handleChangeName }) {
     return (
         <Stack spacing={3}>
-            <Typography variant="h3">Give a Contract Name</Typography>
+            <Typography variant="h5">Contract Details</Typography>
             <TextField
                 type="text"
                 id="contractName"
@@ -14,11 +14,23 @@ export default function ContractNameStep() {
                 autoComplete="off"
                 variant="outlined"
                 label="Contract Name"
+                value={contractName}
+                onChange={handleChangeName}
+            ></TextField>
+            <br></br>
+            <TextField
+                type="text"
+                id="contractDescription"
+                name="contract description"
+                autoComplete="off"
+                variant="outlined"
+                label="Contract Description"
+                multiline
+                rows={4}
                 //value={contractName}
                 //onChange={handleChange}
             ></TextField>
-            <br></br>
-            <Button
+            {/* <Button
                 sx={{ width: 1 / 4 }}
                 color="info"
                 // onClick={handleCreateName}
@@ -27,7 +39,7 @@ export default function ContractNameStep() {
                 // disabled={contractAddress === "" ? true : false}
             >
                 Set Name
-            </Button>
+            </Button> */}
             <br></br>
         </Stack>
     );

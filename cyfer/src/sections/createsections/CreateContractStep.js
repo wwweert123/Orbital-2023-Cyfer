@@ -7,7 +7,13 @@ import { CircularProgress } from "@mui/material";
 // Components
 import Iconify from "../../Components/iconify/Iconify";
 
-export default function CreateContractStep() {
+const contractCode = {
+    1: "Basic",
+    2: "Variant 1",
+    3: "Varaint 2",
+};
+
+export default function CreateContractStep({ contractType, contractName }) {
     const [progress, setProgress] = useState(0);
     const [timer, setTimer] = useState();
     const handleClick = () => {
@@ -27,9 +33,13 @@ export default function CreateContractStep() {
 
     return (
         <Stack spacing={3}>
-            <Typography variant="h3">Check your details and Create!</Typography>
-            <Typography variant="h5">Contract Type: </Typography>
-            <Typography variant="h5">Contract Name: </Typography>
+            <Typography variant="h5">Check your details and Create!</Typography>
+            <Typography variant="Subtitle1">
+                Contract Type: {contractCode[contractType]}
+            </Typography>
+            <Typography variant="Subtitle1">
+                Contract Name: {contractName}
+            </Typography>
             <Stack direction={"row"} spacing={3}>
                 <Button
                     sx={{ width: 1 / 2 }}
@@ -38,7 +48,7 @@ export default function CreateContractStep() {
                     variant="contained"
                     startIcon={<Iconify icon="eva:plus-fill" />}
                 >
-                    Begin your journey here
+                    Create Contract
                 </Button>
                 <CircularProgress variant="determinate" value={progress} />
             </Stack>
