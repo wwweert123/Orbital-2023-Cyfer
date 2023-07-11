@@ -25,7 +25,7 @@ export default function SelectTypeStep({
                 {/* <FormLabel id="contract-group-label">Contract Type</FormLabel> */}
                 <RadioGroup
                     aria-labelledby="contract-group-label"
-                    defaultValue={1}
+                    defaultValue={selectedContractType}
                     name="contract-group"
                     row
                 >

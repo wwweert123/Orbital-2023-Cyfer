@@ -50,6 +50,7 @@ export default function CreatePage() {
     };
     // Function to set name of contract
     const handleCreateName = async () => {
+        console.log("setting name of contract");
         if (contractName === "") {
             setErrtitle("Error!");
             setErrmsg(`Please give a name`);
@@ -86,6 +87,7 @@ export default function CreatePage() {
                 contractaddress: contractAddress,
             });
             console.log(Axiosresp.data);
+            handleCreateName();
         } catch (err) {
             console.log(err);
             console.log("could not send to db");
@@ -103,23 +105,30 @@ export default function CreatePage() {
             );
             console.log(resp.data);
             setcontractAddress(resp.data);
+            if (resp.data !== "") {
+                console.log("sending contract DB", resp.data);
+                sendContractDB(wallet, contractAddress);
+            }
         } catch (err) {
             console.log(err);
         }
     };
 
-    // Once the contract address is received send it to the DB
-    useEffect(() => {
-        console.log(contractAddress);
-        if (contractAddress !== "") {
-            sendContractDB(wallet, contractAddress);
-        }
-
-        // eslint-disable-next-line
-    }, [contractAddress]);
-
     // Function to create the contract on the blockchain
     const handleCreateContract = async () => {
+        if (wallet === "") {
+            setErrtitle("Error!");
+            setErrmsg(`Select a Wallet`);
+            setOpen(true);
+            return;
+        }
+        if (contractName === "") {
+            setErrtitle("Error!");
+            setErrmsg(`No contract name provided`);
+            setOpen(true);
+            return;
+        }
+        console.log("creating contract with bytecode");
         try {
             const resp = await connex.vendor
                 .sign("tx", [{ value: 0, data: contractByteCode, to: null }])
@@ -128,6 +137,7 @@ export default function CreatePage() {
                 .request();
             if (resp) {
                 await delay(10000);
+                console.log("seeing contract address");
                 seeContractAddress(resp.txid, resp.signer);
             } else {
                 setErrtitle("Error!");
@@ -204,6 +214,7 @@ export default function CreatePage() {
                         handleChangeContractType={handleChangeContractType}
                         contractName={contractName}
                         handleChangeName={handleChangeName}
+                        handleCreateContract={handleCreateContract}
                     />
                 </Stack>
             </Container>

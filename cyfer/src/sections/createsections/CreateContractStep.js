@@ -10,13 +10,19 @@ import Iconify from "../../Components/iconify/Iconify";
 const contractCode = {
     1: "Basic",
     2: "Variant 1",
-    3: "Varaint 2",
+    3: "Variant 2",
 };
 
-export default function CreateContractStep({ contractType, contractName }) {
+export default function CreateContractStep({
+    selectedContractType,
+    contractName,
+    contractAddress,
+    handleCreateContract,
+}) {
     const [progress, setProgress] = useState(0);
     const [timer, setTimer] = useState();
     const handleClick = () => {
+        handleCreateContract();
         const timerid = setInterval(() => {
             setProgress((prevProgress) => prevProgress + 10);
         }, 800);
@@ -35,7 +41,7 @@ export default function CreateContractStep({ contractType, contractName }) {
         <Stack spacing={3}>
             <Typography variant="h5">Check your details and Create!</Typography>
             <Typography variant="Subtitle1">
-                Contract Type: {contractCode[contractType]}
+                Contract Type: {contractCode[selectedContractType]}
             </Typography>
             <Typography variant="Subtitle1">
                 Contract Name: {contractName}
@@ -43,7 +49,6 @@ export default function CreateContractStep({ contractType, contractName }) {
             <Stack direction={"row"} spacing={3}>
                 <Button
                     sx={{ width: 1 / 2 }}
-                    // onClick={handleCreateContract}
                     onClick={handleClick}
                     variant="contained"
                     startIcon={<Iconify icon="eva:plus-fill" />}
@@ -54,7 +59,7 @@ export default function CreateContractStep({ contractType, contractName }) {
             </Stack>
             <Typography variant="h5">
                 You have created a contract with address:
-                {/* {contractAddress} */}
+                {contractAddress}
             </Typography>
         </Stack>
     );
