@@ -97,9 +97,18 @@ function ColorlibStepIcon(props) {
     );
 }
 
-function StepsItems({ stepNum }) {
+function StepsItems({
+    stepNum,
+    selectedContractType,
+    handleChangeContractType,
+}) {
     const items = {
-        1: <SelectTypeStep />,
+        1: (
+            <SelectTypeStep
+                selectedContractType={selectedContractType}
+                handleChangeContractType={handleChangeContractType}
+            />
+        ),
         2: <ContractNameStep />,
         3: <CreateContractStep />,
         4: <>Add editors</>,
@@ -125,7 +134,10 @@ ColorlibStepIcon.propTypes = {
     icon: PropTypes.node,
 };
 
-export default function CreateSteps() {
+export default function CreateSteps({
+    selectedContractType,
+    handleChangeContractType,
+}) {
     const [activeStep, setActiveStep] = useState(0);
 
     const handleNext = () => {
@@ -159,7 +171,13 @@ export default function CreateSteps() {
                 })}
             </Stepper>
             <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</Typography>
-            {<StepsItems stepNum={activeStep + 1} />}
+            {
+                <StepsItems
+                    stepNum={activeStep + 1}
+                    selectedContractType={selectedContractType}
+                    handleChangeContractType={handleChangeContractType}
+                />
+            }
             <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
                 <Button
                     color="inherit"

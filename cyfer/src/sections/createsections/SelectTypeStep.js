@@ -13,58 +13,55 @@ import {
 import BasicCard from "./BasicCard";
 import VariantOCard from "./VariantOCard";
 import VariantTCard from "./VariantTCard";
-import { DisplaySettings } from "@mui/icons-material";
 
-export default function SelectTypeStep() {
-    const [selectedContract, setSelectedContract] = useState(1);
-
-    const handleChange = (e) => {
-        setSelectedContract(Number(e.target.value));
-    };
-
+export default function SelectTypeStep({
+    handleChangeContractType,
+    selectedContractType,
+}) {
     return (
         <Stack spacing={3}>
-            <Typography variant="h3">Select the contract you need!</Typography>
+            <Typography variant="h5">Select the contract you need!</Typography>
             <FormControl>
-                <FormLabel id="contract-group-label">Contract Type</FormLabel>
+                {/* <FormLabel id="contract-group-label">Contract Type</FormLabel> */}
                 <RadioGroup
                     aria-labelledby="contract-group-label"
-                    defaultValue="first"
+                    defaultValue={1}
                     name="contract-group"
+                    row
                 >
                     <FormControlLabel
                         value={1}
                         control={<Radio color="secondary" />}
                         label="Basic"
-                        onChange={handleChange}
+                        onChange={handleChangeContractType}
                     />
                     <FormControlLabel
                         value={2}
                         control={<Radio color="success" />}
                         label="Variant 1"
-                        onChange={handleChange}
+                        onChange={handleChangeContractType}
                     />
                     <FormControlLabel
                         value={3}
-                        control={<Radio color="default" />}
+                        control={<Radio color="error" />}
                         label="Variant 2"
-                        onChange={handleChange}
+                        onChange={handleChangeContractType}
                     />
                 </RadioGroup>
             </FormControl>
-            <Grow in={selectedContract === 1}>
+            <Grow in={selectedContractType === 1}>
                 <BasicCard
-                    sx={{ display: selectedContract === 1 ? "" : "none" }}
+                    sx={{ display: selectedContractType === 1 ? "" : "none" }}
                 />
             </Grow>
-            <Grow in={selectedContract === 2}>
+            <Grow in={selectedContractType === 2}>
                 <VariantOCard
-                    sx={{ display: selectedContract === 2 ? "" : "none" }}
+                    sx={{ display: selectedContractType === 2 ? "" : "none" }}
                 />
             </Grow>
-            <Grow in={selectedContract === 3}>
+            <Grow in={selectedContractType === 3}>
                 <VariantTCard
-                    sx={{ display: selectedContract === 3 ? "" : "none" }}
+                    sx={{ display: selectedContractType === 3 ? "" : "none" }}
                 />
             </Grow>
         </Stack>
