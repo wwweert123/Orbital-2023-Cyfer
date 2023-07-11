@@ -8,10 +8,15 @@ import {
     FormControl,
     FormLabel,
     RadioGroup,
+    Grow,
+    Collapse,
 } from "@mui/material";
+import BasicCard from "./BasicCard";
+import VariantOCard from "./VariantOCard";
+import VariantTCard from "./VariantTCard";
 
 export default function SelectTypeStep() {
-    const [selectedContract, setSelectedContract] = useState("first");
+    const [selectedContract, setSelectedContract] = useState(1);
 
     const handleChange = (e) => {
         setSelectedContract(e.target.value);
@@ -28,28 +33,30 @@ export default function SelectTypeStep() {
                     name="contract-group"
                 >
                     <FormControlLabel
-                        value="first"
+                        value={1}
                         control={<Radio color="secondary" />}
-                        label="First"
+                        label="Basic"
                         onChange={handleChange}
                     />
                     <FormControlLabel
-                        value="second"
+                        value={2}
                         control={<Radio color="success" />}
-                        label="Second"
+                        label="Variant 1"
                         onChange={handleChange}
                     />
                     <FormControlLabel
-                        value="third"
+                        value={3}
                         control={<Radio color="default" />}
-                        label="Third"
+                        label="Variant 2"
                         onChange={handleChange}
                     />
                 </RadioGroup>
             </FormControl>
-            <Typography hidden={selectedContract === "first" ? true : false}>
-                {selectedContract}
-            </Typography>
+            <Grow in={true}>
+                <BasicCard />
+            </Grow>
+            <VariantOCard hidden={selectedContract === 2 ? false : true} />
+            <VariantTCard hidden={selectedContract === 3 ? false : true} />
         </Stack>
     );
 }
