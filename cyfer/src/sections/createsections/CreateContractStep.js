@@ -35,6 +35,7 @@ export default function CreateContractStep({
             clearInterval(timer);
             setProgress(0);
         }
+        // eslint-disable-next-line
     }, [progress]);
 
     return (
