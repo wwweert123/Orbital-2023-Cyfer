@@ -79,11 +79,11 @@ export default function CreatePage() {
     const [contractAddress, setcontractAddress] = useState("");
 
     // Send the contract Address to the MongoDB
-    const sendContractDB = async (signer) => {
+    const sendContractDB = async (signer, contractAddressString) => {
         try {
             const Axiosresp = await axiosPrivate.post("/wallet/addcontract", {
                 walletaddress: signer.toLowerCase(),
-                contractaddress: contractAddress,
+                contractaddress: contractAddressString,
             });
             console.log(Axiosresp.data);
             setErrtitle("Success!");
