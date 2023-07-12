@@ -2,21 +2,14 @@ import { useEffect, useState } from "react";
 
 // mui
 import {
-    Alert,
-    Button,
     Container,
-    Grid,
     Stack,
-    TextField,
     Typography,
 } from "@mui/material";
 
-// Components
-import Iconify from "../Components/iconify/Iconify";
-
 // Vechain
 import Connex from "../api/connex";
-import { ABI } from "../Vechain/abi";
+import { abiDict } from "../Vechain/abiDict";
 
 import { Helmet } from "react-helmet-async";
 
@@ -26,37 +19,15 @@ import useWallet from "../hooks/useWallet";
 
 export default function TestPage() {
     const { wallet } = useWallet();
-    // const connex = new Connex({
-    //     node: "https://vethor-node-test.vechaindev.com",
-    //     network: "test",
-    // });
+
     const connex = Connex();
 
     const [transactionDetails, setTransactionDetails] = useState([]);
-
-    const [transactionHistory, setTransactionHistory] = useState("");
 
     const [transactionHistoryCount, setTransactionHistoryCount] = useState("");
 
     const axiosPrivate = useAxiosPrivate();
 
-    // const handleChange = (e) => {
-    //     setContractname(e.target.value);
-    // };
-
-    // const sendContractDB = async (signer) => {
-    //     try {
-    //         const Axiosresp = await axiosPrivate.post("/wallet/addcontract", {
-    //             walletaddress: signer.toLowerCase(),
-    //             contractaddress: contractAddress,
-    //         });
-    //         console.log(Axiosresp.data);
-    //     } catch (err) {
-    //         console.log(err);
-    //         console.log("could not send to db");
-    //     }
-    // };
-    // setTransactionHistoryCount("loading");
     const seeContractHistory = async () => {
         if (wallet === "") {
             console.log("no wallet selected");
@@ -69,14 +40,31 @@ export default function TestPage() {
             console.log(resp.data);
             setTransactionHistoryCount(resp.data.count);
             const details = resp.data.txs.map((item) => {
-                // For each item in the output array, return an object with the desired properties.
-                // Note: This assumes that each item in the clauses array only contains one object.
-                // If there are multiple objects, this will need to be adjusted.
+                let functionName, variable;
+                if (item.size > 1000) {
+                    functionName = "Create Contract"
+                    variable = "null"
+                } 
+                else{
+                    let slicedPortion = item.data.slice(2, 10);
+                    if (abiDict.hasOwnProperty(slicedPortion)) {
+                        functionName = abiDict[slicedPortion];
+                        let restOfData = item.data.slice(10);
+                        variable = decode(restOfData);
+                    } 
+                    else {
+                        functionName = "unknown";
+                        variable = "unknown";
+                    }
+                }
                 return {
                     txID: item.txID,
                     origin: item.origin,
                     to: item.clauses[0].to,
                     data: item.clauses[0].data,
+                    size: item.size,
+                    name: functionName,
+                    parameters: variable
                 };
             });
             setTransactionDetails(details);
@@ -121,15 +109,14 @@ export default function TestPage() {
                                 Transaction ID: {detail.txID}
                             </Typography>
                             <Typography variant="h6">
-                                Origin: {detail.origin}
-                            </Typography>
-                            <Typography variant="h6">
-                                To: {detail.to}
+                                Origin: {detail.origin}     To: {detail.to}
                             </Typography>
                             <Typography variant="h6">
                                 Data: {detail.data}
                             </Typography>
-                            Add data dissection logic here
+                            <Typography variant="h6">
+                                Function Name: {detail.name}     Parameters: {detail.parameters}
+                            </Typography>
                         </div>
                     ))}
                 </Stack>
