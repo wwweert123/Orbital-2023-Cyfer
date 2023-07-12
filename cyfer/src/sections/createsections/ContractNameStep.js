@@ -3,7 +3,12 @@ import { Stack, Typography, TextField } from "@mui/material";
 // Components
 // import Iconify from "../../Components/iconify/Iconify";
 
-export default function ContractNameStep({ contractName, handleChangeName }) {
+export default function ContractNameStep({
+    contractName,
+    handleChangeName,
+    contractDesc,
+    handleChangeDesc,
+}) {
     return (
         <Stack spacing={3}>
             <Typography variant="h5">Contract Details</Typography>
@@ -28,8 +33,8 @@ export default function ContractNameStep({ contractName, handleChangeName }) {
                 label="Contract Description"
                 multiline
                 rows={4}
-                //value={contractName}
-                //onChange={handleChange}
+                value={contractDesc}
+                onChange={handleChangeDesc}
             ></TextField>
             {/* <Button
                 sx={{ width: 1 / 4 }}

@@ -40,6 +40,11 @@ export default function CreatePage() {
     const handleChangeName = (e) => {
         setContractname(e.target.value);
     };
+
+    const [contractDesc, setContractDesc] = useState("");
+    const handleChangeDesc = (e) => {
+        setContractDesc(e.target.value);
+    };
     // Function to set name of contract
     // const handleCreateName = async () => {
     //     console.log("setting name of contract");
@@ -225,6 +230,8 @@ export default function CreatePage() {
                         handleChangeName={handleChangeName}
                         contractAddress={contractAddress}
                         handleCreateContract={handleCreateContract}
+                        contractDesc={contractDesc}
+                        handleChangeDesc={handleChangeDesc}
                     />
                 </Stack>
             </Container>
