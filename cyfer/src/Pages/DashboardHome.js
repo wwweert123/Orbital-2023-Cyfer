@@ -93,7 +93,7 @@ export default function DashboardHome() {
                     <Grid item xs={12} sm={6} md={8}>
                         <AccountDetailsWidget
                             handleClick={handleIdentification}
-                            numContract={numContract}
+                            numContract={Number(numContract)}
                             icon={"mdi:contract"}
                             selected={wallet}
                             walletObject={walletObject}

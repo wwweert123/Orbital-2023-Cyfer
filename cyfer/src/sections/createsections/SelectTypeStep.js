@@ -23,27 +23,25 @@ export default function SelectTypeStep({
                 {/* <FormLabel id="contract-group-label">Contract Type</FormLabel> */}
                 <RadioGroup
                     aria-labelledby="contract-group-label"
-                    defaultValue={selectedContractType}
+                    value={selectedContractType}
                     name="contract-group"
                     row
+                    onChange={handleChangeContractType}
                 >
                     <FormControlLabel
                         value={1}
                         control={<Radio color="secondary" />}
                         label="Basic"
-                        onChange={handleChangeContractType}
                     />
                     <FormControlLabel
                         value={2}
                         control={<Radio color="success" />}
                         label="Variant 1"
-                        onChange={handleChangeContractType}
                     />
                     <FormControlLabel
                         value={3}
                         control={<Radio color="error" />}
                         label="Variant 2"
-                        onChange={handleChangeContractType}
                     />
                 </RadioGroup>
             </FormControl>
