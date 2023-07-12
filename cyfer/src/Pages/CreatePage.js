@@ -10,13 +10,16 @@ import CreateSteps from "../sections/createsections/CreateSteps";
 
 // Vechain
 import Connex from "../api/connex";
-import { ABICombined, byteCodes } from "../Vechain/abicombined";
+import { byteCodes } from "../Vechain/abicombined";
 
 import { Helmet } from "react-helmet-async";
 
 // Axios
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import useWallet from "../hooks/useWallet";
+
+// Utils
+import encode from "../utils/encode";
 
 export default function CreatePage() {
     const axiosPrivate = useAxiosPrivate();
@@ -38,34 +41,34 @@ export default function CreatePage() {
         setContractname(e.target.value);
     };
     // Function to set name of contract
-    const handleCreateName = async () => {
-        console.log("setting name of contract");
-        if (contractName === "") {
-            setErrtitle("Error!");
-            setErrmsg(`Please give a name`);
-            setOpen(true);
-            return;
-        }
-        const setNameABI = ABICombined[selectedContractType].find(
-            ({ name }) => name === "changeName"
-        );
-        try {
-            const clause = connex.thor
-                .account(contractAddress)
-                .method(setNameABI)
-                .asClause(contractName);
-            const result = await connex.vendor
-                .sign("tx", [clause])
-                .signer(wallet)
-                .comment("setting name")
-                .request();
-            setErrtitle("Success!");
-            setErrmsg(`transaction done! ${result.txid}`);
-            setOpen(true);
-        } catch (err) {
-            console.log(err);
-        }
-    };
+    // const handleCreateName = async () => {
+    //     console.log("setting name of contract");
+    //     if (contractName === "") {
+    //         setErrtitle("Error!");
+    //         setErrmsg(`Please give a name`);
+    //         setOpen(true);
+    //         return;
+    //     }
+    //     const setNameABI = ABICombined[selectedContractType].find(
+    //         ({ name }) => name === "changeName"
+    //     );
+    //     try {
+    //         const clause = connex.thor
+    //             .account(contractAddress)
+    //             .method(setNameABI)
+    //             .asClause(contractName);
+    //         const result = await connex.vendor
+    //             .sign("tx", [clause])
+    //             .signer(wallet)
+    //             .comment("setting name")
+    //             .request();
+    //         setErrtitle("Success!");
+    //         setErrmsg(`transaction done! ${result.txid}`);
+    //         setOpen(true);
+    //     } catch (err) {
+    //         console.log(err);
+    //     }
+    // };
 
     // Getting the newly created contract address
     const [contractAddress, setcontractAddress] = useState("");
@@ -78,7 +81,10 @@ export default function CreatePage() {
                 contractaddress: contractAddress,
             });
             console.log(Axiosresp.data);
-            handleCreateName();
+            setErrtitle("Success!");
+            setErrmsg(`Contract Created Successfully`);
+            setOpen(true);
+            // handleCreateName();
         } catch (err) {
             console.log(err);
             console.log("could not send to db");
@@ -120,22 +126,23 @@ export default function CreatePage() {
             return;
         }
         setErrtitle("Info");
-        setErrmsg(
-            `Please take note that you will need to sign twice: once for creation of contract, and once for setting contract name`
-        );
+        setErrmsg(`Please Authenticate with Veworld/Sync2 (without extension)`);
         setOpen(true);
         console.log("creating contract with bytecode");
+        const strings = [contractName, "this is the description"];
+        const encodedStrings = encode(strings);
+        const finalByteCode = byteCodes[selectedContractType] + encodedStrings;
         try {
             const resp = await connex.vendor
                 .sign("tx", [
                     {
                         value: 0,
-                        data: byteCodes[selectedContractType],
+                        data: finalByteCode,
                         to: null,
                     },
                 ])
                 .signer(wallet)
-                .comment("Deploy contract")
+                .comment(`Deploy contract of type ${selectedContractType}`)
                 .request();
             if (resp) {
                 await delay(10000);
