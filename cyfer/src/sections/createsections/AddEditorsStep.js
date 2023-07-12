@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { TransitionGroup } from "react-transition-group";
 
 // Mui
 import {
@@ -13,6 +14,7 @@ import {
     Button,
     Box,
     List,
+    Collapse,
 } from "@mui/material";
 
 export default function AddEditorsStep() {
@@ -56,7 +58,15 @@ export default function AddEditorsStep() {
                 Add Editor
             </Button>
             <Box sx={{ mt: 1 }}>
-                <List></List>
+                <List>
+                    <TransitionGroup>
+                        {addedEditors.map((item, index) => (
+                            <Collapse key={index}>
+                                {item.walletAddress}
+                            </Collapse>
+                        ))}
+                    </TransitionGroup>
+                </List>
             </Box>
             <Dialog open={open} onClose={handleClose}>
                 <DialogTitle
