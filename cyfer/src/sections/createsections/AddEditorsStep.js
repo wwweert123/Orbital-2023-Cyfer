@@ -15,10 +15,53 @@ import {
     Box,
     List,
     Collapse,
+    ListItem,
+    ListItemText,
+    IconButton,
 } from "@mui/material";
+import {
+    PersonAddAltOutlined as PersonAddAltOutlinedIcon,
+    Delete as DeleteIcon,
+} from "@mui/icons-material";
+
+function renderItem({ item, handleRemoveEditor }) {
+    return (
+        <ListItem
+            secondaryAction={
+                <IconButton
+                    edge="end"
+                    aria-label="delete"
+                    title="Delete"
+                    onClick={() => handleRemoveEditor(item.walletAddress)}
+                >
+                    <DeleteIcon />
+                </IconButton>
+            }
+        >
+            <Stack spacing={3} direction="row">
+                <PersonAddAltOutlinedIcon
+                    sx={{ color: (theme) => theme.palette.warning.dark }}
+                />
+                <ListItemText
+                    primary={item.username}
+                    secondary={item.walletAddress}
+                />
+            </Stack>
+        </ListItem>
+    );
+}
 
 export default function AddEditorsStep() {
     const [addedEditors, setAddedEditors] = useState([]);
+
+    // Remove editor from list
+    const handleRemoveEditor = (address) => {
+        setAddedEditors((prev) =>
+            prev.filter((item) => {
+                return item.walletAddress !== address;
+            })
+        );
+    };
 
     // Dialog states
     const [open, setOpen] = useState(false);
@@ -57,12 +100,16 @@ export default function AddEditorsStep() {
             <Button variant="contained" onClick={handleClickOpen}>
                 Add Editor
             </Button>
-            <Box sx={{ mt: 1 }}>
+            <Box sx={{ mt: 1 }} width={1 / 2}>
                 <List>
                     <TransitionGroup>
                         {addedEditors.map((item, index) => (
                             <Collapse key={index}>
-                                {item.walletAddress}
+                                {renderItem({
+                                    item,
+                                    index,
+                                    handleRemoveEditor,
+                                })}
                             </Collapse>
                         ))}
                     </TransitionGroup>

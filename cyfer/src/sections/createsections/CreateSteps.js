@@ -198,6 +198,9 @@ export default function CreateSteps({
 
             {activeStep === steps.length ? (
                 <Box sx={{ p: 5 }}>
+                    <Typography variant="h5">
+                        You can now edit your contract in the edit tab
+                    </Typography>
                     <Button onClick={handleReset}>
                         Create another contract
                     </Button>
@@ -231,7 +234,7 @@ export default function CreateSteps({
 
                         <Button onClick={handleNext}>
                             {activeStep === steps.length - 1
-                                ? "Add Editors"
+                                ? "Submit List"
                                 : "Next"}
                         </Button>
                     </Box>
