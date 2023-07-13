@@ -40,8 +40,6 @@ export default function CreatePage() {
 
     const [contractName, setContractname] = useState("");
 
-    const [transactionHistoryCount, setTransactionHistoryCount] = useState("");
-
     const axiosPrivate = useAxiosPrivate();
 
     const handleChange = (e) => {
