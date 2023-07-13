@@ -236,7 +236,7 @@ export default function CreateSteps() {
 
                         <Button onClick={handleNext}>
                             {activeStep === steps.length - 1
-                                ? "Submit List"
+                                ? "Finish"
                                 : "Next"}
                         </Button>
                     </Box>

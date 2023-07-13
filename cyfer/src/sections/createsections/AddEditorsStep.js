@@ -18,10 +18,13 @@ import {
     ListItem,
     ListItemText,
     IconButton,
+    ListItemIcon,
 } from "@mui/material";
 import {
     PersonAddAltOutlined as PersonAddAltOutlinedIcon,
     Delete as DeleteIcon,
+    ThumbUp as ThumbUpIcon,
+    Error as ErrorIcon,
 } from "@mui/icons-material";
 
 // utils
@@ -31,7 +34,13 @@ import Connex from "../../api/connex";
 // ABI
 import { ABI } from "../../Vechain/abi";
 
-function renderItem({ item, handleRemoveEditor }) {
+// wallet account context
+import useWallet from "../../hooks/useWallet";
+
+// Axios
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+
+function renderItem({ item, index, handleRemoveEditor }) {
     return (
         <ListItem
             secondaryAction={
@@ -53,14 +62,28 @@ function renderItem({ item, handleRemoveEditor }) {
                     primary={item.username}
                     secondary={item.walletAddress}
                 />
+                <ListItemIcon>
+                    <ThumbUpIcon
+                        sx={{ color: (theme) => theme.palette.success.dark }}
+                    />
+                </ListItemIcon>
+                <ListItemIcon>
+                    <ErrorIcon
+                        sx={{ color: (theme) => theme.palette.error.main }}
+                    />
+                </ListItemIcon>
             </Stack>
         </ListItem>
     );
 }
 
 export default function AddEditorsStep({ contractAddress }) {
+    const { wallet } = useWallet();
+
     // Connex Connection Instance
     const connex = Connex();
+    // Axios Connection Instance
+    const axiosPrivate = useAxiosPrivate();
 
     const [addedEditors, setAddedEditors] = useState([]);
 
@@ -121,33 +144,96 @@ export default function AddEditorsStep({ contractAddress }) {
         // eslint-disable-next-line
     }, []);
 
+    // Send editor information to DB
+    const sendEditorDB = async (editorAddress, editorusername) => {
+        try {
+            const Axiosresp = await axiosPrivate.post("/wallet/addeditor", {
+                editor: editorusername,
+                walletaddress: editorAddress.toLowerCase(),
+                contractaddress: contractAddress,
+            });
+            console.log(Axiosresp.data);
+        } catch (err) {
+            console.log(err);
+            console.log("could not send to db");
+        }
+    };
+
+    const AddEditor = async (editorAddress, editorusername) => {
+        const setEditorABI = ABI.find(
+            ({ name }) => name === "addAuthorizedAddress"
+        );
+
+        try {
+            const clause = connex.thor
+                .account(contractAddress)
+                .method(setEditorABI)
+                .asClause(editorAddress);
+
+            const result = await connex.vendor
+                .sign("tx", [clause])
+                .signer(wallet)
+                .comment("setting editor")
+                .request();
+            alert("transaction done: ", result.txid);
+            // setInfoMsg("Success! Editor added to the contract");
+            // setTextSeverity("success");
+            // setChecked(true);
+            sendEditorDB(editorAddress, editorusername);
+        } catch (err) {
+            console.log(err);
+            // setInfoMsg("Oh No! Something went wrong!");
+            // setTextSeverity("error");
+            // setChecked(true);
+        }
+    };
+
+    // State for controlling success and failure of adding editor
+    const [success, setSuccess] = useState(new Set());
+    const [failed, setFailed] = useState(new Set());
+
+    const handleSubmitEditorList = () => {
+        addedEditors.forEach((user) => {
+            AddEditor(user.walletAddress, user.username);
+        });
+    };
+
     return (
-        <Stack spacing={3}>
-            <Typography variant="h5">
-                Add editors to your new contract
-            </Typography>
-            <Typography variant="subtitle1">
-                Adding editors to : {walletShort(contractAddress)}{" "}
-                {contractName}
-            </Typography>
-            <Button variant="contained" onClick={handleClickOpen}>
-                Add Editor
-            </Button>
-            <Box sx={{ mt: 1 }} width={1 / 2}>
-                <List>
-                    <TransitionGroup>
-                        {addedEditors.map((item, index) => (
-                            <Collapse key={index}>
-                                {renderItem({
-                                    item,
-                                    index,
-                                    handleRemoveEditor,
-                                })}
-                            </Collapse>
-                        ))}
-                    </TransitionGroup>
-                </List>
-            </Box>
+        <>
+            <Stack spacing={3}>
+                <Typography variant="h5">
+                    Add editors to your new contract
+                </Typography>
+                <Typography variant="subtitle1">
+                    Adding editors to : {walletShort(contractAddress)}{" "}
+                    {contractName}
+                </Typography>
+                <Button variant="contained" onClick={handleClickOpen}>
+                    Add Editor
+                </Button>
+                <Box sx={{ mt: 1 }} width={1 / 2}>
+                    <List>
+                        <TransitionGroup>
+                            {addedEditors.map((item, index) => (
+                                <Collapse key={index}>
+                                    {renderItem({
+                                        item,
+                                        index,
+                                        handleRemoveEditor,
+                                    })}
+                                </Collapse>
+                            ))}
+                        </TransitionGroup>
+                    </List>
+                </Box>
+                <Button
+                    onClick={handleSubmitEditorList}
+                    disabled={addedEditors.length === 0 ? true : false}
+                >
+                    Submit List
+                </Button>
+            </Stack>
+
             <Dialog open={open} onClose={handleClose}>
                 <DialogTitle
                     sx={{
@@ -210,6 +296,6 @@ export default function AddEditorsStep({ contractAddress }) {
                     </Button>
                 </DialogActions>
             </Dialog>
-        </Stack>
+        </>
     );
 }
