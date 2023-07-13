@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 // Mui
 import { Stack, Typography, Button } from "@mui/material";

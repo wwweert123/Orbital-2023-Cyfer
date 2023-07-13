@@ -147,7 +147,7 @@ function StepsItems({ stepNum }) {
                 handleSetContractAddress={handleSetContractAddress}
             />
         ),
-        4: <AddEditorsStep />,
+        4: <AddEditorsStep contractAddress={contractAddress} />,
     };
     return items[stepNum];
 }

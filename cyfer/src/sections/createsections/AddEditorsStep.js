@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TransitionGroup } from "react-transition-group";
 
 // Mui
@@ -23,6 +23,13 @@ import {
     PersonAddAltOutlined as PersonAddAltOutlinedIcon,
     Delete as DeleteIcon,
 } from "@mui/icons-material";
+
+// utils
+import walletShort from "wallet-short";
+import Connex from "../../api/connex";
+
+// ABI
+import { ABI } from "../../Vechain/abi";
 
 function renderItem({ item, handleRemoveEditor }) {
     return (
@@ -51,7 +58,10 @@ function renderItem({ item, handleRemoveEditor }) {
     );
 }
 
-export default function AddEditorsStep() {
+export default function AddEditorsStep({ contractAddress }) {
+    // Connex Connection Instance
+    const connex = Connex();
+
     const [addedEditors, setAddedEditors] = useState([]);
 
     // Remove editor from list
@@ -92,10 +102,33 @@ export default function AddEditorsStep() {
         setAddedEditors((prev) => [...prev, Editor]);
     };
 
+    const [contractName, setContractName] = useState("");
+    useEffect(() => {
+        const getContractName = async (contractAddress) => {
+            if (contractAddress === "") {
+                return;
+            }
+            const getNameABI = ABI.find(({ name }) => name === "getName");
+            const result = await connex.thor
+                .account(contractAddress)
+                .method(getNameABI)
+                .call();
+            if (result) {
+                setContractName(result.decoded[0]);
+            }
+        };
+        getContractName(contractAddress);
+        // eslint-disable-next-line
+    }, []);
+
     return (
         <Stack spacing={3}>
             <Typography variant="h5">
                 Add editors to your new contract
+            </Typography>
+            <Typography variant="subtitle1">
+                Adding editors to : {walletShort(contractAddress)}{" "}
+                {contractName}
             </Typography>
             <Button variant="contained" onClick={handleClickOpen}>
                 Add Editor
