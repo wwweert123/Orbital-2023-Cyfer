@@ -29,6 +29,9 @@ const contractCode = {
 export default function CreateContractStep({
     selectedContractType,
     contractName,
+    contractDesc,
+    contractAddress,
+    handleSetContractAddress,
 }) {
     // Axios Connection Instance
     const axiosPrivate = useAxiosPrivate();
@@ -56,6 +59,7 @@ export default function CreateContractStep({
                 walletaddress: signer.toLowerCase(),
                 contractaddress: contractAddressString,
             });
+            setProgress(100);
             console.log(Axiosresp.data);
             setErrtitle("Success!");
             setErrmsg(`Contract Created Successfully`);
@@ -65,10 +69,8 @@ export default function CreateContractStep({
             console.log(err);
             console.log("could not send to db");
         }
+        setProgress(0);
     };
-
-    // Getting the newly created contract address
-    const [contractAddress, setcontractAddress] = useState("");
 
     // Getting the contract address using txid
     const seeContractAddress = async (trans) => {
@@ -77,8 +79,9 @@ export default function CreateContractStep({
                 `/wallet/getcontractaddress/${trans}`
             );
             console.log(resp.data);
-            setcontractAddress(resp.data);
+            handleSetContractAddress(resp.data);
             if (resp.data !== "") {
+                setProgress(80);
                 console.log("sending contract DB", resp.data);
                 sendContractDB(wallet, resp.data);
             }
@@ -108,7 +111,7 @@ export default function CreateContractStep({
         setErrmsg(`Please Authenticate with Veworld/Sync2 (without extension)`);
         setOpen(true);
         console.log("creating contract with bytecode");
-        const strings = [contractName, "this is the description"];
+        const strings = [contractName, contractDesc];
         const encodedStrings = encode(strings);
         const finalByteCode = byteCodes[selectedContractType] + encodedStrings;
         try {
@@ -124,7 +127,12 @@ export default function CreateContractStep({
                 .comment(`Deploy contract of type ${selectedContractType}`)
                 .request();
             if (resp) {
-                await delay(10000);
+                setProgress(20);
+                await delay(3000);
+                setProgress(40);
+                await delay(3000);
+                setProgress(60);
+                await delay(3000);
                 console.log("seeing contract address");
                 seeContractAddress(resp.txid, resp.signer);
             } else {
@@ -138,23 +146,9 @@ export default function CreateContractStep({
     };
 
     const [progress, setProgress] = useState(0);
-    const [timer, setTimer] = useState();
     const handleClick = () => {
         handleCreateContract();
-        const timerid = setInterval(() => {
-            setProgress((prevProgress) => prevProgress + 10);
-        }, 800);
-        setTimer(timerid);
     };
-
-    useEffect(() => {
-        if (progress === 110) {
-            console.log(timer);
-            clearInterval(timer);
-            setProgress(0);
-        }
-        // eslint-disable-next-line
-    }, [progress]);
 
     return (
         <>
@@ -167,6 +161,9 @@ export default function CreateContractStep({
                 </Typography>
                 <Typography variant="Subtitle1">
                     Contract Name: {contractName}
+                </Typography>
+                <Typography variant="Subtitle1">
+                    Contract Description: {contractDesc}
                 </Typography>
                 <Stack direction={"row"} spacing={3}>
                     <Button

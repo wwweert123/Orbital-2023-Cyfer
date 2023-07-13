@@ -116,6 +116,13 @@ function StepsItems({ stepNum }) {
     const handleChangeDesc = (e) => {
         setContractDesc(e.target.value);
     };
+
+    // Getting the newly created contract address
+    const [contractAddress, setcontractAddress] = useState("");
+    const handleSetContractAddress = (address) => {
+        setcontractAddress(address);
+    };
+
     const items = {
         1: (
             <SelectTypeStep
@@ -134,7 +141,10 @@ function StepsItems({ stepNum }) {
         3: (
             <CreateContractStep
                 contractName={contractName}
+                contractDesc={contractDesc}
                 selectedContractType={selectedContractType}
+                contractAddress={contractAddress}
+                handleSetContractAddress={handleSetContractAddress}
             />
         ),
         4: <AddEditorsStep />,
