@@ -104,8 +104,6 @@ function StepsItems({
     handleChangeContractType,
     contractName,
     handleChangeName,
-    contractAddress,
-    handleCreateContract,
     contractDesc,
     handleChangeDesc,
 }) {
@@ -128,8 +126,6 @@ function StepsItems({
             <CreateContractStep
                 contractName={contractName}
                 selectedContractType={selectedContractType}
-                contractAddress={contractAddress}
-                handleCreateContract={handleCreateContract}
             />
         ),
         4: <AddEditorsStep />,
@@ -160,8 +156,6 @@ export default function CreateSteps({
     handleChangeContractType,
     contractName,
     handleChangeName,
-    contractAddress,
-    handleCreateContract,
     contractDesc,
     handleChangeDesc,
 }) {
@@ -223,8 +217,6 @@ export default function CreateSteps({
                             handleChangeContractType={handleChangeContractType}
                             contractName={contractName}
                             handleChangeName={handleChangeName}
-                            contractAddress={contractAddress}
-                            handleCreateContract={handleCreateContract}
                             contractDesc={contractDesc}
                             handleChangeDesc={handleChangeDesc}
                         />
