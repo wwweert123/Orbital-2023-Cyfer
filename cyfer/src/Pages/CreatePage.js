@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 // mui
 import { Container, Stack, Typography } from "@mui/material";
 
@@ -17,23 +15,6 @@ export default function CreatePage() {
     // Wallet to create contract
     const { wallet } = useWallet();
 
-    // For setting the type of contract
-    const [selectedContractType, setSelectedContractType] = useState(1);
-
-    const handleChangeContractType = (e) => {
-        setSelectedContractType(Number(e.target.value));
-    };
-
-    // For getting the contract name from user in set name step
-    const [contractName, setContractname] = useState("");
-    const handleChangeName = (e) => {
-        setContractname(e.target.value);
-    };
-
-    const [contractDesc, setContractDesc] = useState("");
-    const handleChangeDesc = (e) => {
-        setContractDesc(e.target.value);
-    };
     // Function to set name of contract
     // const handleCreateName = async () => {
     //     console.log("setting name of contract");
@@ -124,14 +105,7 @@ export default function CreatePage() {
                             </Button>
                         </Grid>
                     </Grid> */}
-                    <CreateSteps
-                        selectedContractType={selectedContractType}
-                        handleChangeContractType={handleChangeContractType}
-                        contractName={contractName}
-                        handleChangeName={handleChangeName}
-                        contractDesc={contractDesc}
-                        handleChangeDesc={handleChangeDesc}
-                    />
+                    <CreateSteps />
                 </Stack>
             </Container>
             {/* <AlertDialog

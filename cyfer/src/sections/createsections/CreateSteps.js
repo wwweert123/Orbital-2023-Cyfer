@@ -98,15 +98,24 @@ function ColorlibStepIcon(props) {
     );
 }
 
-function StepsItems({
-    stepNum,
-    selectedContractType,
-    handleChangeContractType,
-    contractName,
-    handleChangeName,
-    contractDesc,
-    handleChangeDesc,
-}) {
+function StepsItems({ stepNum }) {
+    // For setting the type of contract
+    const [selectedContractType, setSelectedContractType] = useState(1);
+
+    const handleChangeContractType = (e) => {
+        setSelectedContractType(Number(e.target.value));
+    };
+
+    // For getting the contract name from user in set name step
+    const [contractName, setContractname] = useState("");
+    const handleChangeName = (e) => {
+        setContractname(e.target.value);
+    };
+
+    const [contractDesc, setContractDesc] = useState("");
+    const handleChangeDesc = (e) => {
+        setContractDesc(e.target.value);
+    };
     const items = {
         1: (
             <SelectTypeStep
@@ -151,14 +160,7 @@ ColorlibStepIcon.propTypes = {
     icon: PropTypes.node,
 };
 
-export default function CreateSteps({
-    selectedContractType,
-    handleChangeContractType,
-    contractName,
-    handleChangeName,
-    contractDesc,
-    handleChangeDesc,
-}) {
+export default function CreateSteps() {
     const [activeStep, setActiveStep] = useState(0);
 
     const handleNext = () => {
@@ -210,17 +212,7 @@ export default function CreateSteps({
                     <Typography sx={{ mt: 2, mb: 1 }}>
                         Step {activeStep + 1}
                     </Typography>
-                    {
-                        <StepsItems
-                            stepNum={activeStep + 1}
-                            selectedContractType={selectedContractType}
-                            handleChangeContractType={handleChangeContractType}
-                            contractName={contractName}
-                            handleChangeName={handleChangeName}
-                            contractDesc={contractDesc}
-                            handleChangeDesc={handleChangeDesc}
-                        />
-                    }
+                    {<StepsItems stepNum={activeStep + 1} />}
                     <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
                         <Button
                             color="inherit"
