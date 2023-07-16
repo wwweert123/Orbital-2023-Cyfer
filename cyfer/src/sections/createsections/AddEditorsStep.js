@@ -40,7 +40,10 @@ import useWallet from "../../hooks/useWallet";
 // Axios
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
-function renderItem({ item, index, handleRemoveEditor }) {
+// Components
+import AlertDialog from "../../Components/AlertDialog";
+
+function renderItem({ item, index, handleRemoveEditor, success }) {
     return (
         <ListItem
             secondaryAction={
@@ -69,7 +72,9 @@ function renderItem({ item, index, handleRemoveEditor }) {
                         }}
                     />
                 </ListItemIcon>
-                <ListItemIcon sx={{ display: "none" }}>
+                <ListItemIcon
+                    sx={{ display: success?.has(index) ? "" : "none" }}
+                >
                     <ErrorIcon
                         sx={{ color: (theme) => theme.palette.error.main }}
                     />
@@ -156,6 +161,7 @@ export default function AddEditorsStep({ contractAddress }) {
             });
             console.log(Axiosresp.data);
             setSuccess((prevSet) => new Set(prevSet).add(index));
+            console.log(`${index} added to success set`);
         } catch (err) {
             console.log(err);
             console.log("could not send to db");
@@ -197,7 +203,11 @@ export default function AddEditorsStep({ contractAddress }) {
 
     const handleSubmitEditorList = async () => {
         console.log(addedEditors);
-
+        setErrtitle("Info");
+        setErrmsg(
+            `You will need to authenticate/sign with the Vechain for as many times as you have editors`
+        );
+        setAlertOpen(true);
         for (const [index, editor] of addedEditors.entries()) {
             console.log(index);
             console.log(editor);
@@ -208,6 +218,16 @@ export default function AddEditorsStep({ contractAddress }) {
         //     AddEditor(user.walletAddress, user.username, index);
         // });
     };
+
+    // Dialog
+    // For controlling the alert dialog
+    const [alertOpen, setAlertOpen] = useState(false);
+    const handleAlertClose = () => {
+        setAlertOpen(false);
+    };
+
+    const [errmsg, setErrmsg] = useState("");
+    const [errtitle, setErrtitle] = useState("");
 
     return (
         <>
@@ -231,6 +251,7 @@ export default function AddEditorsStep({ contractAddress }) {
                                         item,
                                         index,
                                         handleRemoveEditor,
+                                        success,
                                     })}
                                 </Collapse>
                             ))}
@@ -307,6 +328,12 @@ export default function AddEditorsStep({ contractAddress }) {
                     </Button>
                 </DialogActions>
             </Dialog>
+            <AlertDialog
+                open={alertOpen}
+                handleClose={handleAlertClose}
+                errtitle={errtitle}
+                errmsg={errmsg}
+            />
         </>
     );
 }
