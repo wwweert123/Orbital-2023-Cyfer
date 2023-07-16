@@ -62,12 +62,14 @@ function renderItem({ item, index, handleRemoveEditor }) {
                     primary={item.username}
                     secondary={item.walletAddress}
                 />
-                <ListItemIcon>
+                <ListItemIcon sx={{ display: "none" }}>
                     <ThumbUpIcon
-                        sx={{ color: (theme) => theme.palette.success.dark }}
+                        sx={{
+                            color: (theme) => theme.palette.success.dark,
+                        }}
                     />
                 </ListItemIcon>
-                <ListItemIcon>
+                <ListItemIcon sx={{ display: "none" }}>
                     <ErrorIcon
                         sx={{ color: (theme) => theme.palette.error.main }}
                     />
@@ -145,7 +147,7 @@ export default function AddEditorsStep({ contractAddress }) {
     }, []);
 
     // Send editor information to DB
-    const sendEditorDB = async (editorAddress, editorusername) => {
+    const sendEditorDB = async (editorAddress, editorusername, index) => {
         try {
             const Axiosresp = await axiosPrivate.post("/wallet/addeditor", {
                 editor: editorusername,
@@ -153,13 +155,14 @@ export default function AddEditorsStep({ contractAddress }) {
                 contractaddress: contractAddress,
             });
             console.log(Axiosresp.data);
+            setSuccess((prevSet) => new Set(prevSet).add(index));
         } catch (err) {
             console.log(err);
             console.log("could not send to db");
         }
     };
 
-    const AddEditor = async (editorAddress, editorusername) => {
+    const AddEditor = async (editorAddress, editorusername, index) => {
         const setEditorABI = ABI.find(
             ({ name }) => name === "addAuthorizedAddress"
         );
@@ -173,13 +176,13 @@ export default function AddEditorsStep({ contractAddress }) {
             const result = await connex.vendor
                 .sign("tx", [clause])
                 .signer(wallet)
-                .comment("setting editor")
+                .comment(`setting editor ${editorAddress}`)
                 .request();
             alert("transaction done: ", result.txid);
             // setInfoMsg("Success! Editor added to the contract");
             // setTextSeverity("success");
             // setChecked(true);
-            sendEditorDB(editorAddress, editorusername);
+            sendEditorDB(editorAddress, editorusername, index);
         } catch (err) {
             console.log(err);
             // setInfoMsg("Oh No! Something went wrong!");
@@ -192,10 +195,18 @@ export default function AddEditorsStep({ contractAddress }) {
     const [success, setSuccess] = useState(new Set());
     const [failed, setFailed] = useState(new Set());
 
-    const handleSubmitEditorList = () => {
-        addedEditors.forEach((user) => {
-            AddEditor(user.walletAddress, user.username);
-        });
+    const handleSubmitEditorList = async () => {
+        console.log(addedEditors);
+
+        for (const [index, editor] of addedEditors.entries()) {
+            console.log(index);
+            console.log(editor);
+            await AddEditor(editor.walletAddress, editor.username, index);
+        }
+        // addedEditors.forEach((user, index) => {
+        //     console.log(index);
+        //     AddEditor(user.walletAddress, user.username, index);
+        // });
     };
 
     return (
