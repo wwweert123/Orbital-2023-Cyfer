@@ -19,6 +19,7 @@ import {
     ListItemText,
     IconButton,
     ListItemIcon,
+    Tooltip,
 } from "@mui/material";
 import {
     PersonAddAltOutlined as PersonAddAltOutlinedIcon,
@@ -44,7 +45,7 @@ import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import AlertDialog from "../../Components/AlertDialog";
 import Iconify from "../../Components/iconify/Iconify";
 
-function renderItem({ item, index, handleRemoveEditor, success }) {
+function renderItem({ item, index, handleRemoveEditor, success, failed }) {
     return (
         <ListItem
             secondaryAction={
@@ -66,19 +67,26 @@ function renderItem({ item, index, handleRemoveEditor, success }) {
                     primary={item.username}
                     secondary={item.walletAddress}
                 />
-                <ListItemIcon sx={{ display: "none" }}>
-                    <ThumbUpIcon
-                        sx={{
-                            color: (theme) => theme.palette.success.dark,
-                        }}
-                    />
-                </ListItemIcon>
+
                 <ListItemIcon
                     sx={{ display: success?.has(index) ? "" : "none" }}
                 >
-                    <ErrorIcon
-                        sx={{ color: (theme) => theme.palette.error.main }}
-                    />
+                    <Tooltip title="Some Error Occured">
+                        <ThumbUpIcon
+                            sx={{
+                                color: (theme) => theme.palette.success.dark,
+                            }}
+                        />
+                    </Tooltip>
+                </ListItemIcon>
+                <ListItemIcon
+                    sx={{ display: failed?.has(index) ? "" : "none" }}
+                >
+                    <Tooltip title="Successfully Added">
+                        <ErrorIcon
+                            sx={{ color: (theme) => theme.palette.error.main }}
+                        />
+                    </Tooltip>
                 </ListItemIcon>
             </Stack>
         </ListItem>
@@ -166,6 +174,7 @@ export default function AddEditorsStep({ contractAddress }) {
         } catch (err) {
             console.log(err);
             console.log("could not send to db");
+            setFailed((prevSet) => new Set(prevSet).add(index));
         }
     };
 
@@ -195,6 +204,7 @@ export default function AddEditorsStep({ contractAddress }) {
             // setInfoMsg("Oh No! Something went wrong!");
             // setTextSeverity("error");
             // setChecked(true);
+            setFailed((prevSet) => new Set(prevSet).add(index));
         }
     };
 
@@ -260,6 +270,7 @@ export default function AddEditorsStep({ contractAddress }) {
                                         index,
                                         handleRemoveEditor,
                                         success,
+                                        failed,
                                     })}
                                 </Collapse>
                             ))}
