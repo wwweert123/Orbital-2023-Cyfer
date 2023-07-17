@@ -1,10 +1,14 @@
-// import { useState } from "react";
+import { useEffect, useState } from "react";
 // @mui
 import PropTypes from "prop-types";
 import { alpha, styled } from "@mui/material/styles";
 import { Card, Typography, Stack, Button, TextField } from "@mui/material";
 // components
 import Iconify from "../../Components/iconify";
+
+// connex
+import Connex from "../../api/connex";
+import { ABI } from "../../Vechain/abi";
 
 // ----------------------------------------------------------------------
 
@@ -35,10 +39,33 @@ export default function EditContractWidget({
     color = "error",
     sx,
     number,
+    contract,
     clausetext,
     handleClauseText,
     handleSubmit,
 }) {
+    // Connex Connection Instance
+    const connex = Connex();
+
+    const [contractName, setContractName] = useState("");
+    useEffect(() => {
+        const getContractName = async (contractAddress) => {
+            if (contractAddress === "") {
+                return;
+            }
+            const getNameABI = ABI.find(({ name }) => name === "getName");
+            const result = await connex.thor
+                .account(contractAddress)
+                .method(getNameABI)
+                .call();
+            if (result) {
+                setContractName(result.decoded[0]);
+            }
+        };
+        getContractName(contract);
+        // eslint-disable-next-line
+    }, [contract]);
+
     return (
         <Card
             sx={{
@@ -62,7 +89,20 @@ export default function EditContractWidget({
             >
                 <Iconify icon={icon} width={24} height={24} />
             </StyledIcon>
-            <Typography variant="h4">Clause {number}</Typography>
+            <Stack
+                direction="row"
+                alignItems="center"
+                justifyContent="space-between"
+                m={3}
+            >
+                <Typography variant="h5">
+                    {contractName} ({contract})
+                </Typography>
+                <Typography variant="subtitle 2">
+                    Editing clause {number}
+                </Typography>
+            </Stack>
+
             <TextField
                 variant="filled"
                 multiline

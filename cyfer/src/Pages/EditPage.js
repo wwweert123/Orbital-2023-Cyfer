@@ -78,9 +78,15 @@ export default function EditPage() {
     };
 
     const selectItems = contracts.map((contract) => (
-        <MenuItem value={contract} sx={{ color: "black" }}>
+        <MenuItem
+            value={contract}
+            sx={{
+                bgcolor: (theme) => theme.palette.background.neutral,
+                color: (theme) => theme.palette.primary.darker,
+            }}
+        >
             <Typography
-                variant="h5"
+                variant="subtitle1"
                 sx={{
                     color: (theme) => theme.palette.primary.dark,
                 }}
@@ -165,7 +171,7 @@ export default function EditPage() {
                         mx={5}
                         spacing={3}
                     >
-                        <FormControl fullWidth>
+                        <FormControl sx={{ minWidth: 1 / 2 }}>
                             <InputLabel id="contract-select-label">
                                 Contract
                             </InputLabel>
@@ -179,7 +185,7 @@ export default function EditPage() {
                                 {selectItems}
                             </Select>
                         </FormControl>
-                        <FormControl fullWidth>
+                        <FormControl sx={{ minWidth: 1 / 4 }}>
                             <InputLabel id="clause-select-label">
                                 Clause
                             </InputLabel>
@@ -190,116 +196,23 @@ export default function EditPage() {
                                 label="Clause"
                                 onChange={handleClause}
                             >
-                                <MenuItem value={0}>
-                                    <Typography
-                                        variant="subtitle2"
+                                {Array.from(Array(20)).map((x, index) => (
+                                    <MenuItem
+                                        key={index}
+                                        value={index}
                                         sx={{
+                                            bgcolor: (theme) =>
+                                                theme.palette.background
+                                                    .neutral,
                                             color: (theme) =>
-                                                theme.palette.primary.dark,
+                                                theme.palette.primary.darker,
                                         }}
                                     >
-                                        0
-                                    </Typography>
-                                </MenuItem>
-                                <MenuItem value={1}>
-                                    <Typography
-                                        variant="subtitle2"
-                                        sx={{
-                                            color: (theme) =>
-                                                theme.palette.primary.dark,
-                                        }}
-                                    >
-                                        1
-                                    </Typography>
-                                </MenuItem>
-                                <MenuItem value={2}>
-                                    <Typography
-                                        variant="subtitle2"
-                                        sx={{
-                                            color: (theme) =>
-                                                theme.palette.primary.dark,
-                                        }}
-                                    >
-                                        2
-                                    </Typography>
-                                </MenuItem>
-                                <MenuItem value={3}>
-                                    <Typography
-                                        variant="subtitle2"
-                                        sx={{
-                                            color: (theme) =>
-                                                theme.palette.primary.dark,
-                                        }}
-                                    >
-                                        3
-                                    </Typography>
-                                </MenuItem>
-                                <MenuItem value={4}>
-                                    <Typography
-                                        variant="subtitle2"
-                                        sx={{
-                                            color: (theme) =>
-                                                theme.palette.primary.dark,
-                                        }}
-                                    >
-                                        4
-                                    </Typography>
-                                </MenuItem>
-                                <MenuItem value={5}>
-                                    <Typography
-                                        variant="subtitle2"
-                                        sx={{
-                                            color: (theme) =>
-                                                theme.palette.primary.dark,
-                                        }}
-                                    >
-                                        5
-                                    </Typography>
-                                </MenuItem>
-                                <MenuItem value={6}>
-                                    <Typography
-                                        variant="subtitle2"
-                                        sx={{
-                                            color: (theme) =>
-                                                theme.palette.primary.dark,
-                                        }}
-                                    >
-                                        6
-                                    </Typography>
-                                </MenuItem>
-                                <MenuItem value={7}>
-                                    <Typography
-                                        variant="subtitle2"
-                                        sx={{
-                                            color: (theme) =>
-                                                theme.palette.primary.dark,
-                                        }}
-                                    >
-                                        7
-                                    </Typography>
-                                </MenuItem>
-                                <MenuItem value={8}>
-                                    <Typography
-                                        variant="subtitle2"
-                                        sx={{
-                                            color: (theme) =>
-                                                theme.palette.primary.dark,
-                                        }}
-                                    >
-                                        8
-                                    </Typography>
-                                </MenuItem>
-                                <MenuItem value={9}>
-                                    <Typography
-                                        variant="subtitle2"
-                                        sx={{
-                                            color: (theme) =>
-                                                theme.palette.primary.dark,
-                                        }}
-                                    >
-                                        9
-                                    </Typography>
-                                </MenuItem>
+                                        <Typography variant="subtitle2">
+                                            {index}
+                                        </Typography>
+                                    </MenuItem>
+                                ))}
                             </Select>
                         </FormControl>
                     </Stack>
@@ -309,6 +222,7 @@ export default function EditPage() {
                         <EditContractWidget
                             icon={"mdi:contract"}
                             number={clauseNumber}
+                            contract={contract}
                             clausetext={clausetext}
                             handleClauseText={handleClauseText}
                             handleSubmit={handleSubmit}

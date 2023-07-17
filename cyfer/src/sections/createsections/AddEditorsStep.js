@@ -71,10 +71,10 @@ function renderItem({ item, index, handleRemoveEditor, success, failed }) {
                 <ListItemIcon
                     sx={{ display: success?.has(index) ? "" : "none" }}
                 >
-                    <Tooltip title="Some Error Occured">
+                    <Tooltip title="Successfully Added">
                         <ThumbUpIcon
                             sx={{
-                                color: (theme) => theme.palette.success.dark,
+                                color: (theme) => theme.palette.success.darker,
                             }}
                         />
                     </Tooltip>
@@ -82,7 +82,7 @@ function renderItem({ item, index, handleRemoveEditor, success, failed }) {
                 <ListItemIcon
                     sx={{ display: failed?.has(index) ? "" : "none" }}
                 >
-                    <Tooltip title="Successfully Added">
+                    <Tooltip title="Some Error Occured">
                         <ErrorIcon
                             sx={{ color: (theme) => theme.palette.error.main }}
                         />
