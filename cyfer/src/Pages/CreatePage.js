@@ -1,5 +1,5 @@
 // mui
-import { Container, Stack, Typography } from "@mui/material";
+import { Container, Stack, Typography, Divider } from "@mui/material";
 
 // Components
 // import Iconify from "../Components/iconify/Iconify";
@@ -105,6 +105,7 @@ export default function CreatePage() {
                             </Button>
                         </Grid>
                     </Grid> */}
+                    <Divider />
                     <CreateSteps />
                 </Stack>
             </Container>

@@ -65,8 +65,8 @@ export default function AccountDetailsWidget({
                     py: 5,
                     boxShadow: 0,
                     textAlign: "center",
-                    color: (theme) => theme.palette[color].darker,
-                    bgcolor: (theme) => theme.palette[color].lighter,
+                    color: (theme) => theme.palette[color].contrastText,
+                    bgcolor: (theme) => theme.palette.grey[800],
                     ...sx,
                 }}
             >
@@ -90,6 +90,15 @@ export default function AccountDetailsWidget({
                 <Typography variant="h4" sx={{ opacity: 0.72 }}>
                     VTHO : {vtho}
                 </Typography>
+                <br />
+                <Button
+                    onClick={handleCheckBalance}
+                    variant="contained"
+                    color="success"
+                    startIcon={<Iconify icon="nimbus:money" />}
+                >
+                    Check Balance
+                </Button>
                 <Stack
                     direction="row"
                     alignItems="center"
@@ -99,17 +108,10 @@ export default function AccountDetailsWidget({
                     mx={5}
                     spacing={2}
                 >
-                    <Typography variant="h5" gutterBottom>
+                    <Typography variant="subtitle2" gutterBottom>
                         Need more Currency?
                     </Typography>
-                    <Button
-                        onClick={handleCheckBalance}
-                        variant="contained"
-                        color="success"
-                        startIcon={<Iconify icon="nimbus:money" />}
-                    >
-                        Check Balance
-                    </Button>
+
                     <Button
                         href="https://faucet.vecha.in/"
                         target="_blank"

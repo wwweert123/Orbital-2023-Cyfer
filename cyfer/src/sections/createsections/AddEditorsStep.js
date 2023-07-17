@@ -42,6 +42,7 @@ import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
 // Components
 import AlertDialog from "../../Components/AlertDialog";
+import Iconify from "../../Components/iconify/Iconify";
 
 function renderItem({ item, index, handleRemoveEditor, success }) {
     return (
@@ -172,7 +173,7 @@ export default function AddEditorsStep({ contractAddress }) {
         const setEditorABI = ABI.find(
             ({ name }) => name === "addAuthorizedAddress"
         );
-
+        console.log(editorAddress);
         try {
             const clause = connex.thor
                 .account(contractAddress)
@@ -236,13 +237,20 @@ export default function AddEditorsStep({ contractAddress }) {
                     Add editors to your new contract
                 </Typography>
                 <Typography variant="subtitle1">
-                    Adding editors to : {walletShort(contractAddress)}{" "}
                     {contractName}
+                    {" ("}
+                    {walletShort(contractAddress)}
+                    {" )"}
                 </Typography>
-                <Button variant="contained" onClick={handleClickOpen}>
-                    Add Editor
-                </Button>
+
                 <Box sx={{ mt: 1 }} width={1 / 2}>
+                    <Button
+                        variant="contained"
+                        onClick={handleClickOpen}
+                        startIcon={<Iconify icon="carbon:add-filled" />}
+                    >
+                        Add Editor
+                    </Button>
                     <List>
                         <TransitionGroup>
                             {addedEditors.map((item, index) => (

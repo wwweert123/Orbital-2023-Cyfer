@@ -49,8 +49,8 @@ export default function AccountDetailsWidget({
                 py: 5,
                 boxShadow: 0,
                 textAlign: "center",
-                color: (theme) => theme.palette[color].darker,
-                bgcolor: (theme) => theme.palette[color].lighter,
+                color: (theme) => theme.palette[color].contrastText,
+                bgcolor: (theme) => theme.palette.grey[800],
                 ...sx,
             }}
         >
