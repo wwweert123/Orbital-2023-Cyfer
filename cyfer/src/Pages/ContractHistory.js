@@ -13,9 +13,8 @@ import {
 
 // Vechain
 import { abiDict } from "../Vechain/abiDict";
+
 import { Helmet } from "react-helmet-async";
-import { ABI1 } from "../Vechain/abi1";
-import connex from "../api/connex";
 
 // Axios
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
@@ -33,16 +32,16 @@ function dataShort(data){
 }
 
 async function getName(contractAddress){
-    const getNameABI = ABI1.find(({ name }) => name === "getName");
-    try{
-        const result = await connex.thor
+    const getNameABI = ABI.find(({ name }) => name === "getName");
+    const result = await connex.thor
             .account(contractAddress)
             .method(getNameABI)
             .call();
-        return result.decoded[0];
+    if (result) {
+        return (result.decoded[0]);
     }
-    catch(err){
-        return " ";
+    else{
+        return "";
     }
 }
 
@@ -80,7 +79,7 @@ function decode(encoded, functionName) {
     return strings;
 }
 
-export default function TestPage() {
+export default function ContractHistoryPage() {
     const { wallet } = useWallet();
 
     const [transactionDetails, setTransactionDetails] = useState([]);
@@ -105,7 +104,6 @@ export default function TestPage() {
                 let fullDate = tempDate.toString();
                 let shortDate = tempDate.toLocaleDateString();
                 let functionName, variable;
-                let tempName = getName(item.clauses[0].to);
                 if (item.size > 1000) {
                     functionName = "Create Contract"
                     variable = "null"
@@ -128,7 +126,7 @@ export default function TestPage() {
                     txID: item.txID,
                     origin: item.origin,
                     to: item.clauses[0].to,
-                    contractName: tempName,
+                    contractName: getName(item.clauses[0].to),
                     data: item.clauses[0].data,
                     size: item.size,
                     name: functionName,
@@ -149,22 +147,30 @@ export default function TestPage() {
     return (
         <>
             <Helmet>
-                <title> Transaction History</title>
+                <title> Contract History</title>
             </Helmet>
             <Container maxWidth="xl">
                 <Stack spacing={3}>
                     <Typography variant="h4" sx={{ mb: 5 }}>
-                        Transaction History
+                        Contract History
                     </Typography>
                     <Typography variant="h5" sx={{ mb: 5 }}>
-                        Your selected wallet is :{wallet}
+                        Your selected t is :{wallet}
                     </Typography>
-                    <Typography variant="h5">
-                        Number of transactions: {transactionHistoryCount}
-                    </Typography>
-                    <Typography variant="h6">
-                        Recent transactions:
-                    </Typography>
+                    <FormControl fullWidth>
+                            <InputLabel id="contract-select-label">
+                                Contract
+                            </InputLabel>
+                            <Select
+                                labelId="contract-select-label"
+                                id="contract-select"
+                                value={contract}
+                                label="Contract"
+                                onChange={handleChange}
+                            >
+                                {selectItems}
+                            </Select>
+                    </FormControl>
                     {transactionDetails.map((detail, index) => (
                         <div key={index}>
                             <Accordion>
