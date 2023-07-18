@@ -7,7 +7,7 @@ import Iconify from "../../Components/iconify";
 
 // Connex
 import Connex from "../../api/connex";
-import { ABI } from "../../Vechain/abi";
+import { ABICombined } from "../../Vechain/abicombined";
 import { useState, useEffect } from "react";
 
 // Utils
@@ -16,6 +16,9 @@ import ClauseAccordion from "./ClauseAccordion";
 
 // Dialog for adding contract to editor
 import AddEditorDialog from "./AddEditorDialog";
+
+// hooks
+import useGetContractType from "../../hooks/useGetContractType";
 
 // ----------------------------------------------------------------------
 
@@ -72,9 +75,14 @@ export default function ContractWidgetSummary({
     // For getting the name of contract from thor
     const [contractName, setContractname] = useState("<Name>");
     const connex = Connex();
+
+    const contractType = useGetContractType(address);
+
     useEffect(() => {
         const getContractName = async () => {
-            const getNameABI = ABI.find(({ name }) => name === "getName");
+            const getNameABI = ABICombined[contractType].find(
+                ({ name }) => name === "getName"
+            );
 
             const result = await connex.thor
                 .account(address)

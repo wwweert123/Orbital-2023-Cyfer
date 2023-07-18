@@ -10,10 +10,13 @@ import Label from "../../Components/label";
 
 // Connex
 import Connex from "../../api/connex";
-import { ABI } from "../../Vechain/abi";
+import { ABICombined } from "../../Vechain/abicombined";
 
 // Utils
 import walletShort from "wallet-short";
+
+// Hooks
+import useGetContractType from "../../hooks/useGetContractType";
 
 // ----------------------------------------------------------------------
 
@@ -33,11 +36,15 @@ DashboardContractCard.propTypes = {
 };
 
 export default function DashboardContractCard({ role, contractAddress }) {
+    const contractType = useGetContractType(contractAddress);
+
     const [contractName, setContractname] = useState("<Name>");
     const connex = Connex();
     useEffect(() => {
         const getContractName = async () => {
-            const getNameABI = ABI.find(({ name }) => name === "getName");
+            const getNameABI = ABICombined[contractType].find(
+                ({ name }) => name === "getName"
+            );
             try {
                 const result = await connex.thor
                     .account(contractAddress)

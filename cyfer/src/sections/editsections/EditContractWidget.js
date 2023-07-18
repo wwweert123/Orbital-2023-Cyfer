@@ -8,7 +8,10 @@ import Iconify from "../../Components/iconify";
 
 // connex
 import Connex from "../../api/connex";
-import { ABI } from "../../Vechain/abi";
+import { ABICombined } from "../../Vechain/abicombined";
+
+// Hooks
+import useGetContractType from "../../hooks/useGetContractType";
 
 // ----------------------------------------------------------------------
 
@@ -48,12 +51,17 @@ export default function EditContractWidget({
     const connex = Connex();
 
     const [contractName, setContractName] = useState("");
+
+    const contractType = useGetContractType(contract);
+
     useEffect(() => {
         const getContractName = async (contractAddress) => {
             if (contractAddress === "") {
                 return;
             }
-            const getNameABI = ABI.find(({ name }) => name === "getName");
+            const getNameABI = ABICombined[contractType].find(
+                ({ name }) => name === "getName"
+            );
             const result = await connex.thor
                 .account(contractAddress)
                 .method(getNameABI)

@@ -17,10 +17,13 @@ import { useState, useEffect } from "react";
 
 // Conex
 import Connex from "../../api/connex";
-import { ABI } from "../../Vechain/abi";
+import { ABICombined } from "../../Vechain/abicombined";
 
 // axios
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+
+// hooks
+import useGetContractType from "../../hooks/useGetContractType";
 
 AddEditorDialog.propTypes = {
     contract: PropTypes.string.isRequired,
@@ -42,6 +45,8 @@ export default function AddEditorDialog({ contract, wallet }) {
 
     const connex = Connex();
 
+    const contractType = useGetContractType(contract);
+
     // Send editor information to DB
     const sendEditorDB = async () => {
         try {
@@ -58,7 +63,7 @@ export default function AddEditorDialog({ contract, wallet }) {
     };
 
     const AddEditor = async () => {
-        const setEditorABI = ABI.find(
+        const setEditorABI = ABICombined[contractType].find(
             ({ name }) => name === "addAuthorizedAddress"
         );
 

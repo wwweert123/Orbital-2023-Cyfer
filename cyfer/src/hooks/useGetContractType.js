@@ -6,7 +6,7 @@ import Connex from "../api/connex";
 // ABI
 import { ABICombined } from "../Vechain/abicombined";
 
-export function useGetContractType(contractAddress) {
+export default function useGetContractType(contractAddress) {
     const connex = Connex();
     const [contractType, setContractType] = useState(null);
     useEffect(() => {
@@ -20,11 +20,15 @@ export function useGetContractType(contractAddress) {
                     .method(getContractType)
                     .call();
                 setContractType(result.decoded[0]);
+                console.log(contractAddress);
+                console.log(result.decoded[0]);
             } catch (err) {
+                console.log(err);
                 console.log("useGetContractType failed");
             }
         };
         getContractTypeFunc();
+        // eslint-disable-next-line
     }, [contractAddress]);
     return contractType;
 }

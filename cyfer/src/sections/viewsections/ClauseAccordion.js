@@ -10,7 +10,10 @@ import { useEffect, useState } from "react";
 
 // Connex and ABI
 import Connex from "../../api/connex";
-import { ABI } from "../../Vechain/abi";
+import { ABICombined } from "../../Vechain/abicombined";
+
+// hooks
+import useGetContractType from "../../hooks/useGetContractType";
 
 ClauseAccordion.propTypes = {
     expanded: PropTypes.oneOf([PropTypes.string, PropTypes.bool]).isRequired,
@@ -28,10 +31,15 @@ export default function ClauseAccordion({
     const [clauseText, setClauseText] = useState("Empty");
 
     const connex = Connex();
+
+    const contractType = useGetContractType[contractAddress];
+
     useEffect(() => {
         const getClauseText = async () => {
             console.log("hi");
-            const readABI = ABI.find(({ name }) => name === "retrieve");
+            const readABI = ABICombined[contractType].find(
+                ({ name }) => name === "retrieve"
+            );
             const result = await connex.thor
                 .account(contractAddress)
                 .method(readABI)

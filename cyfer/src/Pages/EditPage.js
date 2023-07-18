@@ -1,6 +1,8 @@
 import { Helmet } from "react-helmet-async";
 import { useNavigate, useLocation } from "react-router-dom";
 
+// Hooks
+import useGetContractType from "../hooks/useGetContractType";
 import useWallet from "../hooks/useWallet";
 
 import { useState, useEffect } from "react";
@@ -30,7 +32,7 @@ import AlertDialog from "../Components/AlertDialog";
 
 // connex
 import Connex from "../api/connex";
-import { ABI } from "../Vechain/abi";
+import { ABICombined } from "../Vechain/abicombined";
 
 export default function EditPage() {
     const connex = Connex();
@@ -56,8 +58,12 @@ export default function EditPage() {
     const [errmsg, setErrmsg] = useState("");
     const [errtitle, setErrtitle] = useState("");
 
+    const contractType = useGetContractType(contract);
+
     const handleSubmit = async () => {
-        const writeABI = ABI.find(({ name }) => name === "store");
+        const writeABI = ABICombined[contractType].find(
+            ({ name }) => name === "store"
+        );
         console.log(clausetext);
         try {
             const visitor = await connex.thor.account(contract);

@@ -33,10 +33,13 @@ import walletShort from "wallet-short";
 import Connex from "../../api/connex";
 
 // ABI
-import { ABI } from "../../Vechain/abi";
+import { ABICombined } from "../../Vechain/abicombined";
 
 // wallet account context
 import useWallet from "../../hooks/useWallet";
+
+// Hooks
+import useGetContractType from "../../hooks/useGetContractType";
 
 // Axios
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
@@ -121,6 +124,8 @@ export default function AddEditorsStep({ contractAddress }) {
         setOpen(true);
     };
 
+    const contractType = useGetContractType(contractAddress);
+
     // Username and wallet address
     const [username, setUsername] = useState("");
     const handleUserChange = (e) => {
@@ -147,7 +152,10 @@ export default function AddEditorsStep({ contractAddress }) {
             if (contractAddress === "") {
                 return;
             }
-            const getNameABI = ABI.find(({ name }) => name === "getName");
+            console.log(contractType);
+            const getNameABI = ABICombined[contractType].find(
+                ({ name }) => name === "getName"
+            );
             const result = await connex.thor
                 .account(contractAddress)
                 .method(getNameABI)
@@ -179,7 +187,7 @@ export default function AddEditorsStep({ contractAddress }) {
     };
 
     const AddEditor = async (editorAddress, editorusername, index) => {
-        const setEditorABI = ABI.find(
+        const setEditorABI = ABICombined[contractType].find(
             ({ name }) => name === "addAuthorizedAddress"
         );
         console.log(editorAddress);
