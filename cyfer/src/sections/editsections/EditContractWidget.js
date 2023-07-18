@@ -59,6 +59,7 @@ export default function EditContractWidget({
             if (contractAddress === "") {
                 return;
             }
+            console.log(contractType);
             const getNameABI = ABICombined[contractType].find(
                 ({ name }) => name === "getName"
             );
