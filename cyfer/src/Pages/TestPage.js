@@ -15,7 +15,7 @@ import {
 import { abiDict } from "../Vechain/abiDict";
 import { Helmet } from "react-helmet-async";
 import { ABI1 } from "../Vechain/abi1";
-import connex from "../api/connex";
+import Connex from "../api/connex";
 
 // Axios
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
@@ -29,19 +29,6 @@ function dataShort(data) {
         );
     } else {
         // throw new Error("Invalid format: " + typeof data);
-    }
-}
-
-async function getName(contractAddress) {
-    const getNameABI = ABI1.find(({ name }) => name === "getName");
-    try {
-        const result = await connex.thor
-            .account(contractAddress)
-            .method(getNameABI)
-            .call();
-        return result.decoded[0];
-    } catch (err) {
-        return " ";
     }
 }
 
@@ -77,6 +64,70 @@ function decode(encoded, functionName) {
     }
     return strings;
 }
+
+const TransactionItem = ({ index, detail }) => {
+    const connex = Connex();
+    const [contractName, setContractName] = useState("");
+    const getName = async (contractAddress) => {
+        const getNameABI = ABI1.find(({ name }) => name === "getName");
+        try {
+            const result = await connex.thor
+                .account(contractAddress)
+                .method(getNameABI)
+                .call();
+            setContractName(result.decoded[0]);
+            console.log(result.decoded[0]);
+        } catch (err) {
+            console.log(err);
+            return " ";
+        }
+    };
+    useEffect(() => {
+        getName(detail.to);
+    }, [detail.to]);
+    return (
+        <div key={index}>
+            <Accordion>
+                <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1d-content"
+                    id="panel1d-header"
+                    sx={{
+                        backgroundColor: (theme) =>
+                            theme.palette.background.neutral,
+                    }}
+                >
+                    <Typography variant="subtitle2">
+                        Index:{index} {detail.headerDate}
+                    </Typography>
+                </AccordionSummary>
+                <AccordionDetails
+                    sx={{
+                        backgroundColor: (theme) => theme.palette.grey[700],
+                    }}
+                >
+                    <Typography variant="body1">Date: {detail.date}</Typography>
+                    <Typography variant="body1">
+                        Transaction ID: {detail.txID}
+                    </Typography>
+                    <Typography variant="body1">
+                        Origin: {detail.origin}
+                    </Typography>
+                    <Typography>
+                        To: {detail.to} {contractName}
+                    </Typography>
+                    <Typography variant="body1">
+                        Data: {dataShort(detail.data)}
+                    </Typography>
+                    <Typography variant="body1">
+                        Function Name: {detail.name} Parameters:{" "}
+                        {detail.parameters}
+                    </Typography>
+                </AccordionDetails>
+            </Accordion>
+        </div>
+    );
+};
 
 export default function TestPage() {
     const { wallet } = useWallet();
@@ -118,7 +169,6 @@ export default function TestPage() {
                         variable = "unknown";
                     }
                 }
-                console.log(item.clauses[0].to);
                 return {
                     date: fullDate,
                     headerDate: shortDate,
@@ -161,49 +211,11 @@ export default function TestPage() {
                     </Typography>
                     <Typography variant="h6">Recent transactions:</Typography>
                     {transactionDetails.map((detail, index) => (
-                        <div key={index}>
-                            <Accordion>
-                                <AccordionSummary
-                                    expandIcon={<ExpandMoreIcon />}
-                                    aria-controls="panel1d-content"
-                                    id="panel1d-header"
-                                    sx={{
-                                        backgroundColor: (theme) =>
-                                            theme.palette.background.neutral,
-                                    }}
-                                >
-                                    <Typography variant="subtitle2">
-                                        Index:{index} {detail.headerDate}
-                                    </Typography>
-                                </AccordionSummary>
-                                <AccordionDetails
-                                    sx={{
-                                        backgroundColor: (theme) =>
-                                            theme.palette.grey[700],
-                                    }}
-                                >
-                                    <Typography variant="body1">
-                                        Date: {detail.date}
-                                    </Typography>
-                                    <Typography variant="body1">
-                                        Transaction ID: {detail.txID}
-                                    </Typography>
-                                    <Typography variant="body1">
-                                        Origin: {detail.origin}
-                                    </Typography>
-                                    <Typography>
-                                        To: {detail.to} {detail.contractName}
-                                    </Typography>
-                                    <Typography variant="body1">
-                                        Data: {dataShort(detail.data)}
-                                    </Typography>
-                                    <Typography variant="body1">
-                                        Function Name: {detail.name} Parameters:{" "}
-                                        {detail.parameters}
-                                    </Typography>
-                                </AccordionDetails>
-                            </Accordion>
-                        </div>
+                        <TransactionItem
+                            key={index}
+                            detail={detail}
+                            index={index}
+                        />
                     ))}
                 </Stack>
             </Container>
