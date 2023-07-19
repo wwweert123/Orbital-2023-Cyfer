@@ -57,7 +57,7 @@ export default function CreatePage() {
     return (
         <>
             <Helmet>
-                <title> Create | Minimal UI </title>
+                <title> Create | Cyfer </title>
             </Helmet>
             <Container maxWidth="xl">
                 <Stack spacing={3}>

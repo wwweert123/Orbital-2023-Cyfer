@@ -157,7 +157,7 @@ export default function EditPage() {
     return (
         <>
             <Helmet>
-                <title> Edit | Minimal UI </title>
+                <title> Edit | Cyfer </title>
             </Helmet>
 
             <Container maxWidth="xl">

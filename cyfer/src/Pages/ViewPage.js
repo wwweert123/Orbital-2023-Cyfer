@@ -9,7 +9,7 @@ export default function ViewPage() {
     return (
         <>
             <Helmet>
-                <title> View | Minimal UI </title>
+                <title> View | Cyfer </title>
             </Helmet>
 
             <Container maxWidth="xl">

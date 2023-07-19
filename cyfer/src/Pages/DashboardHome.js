@@ -82,7 +82,7 @@ export default function DashboardHome() {
     return (
         <>
             <Helmet>
-                <title> Dashboard | Minimal UI </title>
+                <title> Dashboard | Cyfer </title>
             </Helmet>
 
             <Container maxWidth="xl">

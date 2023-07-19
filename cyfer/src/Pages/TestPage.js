@@ -43,7 +43,7 @@ export default function TestPage() {
     return (
         <>
             <Helmet>
-                <title> Test | Minimal UI </title>
+                <title> Test | Cyfer </title>
             </Helmet>
 
             {/*<Container maxWidth="xl">

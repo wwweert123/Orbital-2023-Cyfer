@@ -10,7 +10,7 @@ const UsersPage = () => {
     return (
         <>
             <Helmet>
-                <title> User | Minimal UI </title>
+                <title> User | Cyfer </title>
             </Helmet>
             <Container>
                 <Typography variant="h4" sx={{ mb: 5 }}>
