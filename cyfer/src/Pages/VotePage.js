@@ -156,6 +156,25 @@ export default function VotePage() {
         }
     };
 
+    const [yes, setYes] = useState();
+    const [no, setNo] = useState();
+    const CheckYesNOResults = async (contract) => {
+        const yesABI = ABICombined[2].find(
+            ({ name }) => name === "getForVotes"
+        );
+        const noABI = ABICombined[2].find(({ name }) => name === "getNoVotes");
+        const yesResult = await connex.thor
+            .account("0x6C10D347cc575b8e03463d5dB60985e8636c96F3")
+            .method(yesABI)
+            .call();
+        const noResult = await connex.thor
+            .account("0x6C10D347cc575b8e03463d5dB60985e8636c96F3")
+            .method(noABI)
+            .call();
+        setYes(yesResult.decoded[0]);
+        setNo(noResult.decoded[0]);
+    };
+
     const { wallet } = useWallet();
     const [selectedContract, setSelectedContract] = useState("");
     const handleChangeContract = (e) => {
@@ -164,6 +183,7 @@ export default function VotePage() {
         handleGetProposal(e.target.value);
         handleGetProposer(e.target.value);
         handleGetAllEditors(e.target.value);
+        CheckYesNOResults(e.target.value);
     };
 
     useEffect(() => {
@@ -263,7 +283,7 @@ export default function VotePage() {
                                 },
                             }}
                         >
-                            {contracts.map((currentcontract, index) => (
+                            {contracts?.map((currentcontract, index) => (
                                 <MenuItem
                                     value={currentcontract}
                                     divider="true"
@@ -363,7 +383,7 @@ export default function VotePage() {
                         <Grid item xs={6}>
                             <Typography>Editors List</Typography>
                             <List dense="false">
-                                {contractUsers.map((user, index) => (
+                                {contractUsers?.map((user, index) => (
                                     <ListItem key={index}>
                                         <ListItemIcon>
                                             {user.voted ? (
@@ -397,6 +417,8 @@ export default function VotePage() {
                                     </ListItem>
                                 ))}
                             </List>
+                            <Typography>Yes Votes: {yes}</Typography>
+                            <Typography>No Votes: {no}</Typography>
                         </Grid>
                         <Divider orientation="vertical" flexItem />
                         <Grid item xs={5}>
