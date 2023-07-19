@@ -13,7 +13,15 @@ import {
     Card,
     Grid,
     Divider,
+    List,
+    ListItem,
+    ListItemText,
+    ListItemIcon,
+    Button,
+    Tooltip,
 } from "@mui/material";
+import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
+import DoneAllIcon from "@mui/icons-material/DoneAll";
 
 // Components
 import ClauseAccordion from "../sections/viewsections/ClauseAccordion";
@@ -113,6 +121,41 @@ export default function VotePage() {
         // eslint-disable-next-line
     }, [contracts]);
 
+    const [contractUsers, setContractUsers] = useState();
+
+    const checkVoteStatus = async (Users, contract) => {
+        const checkVotedABI = ABICombined[2].find(
+            ({ name }) => name === "hasVoted"
+        );
+        const updated = await Promise.all(
+            Users.map(async (user) => {
+                const checkVoteResult = await connex.thor
+                    .account("0x6C10D347cc575b8e03463d5dB60985e8636c96F3")
+                    .method(checkVotedABI)
+                    .call(user.walletAddress);
+                user.voted = checkVoteResult.decoded[0];
+                return user;
+            })
+        );
+        setContractUsers(updated);
+        console.log(updated);
+    };
+
+    const handleGetAllEditors = async (contract) => {
+        if (contract === "") {
+            console.log("no contract selected");
+            return;
+        }
+        try {
+            const response = await axiosPrivate.get(
+                `/wallet/getcontractusers/0x6C10D347cc575b8e03463d5dB60985e8636c96F3`
+            );
+            checkVoteStatus(response.data, contract);
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
     const { wallet } = useWallet();
     const [selectedContract, setSelectedContract] = useState("");
     const handleChangeContract = (e) => {
@@ -120,6 +163,7 @@ export default function VotePage() {
         handleGetChangedClause(e.target.value);
         handleGetProposal(e.target.value);
         handleGetProposer(e.target.value);
+        handleGetAllEditors(e.target.value);
     };
 
     useEffect(() => {
@@ -315,6 +359,75 @@ export default function VotePage() {
                             {clauseItems}
                         </Stack>
                     </Card>
+                    <Grid container spacing={2}>
+                        <Grid item xs={6}>
+                            <Typography>Editors List</Typography>
+                            <List dense="false">
+                                {contractUsers.map((user, index) => (
+                                    <ListItem key={index}>
+                                        <ListItemIcon>
+                                            {user.voted ? (
+                                                <Tooltip title="Voted">
+                                                    <DoneAllIcon
+                                                        sx={{
+                                                            color: (theme) =>
+                                                                theme.palette
+                                                                    .primary
+                                                                    .light,
+                                                        }}
+                                                    />
+                                                </Tooltip>
+                                            ) : (
+                                                <Tooltip title="Yet to vote">
+                                                    <QuestionMarkIcon
+                                                        sx={{
+                                                            color: (theme) =>
+                                                                theme.palette
+                                                                    .warning
+                                                                    .light,
+                                                        }}
+                                                    />
+                                                </Tooltip>
+                                            )}
+                                        </ListItemIcon>
+                                        <ListItemText
+                                            primary={user.username}
+                                            secondary={user.walletAddress}
+                                        />
+                                    </ListItem>
+                                ))}
+                            </List>
+                        </Grid>
+                        <Divider orientation="vertical" flexItem />
+                        <Grid item xs={5}>
+                            <Typography>Vote</Typography>
+                            <Stack
+                                direction="row"
+                                alignItems="center"
+                                justifyContent="center"
+                                spacing={3}
+                            >
+                                <Button
+                                    variant="contained"
+                                    sx={{
+                                        bgcolor: (theme) =>
+                                            theme.palette.success.darker,
+                                    }}
+                                >
+                                    Yes
+                                </Button>
+                                <Button
+                                    variant="contained"
+                                    sx={{
+                                        bgcolor: (theme) =>
+                                            theme.palette.error.darker,
+                                    }}
+                                >
+                                    Against
+                                </Button>
+                            </Stack>
+                        </Grid>
+                    </Grid>
                 </Stack>
             </Container>
         </>
