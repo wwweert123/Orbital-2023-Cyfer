@@ -15,6 +15,9 @@ import { ABICombined } from "../../Vechain/abicombined";
 // hooks
 import useGetContractType from "../../hooks/useGetContractType";
 
+// Icon
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+
 ClauseAccordion.propTypes = {
     expanded: PropTypes.oneOf([PropTypes.string, PropTypes.bool]).isRequired,
     handleChange: PropTypes.func.isRequired,
@@ -37,7 +40,7 @@ export default function ClauseAccordion({
     useEffect(() => {
         const getClauseText = async () => {
             console.log("hi");
-            const readABI = ABICombined[contractType].find(
+            const readABI = ABICombined[2].find(
                 ({ name }) => name === "retrieve"
             );
             const result = await connex.thor
@@ -46,7 +49,9 @@ export default function ClauseAccordion({
                 .call(clauseNum);
             if (result) {
                 console.log(result);
-                setClauseText(result.decoded[0]);
+                setClauseText(
+                    result.decoded[0] === "" ? "Empty" : result.decoded[0]
+                );
             }
         };
         getClauseText();
@@ -60,6 +65,7 @@ export default function ClauseAccordion({
             sx={{ border: (theme) => theme.palette.divider }}
         >
             <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
                 aria-controls="panel1d-content"
                 id="panel1d-header"
                 sx={{

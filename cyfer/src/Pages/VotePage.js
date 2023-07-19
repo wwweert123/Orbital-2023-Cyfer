@@ -10,7 +10,13 @@ import {
     InputLabel,
     Select,
     MenuItem,
+    Card,
+    Grid,
+    Divider,
 } from "@mui/material";
+
+// Components
+import ClauseAccordion from "../sections/viewsections/ClauseAccordion";
 
 // Hooks
 import useWallet from "../hooks/useWallet";
@@ -19,15 +25,101 @@ import { useState, useEffect } from "react";
 // Axios
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
+// Connex and ABI
+import Connex from "../api/connex";
+import { ABICombined } from "../Vechain/abicombined";
+
+const NUMCLAUSES = 10;
+
 export default function VotePage() {
     const axiosPrivate = useAxiosPrivate();
+    const connex = Connex();
 
     const [contracts, setContracts] = useState([]);
+    const [contractNames, setContractNames] = useState([]);
+
+    const [changedClause, setChangedClause] = useState();
+    const [proposedClauseText, setProposedClauseText] = useState();
+    const [currentClauseText, setCurrentClauseText] = useState();
+    const [proposer, setProposer] = useState();
+
+    const handleGetChangedClause = async (selectedContract) => {
+        const indexABI = ABICombined[2].find(
+            ({ name }) => name === "getProposalIndex"
+        );
+        const clauseNo = await connex.thor
+            .account("0x6C10D347cc575b8e03463d5dB60985e8636c96F3")
+            .method(indexABI)
+            .call();
+        setChangedClause(clauseNo.decoded[0]);
+        console.log(clauseNo.decoded[0]);
+        handleGetCurrentClause(clauseNo.decoded[0], selectedContract);
+    };
+
+    const handleGetCurrentClause = async (clauseNo, selectedContract) => {
+        const readABI = ABICombined[2].find(({ name }) => name === "retrieve");
+        const currentText = await connex.thor
+            .account("0x6C10D347cc575b8e03463d5dB60985e8636c96F3")
+            .method(readABI)
+            .call(0);
+        setCurrentClauseText(currentText.decoded[0]);
+        console.log(currentText.decoded[0]);
+    };
+
+    const handleGetProposal = async (selectedContract) => {
+        const contentABI = ABICombined[2].find(
+            ({ name }) => name === "getProposal"
+        );
+        const clauseText = await connex.thor
+            .account("0x6C10D347cc575b8e03463d5dB60985e8636c96F3")
+            .method(contentABI)
+            .call();
+        setProposedClauseText(clauseText.decoded[0]);
+        console.log(clauseText.decoded[0]);
+    };
+
+    const handleGetProposer = async (selectedContract) => {
+        const proposerABI = ABICombined[2].find(
+            ({ name }) => name === "getProposer"
+        );
+        const proposer = await connex.thor
+            .account("0x6C10D347cc575b8e03463d5dB60985e8636c96F3")
+            .method(proposerABI)
+            .call();
+        setProposer(proposer.decoded[0]);
+        console.log(proposer.decoded[0]);
+    };
+
+    useEffect(() => {
+        const getContractNames = async () => {
+            const getNameABI = ABICombined[1].find(
+                ({ name }) => name === "getName"
+            );
+            const contractNames = [];
+            for (const contract of contracts) {
+                const result = await connex.thor
+                    .account(contract)
+                    .method(getNameABI)
+                    .call();
+                if (result) {
+                    contractNames.push(result.decoded[0]);
+                } else {
+                    contractNames.push("");
+                }
+            }
+            setContractNames(contractNames);
+        };
+        getContractNames();
+        // eslint-disable-next-line
+    }, [contracts]);
 
     const { wallet } = useWallet();
     const [selectedContract, setSelectedContract] = useState("");
     const handleChangeContract = (e) => {
         setSelectedContract(e.target.value);
+        handleGetChangedClause(e.target.value);
+        handleGetProposal(e.target.value);
+        handleGetProposer(e.target.value);
     };
 
     useEffect(() => {
@@ -69,6 +161,24 @@ export default function VotePage() {
         // return statement performs the cleanup when the component unmount or after the previous render
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [wallet]);
+
+    // For the Accordian Clauses
+    const [expanded, setExpanded] = useState(0);
+    const handleChange = (panel) => (event, newExpanded) => {
+        setExpanded(newExpanded ? panel : false);
+    };
+
+    const clauseItems = [];
+    for (let i = 0; i < NUMCLAUSES; i++) {
+        clauseItems.push(
+            <ClauseAccordion
+                expanded={expanded}
+                handleChange={handleChange}
+                clauseNum={i}
+                contractAddress={selectedContract}
+            />
+        );
+    }
     return (
         <>
             <Helmet>
@@ -109,14 +219,102 @@ export default function VotePage() {
                                 },
                             }}
                         >
-                            {contracts.map((currentcontract) => (
-                                <MenuItem value={currentcontract}>
-                                    {currentcontract} {selectedContract}
+                            {contracts.map((currentcontract, index) => (
+                                <MenuItem
+                                    value={currentcontract}
+                                    divider="true"
+                                >
+                                    <Stack>
+                                        {contractNames[index]}
+                                        {`                 `}
+                                        <Typography variant="subtitle2">
+                                            {currentcontract}
+                                        </Typography>
+                                    </Stack>
                                 </MenuItem>
                             ))}
                         </Select>
                     </FormControl>
-                    {selectedContract}
+                    <Typography>Proposed Change</Typography>
+                    <Grid container spacing={2}>
+                        <Grid item xs={6}>
+                            {" "}
+                            <Card
+                                sx={{
+                                    py: 5,
+                                    px: 3,
+                                    boxShadow: 0,
+                                    textAlign: "left",
+                                    color: (theme) =>
+                                        theme.palette.text.primary,
+                                    bgcolor: "transparent",
+                                    border: 2,
+                                    borderColor: (theme) =>
+                                        theme.palette.success.dark,
+                                }}
+                            >
+                                Current Clause #{Number(changedClause) + 1}
+                                <Divider sx={{ m: 1 }} />
+                                {currentClauseText}
+                            </Card>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <Card
+                                sx={{
+                                    py: 5,
+                                    px: 3,
+                                    boxShadow: 0,
+                                    textAlign: "left",
+                                    color: (theme) =>
+                                        theme.palette.text.primary,
+                                    bgcolor: "transparent",
+                                    border: 2,
+                                    borderColor: (theme) =>
+                                        theme.palette.warning.dark,
+                                }}
+                            >
+                                Proposed Clause #{Number(changedClause) + 1}{" "}
+                                Change by {proposer}
+                                <Divider sx={{ m: 1 }} />
+                                {proposedClauseText}
+                            </Card>
+                        </Grid>
+                    </Grid>
+                    <Typography>Proposed Contract Preview</Typography>
+                    <Card
+                        sx={{
+                            py: 5,
+                            px: 3,
+                            boxShadow: 0,
+                            textAlign: "left",
+                            color: (theme) => theme.palette.text.primary,
+                            bgcolor: (theme) =>
+                                theme.palette.background.neutral,
+                            border: 1,
+                        }}
+                    >
+                        <Stack spacing={2}>
+                            <Stack
+                                direction="row"
+                                alignItems="center"
+                                justifyContent="space-between"
+                            >
+                                <Typography variant="h5">
+                                    Contract Name
+                                </Typography>
+                                <Typography variant="subtitle2">
+                                    Contract Address
+                                </Typography>
+                            </Stack>
+                            <Typography>
+                                Lorem ipsum dolor sit amet. Ut aliquam ullam ut
+                                perferendis quam aut nisi dignissimos ut ipsa
+                                harum sed quos porro. 33 quia autem non illo
+                                nisi et sunt illo vel molestiae obcaecati.
+                            </Typography>
+                            {clauseItems}
+                        </Stack>
+                    </Card>
                 </Stack>
             </Container>
         </>
