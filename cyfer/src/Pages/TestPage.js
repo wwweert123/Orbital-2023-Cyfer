@@ -28,7 +28,7 @@ function dataShort(data) {
             `${data}`.slice(`${data}`.length - 64)
         );
     } else {
-        // throw new Error("Invalid format: " + typeof data);
+        //throw new Error("Invalid format: " + typeof data);
     }
 }
 
@@ -130,6 +130,7 @@ const TransactionItem = ({ index, detail }) => {
 };
 
 export default function TestPage() {
+    const connex = Connex();
     const { wallet } = useWallet();
 
     const [transactionDetails, setTransactionDetails] = useState([]);
@@ -137,6 +138,8 @@ export default function TestPage() {
     const [transactionHistoryCount, setTransactionHistoryCount] = useState("");
 
     const axiosPrivate = useAxiosPrivate();
+
+    const getNameABI = ABI1.find(({ name }) => name === "getName");
 
     const seeContractHistory = async () => {
         if (wallet === "") {
@@ -149,12 +152,25 @@ export default function TestPage() {
             );
             console.log(resp.data);
             setTransactionHistoryCount(resp.data.count);
-            const details = resp.data.txs.map((item) => {
-                let tempDate = new Date(item.meta.blockTimestamp * 1000);
+            const details = await Promise.all(resp.data.txs.map(async (item) => {
+                let tempUser = item.origin;
+                if (tempUser == wallet){
+                    tempUser += " (you)";
+                }
+                let tempDate = (new Date(item.meta.blockTimestamp * 1000));
                 let fullDate = tempDate.toString();
                 let shortDate = tempDate.toLocaleDateString();
+                let tempName = '';
+                try {
+                    const result = await connex.thor
+                        .account(item.clauses[0].to)
+                        .method(getNameABI)
+                        .call();
+                    tempName = result.decoded[0];
+                } catch (err) {
+                    console.error('Error getting contract name: ', err);
+                }
                 let functionName, variable;
-                // let tempName = getName(item.clauses[0].to);
                 if (item.size > 1000) {
                     functionName = "Create Contract";
                     variable = "null";
@@ -173,15 +189,15 @@ export default function TestPage() {
                     date: fullDate,
                     headerDate: shortDate,
                     txID: item.txID,
-                    origin: item.origin,
+                    origin: tempUser,
                     to: item.clauses[0].to,
-                    //contractName: tempName,
+                    contractName: tempName,
                     data: item.clauses[0].data,
                     size: item.size,
                     name: functionName,
                     parameters: variable,
                 };
-            });
+            }));
             setTransactionDetails(details);
         } catch (err) {
             console.log(err);
@@ -211,11 +227,45 @@ export default function TestPage() {
                     </Typography>
                     <Typography variant="h6">Recent transactions:</Typography>
                     {transactionDetails.map((detail, index) => (
-                        <TransactionItem
-                            key={index}
-                            detail={detail}
-                            index={index}
-                        />
+                        <div key={index}>
+                            <Accordion>
+                                <AccordionSummary
+                                    expandIcon={<ExpandMoreIcon />}
+                                    aria-controls="panel1d-content"
+                                    id="panel1d-header"
+                                    sx={{
+                                        backgroundColor: (theme) =>
+                                            theme.palette.background.neutral,
+                                    }}
+                                >
+                                <Typography variant="subtitle2">
+                                    Index:{index} {detail.headerDate}
+                                </Typography>
+                                </AccordionSummary>
+                                <AccordionDetails
+                                    sx={{backgroundColor: (theme) => theme.palette.grey[700],}}
+                                >
+                                    <Typography variant="body1">
+                                        Date: {detail.date}   
+                                    </Typography>
+                                    <Typography variant="body1">
+                                        Transaction ID: {detail.txID}
+                                    </Typography>
+                                    <Typography variant="body1">
+                                        From: {detail.origin}
+                                    </Typography>
+                                    <Typography>
+                                        To: {detail.to} ({detail.contractName})
+                                    </Typography>
+                                    <Typography variant="body1">
+                                        Data: {dataShort(detail.data)}
+                                    </Typography>
+                                    <Typography variant="body1">
+                                        Function Name: {detail.name}     Parameters: {detail.parameters}
+                                    </Typography>
+                                </AccordionDetails>
+                            </Accordion>
+                        </div>
                     ))}
                 </Stack>
             </Container>
