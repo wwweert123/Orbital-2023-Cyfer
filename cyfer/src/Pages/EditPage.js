@@ -18,6 +18,7 @@ import {
     Select,
     Grid,
     Stack,
+    Chip,
 } from "@mui/material";
 
 // axios
@@ -164,10 +165,15 @@ export default function EditPage() {
                 <Typography variant="h4" sx={{ mb: 5 }}>
                     Edit the clauses for your contract here
                 </Typography>
+                <Chip
+                    label={`Wallet: ${wallet}`}
+                    sx={{
+                        p: 2,
+                        bgcolor: (theme) => theme.palette.primary.darker,
+                        width: "100%",
+                    }}
+                />
                 <Box>
-                    <Typography variant="h5" sx={{ mb: 5 }}>
-                        Your selected wallet is :{wallet}
-                    </Typography>
                     <Stack
                         direction="row"
                         alignItems="center"

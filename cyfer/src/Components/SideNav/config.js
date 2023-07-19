@@ -27,6 +27,11 @@ const navConfig = [
         icon: icon("ic_cart"),
     },
     {
+        title: "vote",
+        path: "/vote",
+        icon: icon("ic_cart"),
+    },
+    {
         title: "view",
         path: "/view",
         icon: icon("ic_blog"),

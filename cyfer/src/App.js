@@ -21,6 +21,7 @@ import PersistLogin from "./Components/PersistLogin";
 // Layout
 import DashboardLayout from "./Layouts/DashboardLayout";
 import TestPage from "./Pages/TestPage";
+import VotePage from "./Pages/VotePage";
 
 const ROLES = {
     User: 2001,
@@ -51,6 +52,12 @@ function App() {
                         element={<RequireAuth allowedRoles={[ROLES.User]} />}
                     >
                         <Route path="/edit" element={<EditPage />} />
+                    </Route>
+
+                    <Route
+                        element={<RequireAuth allowedRoles={[ROLES.User]} />}
+                    >
+                        <Route path="/vote" element={<VotePage />} />
                     </Route>
 
                     <Route

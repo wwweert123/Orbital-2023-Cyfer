@@ -1,5 +1,5 @@
 // mui
-import { Container, Stack, Typography, Divider } from "@mui/material";
+import { Container, Stack, Typography, Divider, Chip } from "@mui/material";
 
 // Components
 // import Iconify from "../Components/iconify/Iconify";
@@ -64,9 +64,14 @@ export default function CreatePage() {
                     <Typography variant="h4">
                         Create your very own contract
                     </Typography>
-                    <Typography variant="h5">
-                        Your selected wallet is :{wallet}
-                    </Typography>
+                    <Chip
+                        label={`Wallet: ${wallet}`}
+                        sx={{
+                            p: 2,
+                            bgcolor: (theme) => theme.palette.primary.darker,
+                            width: "100%",
+                        }}
+                    />
                     {/* <Button
                         sx={{ width: 1 / 2 }}
                         onClick={handleCreateContract}
