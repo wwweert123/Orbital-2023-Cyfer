@@ -59,10 +59,15 @@ export default function VotePage() {
         );
         const voteNoABI = ABICombined[2].find(({ name }) => name === "voteNo");
         try {
-            const result = await connex.thor
-                .account(selectedContract)
+            const clause = connex.thor
+                .account("0x6C10D347cc575b8e03463d5dB60985e8636c96F3")
                 .method(vote === 1 ? voteYesABI : voteNoABI)
-                .call();
+                .asClause();
+            const result = await connex.vendor
+                .sign("tx", [clause])
+                .signer(wallet)
+                .comment(`voting ${vote} for this proposal`)
+                .request();
             if (result) {
                 console.log(`Vote ${vote} successful`);
                 setSubmitted(true);
