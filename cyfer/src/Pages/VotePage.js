@@ -22,6 +22,7 @@ import {
 } from "@mui/material";
 import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
+import TaskAltIcon from "@mui/icons-material/TaskAlt";
 
 // Components
 import ClauseAccordion from "../sections/viewsections/ClauseAccordion";
@@ -50,6 +51,26 @@ export default function VotePage() {
     const [proposedClauseText, setProposedClauseText] = useState();
     const [currentClauseText, setCurrentClauseText] = useState();
     const [proposer, setProposer] = useState();
+
+    const [submitted, setSubmitted] = useState(false);
+    const handleSubmit = async (vote) => {
+        const voteYesABI = ABICombined[2].find(
+            ({ name }) => name === "voteFor"
+        );
+        const voteNoABI = ABICombined[2].find(({ name }) => name === "voteNo");
+        try {
+            const result = await connex.thor
+                .account(selectedContract)
+                .method(vote === 1 ? voteYesABI : voteNoABI)
+                .call();
+            if (result) {
+                console.log(`Vote ${vote} successful`);
+                setSubmitted(true);
+            }
+        } catch (err) {
+            console.log(err);
+        }
+    };
 
     const handleGetChangedClause = async (selectedContract) => {
         const indexABI = ABICombined[2].find(
@@ -179,12 +200,20 @@ export default function VotePage() {
     const [selectedContract, setSelectedContract] = useState("");
     const handleChangeContract = (e) => {
         setSelectedContract(e.target.value);
-        handleGetChangedClause(e.target.value);
-        handleGetProposal(e.target.value);
-        handleGetProposer(e.target.value);
-        handleGetAllEditors(e.target.value);
-        CheckYesNOResults(e.target.value);
+        // handleGetChangedClause(e.target.value);
+        // handleGetProposal(e.target.value);
+        // handleGetProposer(e.target.value);
+        // handleGetAllEditors(e.target.value);
+        // CheckYesNOResults(e.target.value);
     };
+
+    useEffect(() => {
+        handleGetChangedClause(selectedContract);
+        handleGetProposal(selectedContract);
+        handleGetProposer(selectedContract);
+        handleGetAllEditors(selectedContract);
+        CheckYesNOResults(selectedContract);
+    }, [selectedContract, submitted]);
 
     useEffect(() => {
         let isMounted = true;
@@ -243,6 +272,7 @@ export default function VotePage() {
             />
         );
     }
+
     return (
         <>
             <Helmet>
@@ -429,24 +459,45 @@ export default function VotePage() {
                                 justifyContent="center"
                                 spacing={3}
                             >
-                                <Button
-                                    variant="contained"
-                                    sx={{
-                                        bgcolor: (theme) =>
-                                            theme.palette.success.darker,
-                                    }}
-                                >
-                                    Yes
-                                </Button>
-                                <Button
-                                    variant="contained"
-                                    sx={{
-                                        bgcolor: (theme) =>
-                                            theme.palette.error.darker,
-                                    }}
-                                >
-                                    Against
-                                </Button>
+                                {!submitted ? (
+                                    <>
+                                        <Button
+                                            variant="contained"
+                                            sx={{
+                                                bgcolor: (theme) =>
+                                                    theme.palette.success
+                                                        .darker,
+                                            }}
+                                            onClick={() => handleSubmit(1)}
+                                        >
+                                            Yes
+                                        </Button>
+                                        <Button
+                                            variant="contained"
+                                            sx={{
+                                                bgcolor: (theme) =>
+                                                    theme.palette.error.darker,
+                                            }}
+                                            onClick={() => handleSubmit(0)}
+                                        >
+                                            Against
+                                        </Button>
+                                    </>
+                                ) : (
+                                    <>
+                                        <TaskAltIcon
+                                            fontSize="large"
+                                            sx={{
+                                                color: (theme) =>
+                                                    theme.palette.success
+                                                        .darker,
+                                            }}
+                                        />
+                                        <Typography>
+                                            Voted Recorded Successfully!
+                                        </Typography>
+                                    </>
+                                )}
                             </Stack>
                         </Grid>
                     </Grid>
