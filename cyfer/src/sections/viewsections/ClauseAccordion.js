@@ -57,7 +57,7 @@ export default function ClauseAccordion({
         }
 
         // eslint-disable-next-line
-    }, [contractAddress]);
+    }, [contractAddress, contractType]);
 
     return (
         <Accordion
