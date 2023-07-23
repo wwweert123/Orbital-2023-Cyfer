@@ -57,6 +57,11 @@ export default function EditContractWidget({
     const [changedClause, setChangedClause] = useState();
 
     const handleGetChangedClause = async (selectedContract) => {
+        if (contractType === "1") {
+            setChangedClause("100");
+            return;
+        }
+        console.log(contractType);
         const indexABI = ABICombined[contractType].find(
             ({ name }) => name === "getProposalIndex"
         );
@@ -69,26 +74,29 @@ export default function EditContractWidget({
     };
 
     useEffect(() => {
-        const getContractName = async (contractAddress) => {
-            if (contractAddress === "") {
-                return;
-            }
-            console.log(contractType);
-            const getNameABI = ABICombined[contractType].find(
-                ({ name }) => name === "getName"
-            );
-            const result = await connex.thor
-                .account(contractAddress)
-                .method(getNameABI)
-                .call();
-            if (result) {
-                setContractName(result.decoded[0]);
-            }
-        };
-        getContractName(contract);
-        handleGetChangedClause(contract);
+        if (contractType !== null) {
+            const getContractName = async (contractAddress) => {
+                if (contractAddress === "") {
+                    return;
+                }
+                console.log(contractType);
+                const getNameABI = ABICombined[contractType].find(
+                    ({ name }) => name === "getName"
+                );
+                const result = await connex.thor
+                    .account(contractAddress)
+                    .method(getNameABI)
+                    .call();
+                if (result) {
+                    setContractName(result.decoded[0]);
+                }
+            };
+            getContractName(contract);
+            handleGetChangedClause(contract);
+        }
+
         // eslint-disable-next-line
-    }, [contract]);
+    }, [contractType]);
 
     return (
         <>

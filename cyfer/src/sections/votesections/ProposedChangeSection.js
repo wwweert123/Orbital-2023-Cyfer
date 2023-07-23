@@ -44,6 +44,8 @@ export default function ProoposedChangeSection({ selectedContract }) {
     const [currentClauseText, setCurrentClauseText] = useState();
     const [proposedClauseText, setProposedClauseText] = useState();
     const [proposer, setProposer] = useState();
+    const [contractName, setContractName] = useState();
+    const [contractDesc, setContractDesc] = useState();
 
     const [contractUsers, setContractUsers] = useState();
 
@@ -184,6 +186,40 @@ export default function ProoposedChangeSection({ selectedContract }) {
         setNo(noResult.decoded[0]);
     };
 
+    const getContractName = async () => {
+        if (selectedContract === "") {
+            return;
+        }
+        const getNameABI = ABICombined[contractType].find(
+            ({ name }) => name === "getName"
+        );
+        const result = await connex.thor
+            .account(selectedContract)
+            .method(getNameABI)
+            .call();
+        if (result) {
+            setContractName(result.decoded[0]);
+        }
+    };
+
+    const getContractDesc = async () => {
+        if (selectedContract === "") {
+            return;
+        }
+        const getDesABI = ABICombined[contractType].find(
+            ({ name }) => name === "getDescription"
+        );
+        const result = await connex.thor
+            .account(selectedContract)
+            .method(getDesABI)
+            .call();
+        if (result) {
+            setContractDesc(
+                result.decoded[0] ? result.decoded[0] : "no description"
+            );
+        }
+    };
+
     useEffect(() => {
         const initProposed = async () => {
             const clauseNo = await handleGetChangedClause();
@@ -193,6 +229,7 @@ export default function ProoposedChangeSection({ selectedContract }) {
                 handleGetProposer();
                 handleGetAllEditors();
                 CheckYesNOResults();
+                getContractName();
             }
         };
         initProposed();
@@ -288,18 +325,13 @@ export default function ProoposedChangeSection({ selectedContract }) {
                                 justifyContent="space-between"
                             >
                                 <Typography variant="h5">
-                                    Contract Name
+                                    {contractName}
                                 </Typography>
                                 <Typography variant="subtitle2">
-                                    Contract Address
+                                    {selectedContract}
                                 </Typography>
                             </Stack>
-                            <Typography>
-                                Lorem ipsum dolor sit amet. Ut aliquam ullam ut
-                                perferendis quam aut nisi dignissimos ut ipsa
-                                harum sed quos porro. 33 quia autem non illo
-                                nisi et sunt illo vel molestiae obcaecati.
-                            </Typography>
+                            <Typography>{contractDesc}</Typography>
                             {clauseItems}
                         </Stack>
                     </Card>

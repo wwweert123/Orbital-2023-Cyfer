@@ -84,8 +84,8 @@ export default function EditPage() {
         }
     };
 
-    const selectItems = contracts.map((contract) => (
-        <MenuItem value={contract}>
+    const selectItems = contracts.map((contract, index) => (
+        <MenuItem value={contract} key={index}>
             <Typography variant="subtitle1">{walletShort(contract)}</Typography>
         </MenuItem>
     ));
