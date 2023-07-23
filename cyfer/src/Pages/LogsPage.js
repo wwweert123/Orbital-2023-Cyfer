@@ -9,10 +9,11 @@ import {
     AccordionSummary,
     AccordionDetails,
     Typography,
+    Chip,
 } from "@mui/material";
 
 // Vechain
-import { abiDict } from "../Vechain/abiDict";
+import { abiDictUser } from "../Vechain/abiDict";
 import { Helmet } from "react-helmet-async";
 import { ABI1 } from "../Vechain/abi1";
 import Connex from "../api/connex";
@@ -20,50 +21,17 @@ import Connex from "../api/connex";
 // Axios
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 import useWallet from "../hooks/useWallet";
-function dataShort(data) {
-    if (typeof data === "string") {
-        return (
-            `${data}`.slice(0, 10) +
-            "..." +
-            `${data}`.slice(`${data}`.length - 64)
-        );
-    } else {
-        //throw new Error("Invalid format: " + typeof data);
-    }
-}
+import { decode } from "../utils/decode";
 
-function fromHex(hex) {
-    let str = "";
-    for (let i = 0; i < hex.length; i += 2) {
-        let temp = String.fromCharCode(parseInt(hex.substr(i, 2), 16));
-        str += temp;
-    }
-    return str;
-}
-
-function decode(encoded, functionName) {
-    let strings = [];
-    if (functionName === "Set Clause(clause number, string)") {
-        let intVariable = encoded.slice(0, 64);
-        strings.push(parseInt(intVariable, 16));
-        strings.push(", ");
-        let dataStart = parseInt(encoded.slice(64, 128), 16);
-        let stringVariable = fromHex(
-            encoded.slice(dataStart + 64, encoded.length)
-        );
-        strings.push(stringVariable);
-    } else if (functionName === "Add Editor(address)") {
-        strings.push("0x" + encoded.slice(24, 64));
-    } else {
-        for (let i = 64; i < encoded.length; i += 64) {
-            let offset = parseInt(encoded.slice(i, i + 64), 16) * 2;
-            let length = parseInt(encoded.slice(offset, offset + 64), 16) * 2;
-            let data = encoded.slice(offset + 64, offset + 64 + length);
-            strings.push(fromHex(data));
-        }
-    }
-    return strings;
-}
+const colorcode = {
+    "added an editor": "#38dbe7",
+    "set contract Description": "#c2f0cb",
+    "set Clause": "#dc62fd",
+    "voted for the Proposal": "##fad170",
+    "voted against the Proposal": "#6ae26c",
+    "Create Contract": "#c04f39",
+    unknown: "2e2935",
+};
 
 export default function LogsPage() {
     const connex = Connex();
@@ -91,11 +59,10 @@ export default function LogsPage() {
             const details = await Promise.all(
                 resp.data.txs.map(async (item) => {
                     let tempUser = item.origin;
-                    if (tempUser === wallet) {
-                        tempUser += " (you)";
-                    }
+                    // if (tempUser === wallet) {
+                    //     tempUser += " (you)";
+                    // }
                     let tempDate = new Date(item.meta.blockTimestamp * 1000);
-                    let fullDate = tempDate.toString();
                     let shortDate = tempDate.toLocaleDateString();
                     let tempName = "";
                     try {
@@ -113,8 +80,8 @@ export default function LogsPage() {
                         variable = "null";
                     } else {
                         let slicedPortion = item.clauses[0].data.slice(2, 10);
-                        if (abiDict.hasOwnProperty(slicedPortion)) {
-                            functionName = abiDict[slicedPortion];
+                        if (abiDictUser.hasOwnProperty(slicedPortion)) {
+                            functionName = abiDictUser[slicedPortion];
                             let restOfData = item.clauses[0].data.slice(10);
                             variable = decode(restOfData, functionName);
                         } else {
@@ -123,7 +90,7 @@ export default function LogsPage() {
                         }
                     }
                     return {
-                        date: fullDate,
+                        date: tempDate,
                         headerDate: shortDate,
                         txID: item.txID,
                         origin: tempUser,
@@ -157,9 +124,14 @@ export default function LogsPage() {
                     <Typography variant="h4" sx={{ mb: 5 }}>
                         Transaction History
                     </Typography>
-                    <Typography variant="h5" sx={{ mb: 5 }}>
-                        Your selected wallet is :{wallet}
-                    </Typography>
+                    <Chip
+                        label={`Wallet: ${wallet}`}
+                        sx={{
+                            p: 2,
+                            bgcolor: (theme) => theme.palette.primary.darker,
+                            width: "100%",
+                        }}
+                    />
                     <Typography variant="h5">
                         Number of transactions: {transactionHistoryCount}
                     </Typography>
@@ -176,9 +148,24 @@ export default function LogsPage() {
                                             theme.palette.background.neutral,
                                     }}
                                 >
-                                    <Typography variant="subtitle2">
-                                        Index:{index} {detail.headerDate}
-                                    </Typography>
+                                    <Stack
+                                        direction="row"
+                                        alignItems="center"
+                                        justifyContent="space-between"
+                                        spacing={3}
+                                    >
+                                        <Typography variant="subtitle2">
+                                            {detail.headerDate}
+                                        </Typography>
+                                        <Chip
+                                            label={`${detail.name}`}
+                                            sx={{
+                                                p: 2,
+                                                bgcolor: colorcode[detail.name],
+                                                width: "100%",
+                                            }}
+                                        />
+                                    </Stack>
                                 </AccordionSummary>
                                 <AccordionDetails
                                     sx={{
@@ -186,25 +173,75 @@ export default function LogsPage() {
                                             theme.palette.grey[700],
                                     }}
                                 >
-                                    <Typography variant="body1">
-                                        Date: {detail.date}
-                                    </Typography>
-                                    <Typography variant="body1">
-                                        Transaction ID: {detail.txID}
-                                    </Typography>
-                                    <Typography variant="body1">
-                                        From: {detail.origin}
-                                    </Typography>
-                                    <Typography>
-                                        To: {detail.to} ({detail.contractName})
-                                    </Typography>
-                                    <Typography variant="body1">
-                                        Data: {dataShort(detail.data)}
-                                    </Typography>
-                                    <Typography variant="body1">
-                                        Function Name: {detail.name} Parameters:{" "}
-                                        {detail.parameters}
-                                    </Typography>
+                                    {detail.name === "unknown" ? (
+                                        "Unknown Transaction"
+                                    ) : (
+                                        <>
+                                            <Typography variant="h6">
+                                                You{" "}
+                                                <Chip
+                                                    label={`${detail.origin}`}
+                                                    sx={{
+                                                        p: 1,
+                                                        bgcolor: (theme) =>
+                                                            theme.palette
+                                                                .primary.darker,
+                                                        m: 1,
+                                                    }}
+                                                />
+                                                {detail.name}{" "}
+                                                {detail.parameters === "null" ||
+                                                detail.parameters ===
+                                                    undefined ? (
+                                                    <></>
+                                                ) : (
+                                                    <Chip
+                                                        label={`${detail.parameters}`}
+                                                        sx={{
+                                                            p: 1,
+                                                            bgcolor: (theme) =>
+                                                                theme.palette
+                                                                    .error
+                                                                    .darker,
+                                                            m: 1,
+                                                        }}
+                                                    />
+                                                )}
+                                            </Typography>
+                                            <Typography variant="overline">
+                                                in {"<"}
+                                                {detail.contractName}
+                                                {">"}{" "}
+                                                <Chip
+                                                    label={`${detail.to}`}
+                                                    sx={{
+                                                        p: 1,
+                                                        bgcolor: (theme) =>
+                                                            theme.palette
+                                                                .warning.darker,
+                                                        m: 1,
+                                                    }}
+                                                />
+                                            </Typography>
+                                        </>
+                                    )}
+
+                                    <Stack
+                                        direction="row"
+                                        alignItems="center"
+                                        justifyContent="space-between"
+                                        spacing={3}
+                                    >
+                                        <Typography variant="body2">
+                                            Transaction Made on:{" "}
+                                            {detail.date
+                                                .toString()
+                                                .slice(0, -35)}
+                                        </Typography>
+                                        <Typography variant="body2">
+                                            Transaction ID: {detail.txID}
+                                        </Typography>
+                                    </Stack>
                                 </AccordionDetails>
                             </Accordion>
                         </div>
