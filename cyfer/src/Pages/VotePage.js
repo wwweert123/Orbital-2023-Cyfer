@@ -169,7 +169,9 @@ export default function VotePage() {
                             Please Select a Contract
                         </Typography>
                     ) : (
-                        <ProoposedChangeSection />
+                        <ProoposedChangeSection
+                            selectedContract={selectedContract}
+                        />
                     )}
                 </Stack>
             </Container>
