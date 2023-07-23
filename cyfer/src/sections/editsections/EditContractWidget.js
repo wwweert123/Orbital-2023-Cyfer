@@ -57,7 +57,7 @@ export default function EditContractWidget({
     const [changedClause, setChangedClause] = useState();
 
     const handleGetChangedClause = async (selectedContract) => {
-        const indexABI = ABICombined[2].find(
+        const indexABI = ABICombined[contractType].find(
             ({ name }) => name === "getProposalIndex"
         );
         const clauseNo = await connex.thor

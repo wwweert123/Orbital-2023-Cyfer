@@ -62,7 +62,9 @@ export default function EditPage() {
     const contractType = useGetContractType(contract);
 
     const handleSubmit = async () => {
-        const writeABI = ABICombined[1].find(({ name }) => name === "store");
+        const writeABI = ABICombined[contractType].find(
+            ({ name }) => name === "store"
+        );
         console.log(clausetext);
         try {
             const visitor = await connex.thor.account(contract);

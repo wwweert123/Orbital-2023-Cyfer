@@ -41,7 +41,7 @@ export default function ClauseAccordion({
     useEffect(() => {
         const getClauseText = async () => {
             console.log("hi");
-            const readABI = ABICombined[2].find(
+            const readABI = ABICombined[contractType].find(
                 ({ name }) => name === "retrieve"
             );
             const result = await connex.thor

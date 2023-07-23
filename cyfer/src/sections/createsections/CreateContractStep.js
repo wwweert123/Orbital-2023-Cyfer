@@ -72,10 +72,6 @@ export default function CreateContractStep({
         setProgress(0);
     };
 
-    // useEffect(() => {
-    //     handleSetContractAddress("0x217022135ff7f4024b9d785a06239487054f65d2");
-    // }, []);
-
     // Getting the contract address using txid
     const seeContractAddress = async (trans) => {
         try {

@@ -30,6 +30,7 @@ import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
 // Components
 import ClauseAccordion from "../../sections/viewsections/ClauseAccordion";
+import useGetContractType from "../../hooks/useGetContractType";
 
 const NUMCLAUSES = 10;
 
@@ -51,11 +52,15 @@ export default function ProoposedChangeSection({ selectedContract }) {
 
     const [submitted, setSubmitted] = useState(false);
 
+    const contractType = useGetContractType(selectedContract);
+
     const handleSubmit = async (vote) => {
-        const voteYesABI = ABICombined[2].find(
+        const voteYesABI = ABICombined[contractType].find(
             ({ name }) => name === "voteFor"
         );
-        const voteNoABI = ABICombined[2].find(({ name }) => name === "voteNo");
+        const voteNoABI = ABICombined[contractType].find(
+            ({ name }) => name === "voteNo"
+        );
         try {
             const clause = connex.thor
                 .account(selectedContract)
@@ -76,7 +81,7 @@ export default function ProoposedChangeSection({ selectedContract }) {
     };
 
     const handleGetChangedClause = async () => {
-        const indexABI = ABICombined[2].find(
+        const indexABI = ABICombined[contractType].find(
             ({ name }) => name === "getProposalIndex"
         );
         const clauseNo = await connex.thor
@@ -92,7 +97,9 @@ export default function ProoposedChangeSection({ selectedContract }) {
     };
 
     const handleGetCurrentClause = async (clauseNo) => {
-        const readABI = ABICombined[2].find(({ name }) => name === "retrieve");
+        const readABI = ABICombined[contractType].find(
+            ({ name }) => name === "retrieve"
+        );
         const currentText = await connex.thor
             .account(selectedContract)
             .method(readABI)
@@ -102,7 +109,7 @@ export default function ProoposedChangeSection({ selectedContract }) {
     };
 
     const handleGetProposal = async () => {
-        const contentABI = ABICombined[2].find(
+        const contentABI = ABICombined[contractType].find(
             ({ name }) => name === "getProposal"
         );
         const clauseText = await connex.thor
@@ -114,7 +121,7 @@ export default function ProoposedChangeSection({ selectedContract }) {
     };
 
     const handleGetProposer = async () => {
-        const proposerABI = ABICombined[2].find(
+        const proposerABI = ABICombined[contractType].find(
             ({ name }) => name === "getProposer"
         );
         const proposer = await connex.thor
@@ -126,7 +133,7 @@ export default function ProoposedChangeSection({ selectedContract }) {
     };
 
     const checkVoteStatus = async (Users) => {
-        const checkVotedABI = ABICombined[2].find(
+        const checkVotedABI = ABICombined[contractType].find(
             ({ name }) => name === "hasVoted"
         );
         const updated = await Promise.all(
@@ -159,10 +166,12 @@ export default function ProoposedChangeSection({ selectedContract }) {
     };
 
     const CheckYesNOResults = async () => {
-        const yesABI = ABICombined[2].find(
+        const yesABI = ABICombined[contractType].find(
             ({ name }) => name === "getForVotes"
         );
-        const noABI = ABICombined[2].find(({ name }) => name === "getNoVotes");
+        const noABI = ABICombined[contractType].find(
+            ({ name }) => name === "getNoVotes"
+        );
         const yesResult = await connex.thor
             .account(selectedContract)
             .method(yesABI)

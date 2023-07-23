@@ -37,6 +37,7 @@ export default function VotePage() {
     useEffect(() => {
         const getContractNames = async () => {
             const getNameABI = ABICombined[1].find(
+                // Can just use the basic contractType
                 ({ name }) => name === "getName"
             );
             const contractNames = [];
