@@ -335,7 +335,25 @@ export default function ProoposedChangeSection({ selectedContract }) {
                                 justifyContent="center"
                                 spacing={3}
                             >
-                                {!submitted ? (
+                                {contractUsers?.filter(
+                                    (user) =>
+                                        user.walletAddress === wallet &&
+                                        user.voted === true
+                                ) ? (
+                                    <>
+                                        <TaskAltIcon
+                                            fontSize="large"
+                                            sx={{
+                                                color: (theme) =>
+                                                    theme.palette.success
+                                                        .darker,
+                                            }}
+                                        />
+                                        <Typography>
+                                            Voted Recorded Successfully!
+                                        </Typography>
+                                    </>
+                                ) : (
                                     <>
                                         <Button
                                             variant="contained"
@@ -358,20 +376,6 @@ export default function ProoposedChangeSection({ selectedContract }) {
                                         >
                                             Against
                                         </Button>
-                                    </>
-                                ) : (
-                                    <>
-                                        <TaskAltIcon
-                                            fontSize="large"
-                                            sx={{
-                                                color: (theme) =>
-                                                    theme.palette.success
-                                                        .darker,
-                                            }}
-                                        />
-                                        <Typography>
-                                            Voted Recorded Successfully!
-                                        </Typography>
                                     </>
                                 )}
                             </Stack>
