@@ -394,11 +394,11 @@ export default function ProoposedChangeSection({ selectedContract }) {
                                 justifyContent="center"
                                 spacing={3}
                             >
-                                {contractUsers?.filter(
+                                {contractUsers?.some(
                                     (user) =>
                                         user.walletAddress === wallet &&
                                         user.voted === true
-                                ) === [] ? (
+                                ) ? (
                                     <>
                                         <TaskAltIcon
                                             fontSize="large"
