@@ -32,7 +32,7 @@ const Wallets = () => {
                 isMounted && setWalletsObjects(response.data);
             } catch (err) {
                 console.error(err);
-                navigate("/view", {
+                navigate("/login", {
                     state: { from: location },
                     replace: true,
                 });
