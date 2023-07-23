@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import useAxiosPrivate from "../hooks/useAxiosPrivate"; //import the hook
-import { useNavigate, useLocation } from "react-router-dom";
+//import { useNavigate, useLocation } from "react-router-dom";
 import { Grid, Stack, Typography } from "@mui/material";
 
 import ContractWidgetSummary from "../sections/viewsections/ContractWidgetSummary";
@@ -10,8 +10,8 @@ import { Divider } from "@mui/material";
 const Wallets = () => {
     const [walletsObjects, setWalletsObjects] = useState([]);
     const axiosPrivate = useAxiosPrivate();
-    const navigate = useNavigate();
-    const location = useLocation(); //current location
+    //const navigate = useNavigate();
+    //const location = useLocation(); //current location
 
     const [expandedID, setExpandedID] = useState();
 
@@ -32,10 +32,10 @@ const Wallets = () => {
                 isMounted && setWalletsObjects(response.data);
             } catch (err) {
                 console.error(err);
-                navigate("/", {
-                    state: { from: location },
-                    replace: true,
-                });
+                // navigate("/view", {
+                //     state: { from: location },
+                //     replace: true,
+                // });
             }
         };
         getWallets();

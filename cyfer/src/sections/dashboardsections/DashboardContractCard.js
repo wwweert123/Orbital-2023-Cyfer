@@ -57,9 +57,12 @@ export default function DashboardContractCard({ role, contractAddress }) {
                 console.log(err);
             }
         };
-        getContractName();
+        if (contractType !== null) {
+            getContractName();
+        }
+
         // eslint-disable-next-line
-    }, []);
+    }, [contractType]);
 
     return (
         <Card

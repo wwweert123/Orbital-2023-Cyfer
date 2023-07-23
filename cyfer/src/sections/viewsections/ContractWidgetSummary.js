@@ -94,7 +94,7 @@ export default function ContractWidgetSummary({
         };
         getContractName();
         // eslint-disable-next-line
-    }, []);
+    }, [contractType]);
     // For generating the Accordion Clauses
     const clauseItems = [];
     for (let i = 0; i < NUMCLAUSES; i++) {

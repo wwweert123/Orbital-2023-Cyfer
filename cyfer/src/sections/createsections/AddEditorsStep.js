@@ -166,7 +166,7 @@ export default function AddEditorsStep({ contractAddress }) {
         };
         getContractName(contractAddress);
         // eslint-disable-next-line
-    }, []);
+    }, [contractType]);
 
     // Send editor information to DB
     const sendEditorDB = async (editorAddress, editorusername, index) => {
