@@ -398,7 +398,7 @@ export default function ProoposedChangeSection({ selectedContract }) {
                                     (user) =>
                                         user.walletAddress === wallet &&
                                         user.voted === true
-                                ) ? (
+                                ) === [] ? (
                                     <>
                                         <TaskAltIcon
                                             fontSize="large"
