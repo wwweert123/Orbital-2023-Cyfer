@@ -246,7 +246,7 @@ export default function ProoposedChangeSection({ selectedContract }) {
     // For the Accordian Clauses
     const [expanded, setExpanded] = useState(0);
     const handleChange = (panel) => (event, newExpanded) => {
-        setExpanded(newExpanded ? String(panel) : false);
+        setExpanded(newExpanded ? panel : false);
     };
 
     const clauseItems = [];
