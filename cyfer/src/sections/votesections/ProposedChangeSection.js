@@ -84,7 +84,7 @@ export default function ProoposedChangeSection({ selectedContract }) {
             .method(indexABI)
             .call();
         setChangedClause(clauseNo.decoded[0] ? clauseNo.decoded[0] : "100");
-        console.log(clauseNo.decoded[0]);
+        // console.log(clauseNo.decoded[0] ? clauseNo.decoded[0] : "100");
         handleGetCurrentClause(
             clauseNo.decoded[0] ? clauseNo.decoded[0] : "100"
         );
@@ -176,13 +176,17 @@ export default function ProoposedChangeSection({ selectedContract }) {
     };
 
     useEffect(() => {
-        const clauseCode = handleGetChangedClause();
-        if (clauseCode !== "100") {
-            handleGetProposal();
-            handleGetProposer();
-            handleGetAllEditors();
-            CheckYesNOResults();
-        }
+        const initProposed = async () => {
+            const clauseNo = await handleGetChangedClause();
+            console.log(clauseNo);
+            if (clauseNo !== "100") {
+                handleGetProposal();
+                handleGetProposer();
+                handleGetAllEditors();
+                CheckYesNOResults();
+            }
+        };
+        initProposed();
     }, [selectedContract, submitted]);
 
     // For the Accordian Clauses
