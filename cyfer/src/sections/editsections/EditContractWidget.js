@@ -61,10 +61,10 @@ export default function EditContractWidget({
             ({ name }) => name === "getProposalIndex"
         );
         const clauseNo = await connex.thor
-            .account("0x6C10D347cc575b8e03463d5dB60985e8636c96F3")
+            .account("0x424406c1f4e6e008124df938ff46bba0a611cadc")
             .method(indexABI)
             .call();
-        setChangedClause(clauseNo.decoded[0]);
+        setChangedClause(clauseNo.decoded[0] ? clauseNo.decoded[0] : "100");
         console.log(clauseNo.decoded[0]);
     };
 

@@ -83,9 +83,12 @@ export default function ProoposedChangeSection({ selectedContract }) {
             .account("0x6C10D347cc575b8e03463d5dB60985e8636c96F3")
             .method(indexABI)
             .call();
-        setChangedClause(clauseNo.decoded[0]);
+        setChangedClause(clauseNo.decoded[0] ? clauseNo.decoded[0] : "100");
         console.log(clauseNo.decoded[0]);
-        handleGetCurrentClause(clauseNo.decoded[0], selectedContract);
+        handleGetCurrentClause(
+            clauseNo.decoded[0] ? clauseNo.decoded[0] : "100",
+            selectedContract
+        );
     };
 
     const handleGetCurrentClause = async (clauseNo, selectedContract) => {

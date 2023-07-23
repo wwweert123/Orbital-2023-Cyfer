@@ -19,9 +19,9 @@ export default function useGetContractType(contractAddress) {
                     .account(contractAddress)
                     .method(getContractType)
                     .call();
-                setContractType(result.decoded[0]);
+                setContractType(result.decoded[0] ? result.decoded[0] : 1);
                 console.log(contractAddress);
-                console.log(result.decoded[0]);
+                console.log(result.decoded[0] ? result.decoded[0] : 1);
             } catch (err) {
                 console.log(err);
                 console.log("useGetContractType failed");
