@@ -54,6 +54,20 @@ export default function EditContractWidget({
 
     const contractType = useGetContractType(contract);
 
+    const [changedClause, setChangedClause] = useState();
+
+    const handleGetChangedClause = async (selectedContract) => {
+        const indexABI = ABICombined[2].find(
+            ({ name }) => name === "getProposalIndex"
+        );
+        const clauseNo = await connex.thor
+            .account("0x6C10D347cc575b8e03463d5dB60985e8636c96F3")
+            .method(indexABI)
+            .call();
+        setChangedClause(clauseNo.decoded[0]);
+        console.log(clauseNo.decoded[0]);
+    };
+
     useEffect(() => {
         const getContractName = async (contractAddress) => {
             if (contractAddress === "") {
@@ -72,81 +86,94 @@ export default function EditContractWidget({
             }
         };
         getContractName(contract);
+        handleGetChangedClause(contract);
         // eslint-disable-next-line
     }, [contract]);
 
     return (
-        <Card
-            sx={{
-                py: 5,
-                boxShadow: 0,
-                textAlign: "center",
-                color: (theme) => theme.palette[color].lighter,
-                bgcolor: (theme) => theme.palette[color].darker,
-                ...sx,
-            }}
-        >
-            <StyledIcon
-                sx={{
-                    color: (theme) => theme.palette[color].dark,
-                    backgroundImage: (theme) =>
-                        `linear-gradient(135deg, ${alpha(
-                            theme.palette[color].dark,
-                            0
-                        )} 0%, ${alpha(theme.palette[color].dark, 0.24)} 100%)`,
-                }}
-            >
-                <Iconify icon={icon} width={24} height={24} />
-            </StyledIcon>
-            <Stack
-                direction="row"
-                alignItems="center"
-                justifyContent="space-between"
-                m={3}
-            >
-                <Typography variant="h5">
-                    {contractName} ({contract})
-                </Typography>
-                <Typography variant="subtitle 2">
-                    Editing clause {number}
-                </Typography>
-            </Stack>
-
-            <TextField
-                variant="filled"
-                multiline
-                rows={4}
-                sx={{ width: "100%", mx: 1, color: "black" }}
-                type="text"
-                id="clause"
-                name="clause"
-                label="Clause"
-                autoComplete="off"
-                value={clausetext}
-                onChange={handleClauseText}
-            />
-            <Stack
-                direction="row"
-                alignItems="center"
-                justifyContent="space-between"
-                mb={5}
-                mt={5}
-                mx={5}
-                spacing={2}
-            >
-                <Typography variant="h5" gutterBottom>
-                    Add your clause!
-                </Typography>
-                <Button
-                    // onClick={handleCheckBalance}
-                    variant="contained"
-                    color="success"
-                    startIcon={<Iconify icon="nimbus:money" />}
-                    onClick={handleSubmit}
+        <>
+            {changedClause === "100" ? (
+                <Card
+                    sx={{
+                        py: 5,
+                        boxShadow: 0,
+                        textAlign: "center",
+                        color: (theme) => theme.palette[color].lighter,
+                        bgcolor: (theme) => theme.palette.background.neutral,
+                        ...sx,
+                    }}
                 >
-                    Submit
-                </Button>
-            </Stack>
-        </Card>
+                    <StyledIcon
+                        sx={{
+                            color: (theme) => theme.palette[color].dark,
+                            backgroundImage: (theme) =>
+                                `linear-gradient(135deg, ${alpha(
+                                    theme.palette[color].dark,
+                                    0
+                                )} 0%, ${alpha(
+                                    theme.palette[color].dark,
+                                    0.24
+                                )} 100%)`,
+                        }}
+                    >
+                        <Iconify icon={icon} width={24} height={24} />
+                    </StyledIcon>
+                    <Stack
+                        direction="row"
+                        alignItems="center"
+                        justifyContent="space-between"
+                        m={3}
+                    >
+                        <Typography variant="h5">
+                            {contractName} ({contract})
+                        </Typography>
+                        <Typography variant="subtitle 2">
+                            Editing clause {number}
+                        </Typography>
+                    </Stack>
+
+                    <TextField
+                        variant="filled"
+                        multiline
+                        rows={4}
+                        sx={{ width: "100%", mx: 1, color: "black" }}
+                        type="text"
+                        id="clause"
+                        name="clause"
+                        label="Clause"
+                        autoComplete="off"
+                        value={clausetext}
+                        onChange={handleClauseText}
+                    />
+                    <Stack
+                        direction="row"
+                        alignItems="center"
+                        justifyContent="space-between"
+                        mb={5}
+                        mt={5}
+                        mx={5}
+                        spacing={2}
+                    >
+                        <Typography variant="h5" gutterBottom>
+                            Add your clause!
+                        </Typography>
+                        <Button
+                            // onClick={handleCheckBalance}
+                            variant="contained"
+                            color="success"
+                            startIcon={<Iconify icon="nimbus:money" />}
+                            onClick={handleSubmit}
+                        >
+                            Submit
+                        </Button>
+                    </Stack>
+                </Card>
+            ) : (
+                <Typography variant="subtitle2">
+                    This contract has Proposed Change. Please resolve the
+                    proposal in the vote page
+                </Typography>
+            )}
+        </>
     );
 }

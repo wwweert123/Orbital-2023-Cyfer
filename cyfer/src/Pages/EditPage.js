@@ -83,21 +83,8 @@ export default function EditPage() {
     };
 
     const selectItems = contracts.map((contract) => (
-        <MenuItem
-            value={contract}
-            sx={{
-                bgcolor: (theme) => theme.palette.background.neutral,
-                color: (theme) => theme.palette.primary.darker,
-            }}
-        >
-            <Typography
-                variant="subtitle1"
-                sx={{
-                    color: (theme) => theme.palette.primary.dark,
-                }}
-            >
-                {walletShort(contract)}
-            </Typography>
+        <MenuItem value={contract}>
+            <Typography variant="subtitle1">{walletShort(contract)}</Typography>
         </MenuItem>
     ));
 
@@ -191,6 +178,17 @@ export default function EditPage() {
                                 value={contract}
                                 label="Contract"
                                 onChange={handleChange}
+                                inputProps={{
+                                    MenuProps: {
+                                        MenuListProps: {
+                                            sx: {
+                                                backgroundColor: (theme) =>
+                                                    theme.palette.background
+                                                        .default,
+                                            },
+                                        },
+                                    },
+                                }}
                             >
                                 {selectItems}
                             </Select>
@@ -205,19 +203,20 @@ export default function EditPage() {
                                 value={clauseNumber}
                                 label="Clause"
                                 onChange={handleClause}
+                                inputProps={{
+                                    MenuProps: {
+                                        MenuListProps: {
+                                            sx: {
+                                                backgroundColor: (theme) =>
+                                                    theme.palette.background
+                                                        .default,
+                                            },
+                                        },
+                                    },
+                                }}
                             >
                                 {Array.from(Array(20)).map((x, index) => (
-                                    <MenuItem
-                                        key={index}
-                                        value={index}
-                                        sx={{
-                                            bgcolor: (theme) =>
-                                                theme.palette.background
-                                                    .neutral,
-                                            color: (theme) =>
-                                                theme.palette.primary.darker,
-                                        }}
-                                    >
+                                    <MenuItem key={index} value={index}>
                                         <Typography variant="subtitle2">
                                             {index}
                                         </Typography>
@@ -227,18 +226,18 @@ export default function EditPage() {
                         </FormControl>
                     </Stack>
                 </Box>
-                <Grid container spacing={2}>
-                    <Grid item xs={12} sm={12} md={12}>
-                        <EditContractWidget
-                            icon={"mdi:contract"}
-                            number={clauseNumber}
-                            contract={contract}
-                            clausetext={clausetext}
-                            handleClauseText={handleClauseText}
-                            handleSubmit={handleSubmit}
-                        />
-                    </Grid>
-                </Grid>
+                {contract === "" ? (
+                    <Typography>Please Select a Contract</Typography>
+                ) : (
+                    <EditContractWidget
+                        icon={"mdi:contract"}
+                        number={clauseNumber}
+                        contract={contract}
+                        clausetext={clausetext}
+                        handleClauseText={handleClauseText}
+                        handleSubmit={handleSubmit}
+                    />
+                )}
             </Container>
             <AlertDialog
                 open={open}
