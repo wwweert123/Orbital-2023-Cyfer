@@ -49,9 +49,7 @@ export default function ClauseAccordion({
                 .call(clauseNum);
             if (result) {
                 console.log(result);
-                setClauseText(
-                    result.decoded[0] === "" ? "nil" : result.decoded[0]
-                );
+                setClauseText(result.decoded[0]);
             }
         };
         if (contractType !== null) {
