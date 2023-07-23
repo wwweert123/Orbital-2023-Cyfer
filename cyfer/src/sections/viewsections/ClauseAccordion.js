@@ -36,11 +36,10 @@ export default function ClauseAccordion({
 
     const connex = Connex();
 
-    const contractType = useGetContractType[contractAddress];
+    const contractType = useGetContractType(contractAddress);
 
     useEffect(() => {
         const getClauseText = async () => {
-            console.log("hi");
             const readABI = ABICombined[contractType].find(
                 ({ name }) => name === "retrieve"
             );
@@ -55,9 +54,12 @@ export default function ClauseAccordion({
                 );
             }
         };
-        getClauseText();
+        if (contractType !== null) {
+            getClauseText();
+        }
+
         // eslint-disable-next-line
-    }, []);
+    }, [contractAddress]);
 
     return (
         <Accordion

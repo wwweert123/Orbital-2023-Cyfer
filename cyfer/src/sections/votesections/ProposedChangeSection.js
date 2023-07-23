@@ -83,6 +83,10 @@ export default function ProoposedChangeSection({ selectedContract }) {
     };
 
     const handleGetChangedClause = async () => {
+        if (contractType === "1") {
+            setChangedClause("100");
+            return "100";
+        }
         const indexABI = ABICombined[contractType].find(
             ({ name }) => name === "getProposalIndex"
         );
@@ -230,21 +234,25 @@ export default function ProoposedChangeSection({ selectedContract }) {
                 handleGetAllEditors();
                 CheckYesNOResults();
                 getContractName();
+                getContractDesc();
             }
         };
-        initProposed();
-    }, [selectedContract, submitted]);
+        if (contractType !== null) {
+            initProposed();
+        }
+    }, [contractType, submitted]);
 
     // For the Accordian Clauses
     const [expanded, setExpanded] = useState(0);
     const handleChange = (panel) => (event, newExpanded) => {
-        setExpanded(newExpanded ? panel : false);
+        setExpanded(newExpanded ? String(panel) : false);
     };
 
     const clauseItems = [];
     for (let i = 0; i < NUMCLAUSES; i++) {
         clauseItems.push(
             <ClauseAccordion
+                key={i}
                 expanded={expanded}
                 handleChange={handleChange}
                 clauseNum={i}
@@ -338,7 +346,7 @@ export default function ProoposedChangeSection({ selectedContract }) {
                     <Grid container spacing={2}>
                         <Grid item xs={6}>
                             <Typography>Editors List</Typography>
-                            <List dense="false">
+                            <List dense={false}>
                                 {contractUsers?.map((user, index) => (
                                     <ListItem key={index}>
                                         <ListItemIcon>
