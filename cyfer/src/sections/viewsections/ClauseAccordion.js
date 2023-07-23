@@ -19,7 +19,8 @@ import useGetContractType from "../../hooks/useGetContractType";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 ClauseAccordion.propTypes = {
-    expanded: PropTypes.oneOf([PropTypes.string, PropTypes.bool]).isRequired,
+    expanded: PropTypes.oneOfType([PropTypes.string, PropTypes.bool])
+        .isRequired,
     handleChange: PropTypes.func.isRequired,
     clauseNum: PropTypes.number.isRequired,
     contractAddress: PropTypes.string.isRequired,

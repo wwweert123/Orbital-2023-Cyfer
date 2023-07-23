@@ -26,6 +26,7 @@ import TaskAltIcon from "@mui/icons-material/TaskAlt";
 
 // Components
 import ClauseAccordion from "../sections/viewsections/ClauseAccordion";
+import ProoposedChangeSection from "../sections/votesections/ProposedChangeSection";
 
 // Hooks
 import useWallet from "../hooks/useWallet";
@@ -334,10 +335,61 @@ export default function VotePage() {
                             ))}
                         </Select>
                     </FormControl>
-                    <Typography>Proposed Change</Typography>
-                    <Grid container spacing={2}>
-                        <Grid item xs={6}>
-                            {" "}
+                    {selectedContract === "" ? (
+                        <Typography variant="Subtitle2">
+                            Please Select a Contract
+                        </Typography>
+                    ) : (
+                        <>
+                            <ProoposedChangeSection />
+                            {/* <Typography>Proposed Change</Typography>
+                            <Grid container spacing={2}>
+                                <Grid item xs={6}>
+                                    {" "}
+                                    <Card
+                                        sx={{
+                                            py: 5,
+                                            px: 3,
+                                            boxShadow: 0,
+                                            textAlign: "left",
+                                            color: (theme) =>
+                                                theme.palette.text.primary,
+                                            bgcolor: "transparent",
+                                            border: 2,
+                                            borderColor: (theme) =>
+                                                theme.palette.success.dark,
+                                        }}
+                                    >
+                                        Current Clause #
+                                        {Number(changedClause) + 1}
+                                        <Divider sx={{ m: 1 }} />
+                                        {currentClauseText}
+                                    </Card>
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <Card
+                                        sx={{
+                                            py: 5,
+                                            px: 3,
+                                            boxShadow: 0,
+                                            textAlign: "left",
+                                            color: (theme) =>
+                                                theme.palette.text.primary,
+                                            bgcolor: "transparent",
+                                            border: 2,
+                                            borderColor: (theme) =>
+                                                theme.palette.warning.dark,
+                                        }}
+                                    >
+                                        Proposed Clause #
+                                        {Number(changedClause) + 1} Change by{" "}
+                                        {proposer}
+                                        <Divider sx={{ m: 1 }} />
+                                        {proposedClauseText}
+                                    </Card>
+                                </Grid>
+                            </Grid>
+                            <Typography>Proposed Contract Preview</Typography>
                             <Card
                                 sx={{
                                     py: 5,
@@ -346,166 +398,141 @@ export default function VotePage() {
                                     textAlign: "left",
                                     color: (theme) =>
                                         theme.palette.text.primary,
-                                    bgcolor: "transparent",
-                                    border: 2,
-                                    borderColor: (theme) =>
-                                        theme.palette.success.dark,
+                                    bgcolor: (theme) =>
+                                        theme.palette.background.neutral,
+                                    border: 1,
                                 }}
                             >
-                                Current Clause #{Number(changedClause) + 1}
-                                <Divider sx={{ m: 1 }} />
-                                {currentClauseText}
-                            </Card>
-                        </Grid>
-                        <Grid item xs={6}>
-                            <Card
-                                sx={{
-                                    py: 5,
-                                    px: 3,
-                                    boxShadow: 0,
-                                    textAlign: "left",
-                                    color: (theme) =>
-                                        theme.palette.text.primary,
-                                    bgcolor: "transparent",
-                                    border: 2,
-                                    borderColor: (theme) =>
-                                        theme.palette.warning.dark,
-                                }}
-                            >
-                                Proposed Clause #{Number(changedClause) + 1}{" "}
-                                Change by {proposer}
-                                <Divider sx={{ m: 1 }} />
-                                {proposedClauseText}
-                            </Card>
-                        </Grid>
-                    </Grid>
-                    <Typography>Proposed Contract Preview</Typography>
-                    <Card
-                        sx={{
-                            py: 5,
-                            px: 3,
-                            boxShadow: 0,
-                            textAlign: "left",
-                            color: (theme) => theme.palette.text.primary,
-                            bgcolor: (theme) =>
-                                theme.palette.background.neutral,
-                            border: 1,
-                        }}
-                    >
-                        <Stack spacing={2}>
-                            <Stack
-                                direction="row"
-                                alignItems="center"
-                                justifyContent="space-between"
-                            >
-                                <Typography variant="h5">
-                                    Contract Name
-                                </Typography>
-                                <Typography variant="subtitle2">
-                                    Contract Address
-                                </Typography>
-                            </Stack>
-                            <Typography>
-                                Lorem ipsum dolor sit amet. Ut aliquam ullam ut
-                                perferendis quam aut nisi dignissimos ut ipsa
-                                harum sed quos porro. 33 quia autem non illo
-                                nisi et sunt illo vel molestiae obcaecati.
-                            </Typography>
-                            {clauseItems}
-                        </Stack>
-                    </Card>
-                    <Grid container spacing={2}>
-                        <Grid item xs={6}>
-                            <Typography>Editors List</Typography>
-                            <List dense="false">
-                                {contractUsers?.map((user, index) => (
-                                    <ListItem key={index}>
-                                        <ListItemIcon>
-                                            {user.voted ? (
-                                                <Tooltip title="Voted">
-                                                    <DoneAllIcon
-                                                        sx={{
-                                                            color: (theme) =>
-                                                                theme.palette
-                                                                    .primary
-                                                                    .light,
-                                                        }}
-                                                    />
-                                                </Tooltip>
-                                            ) : (
-                                                <Tooltip title="Yet to vote">
-                                                    <QuestionMarkIcon
-                                                        sx={{
-                                                            color: (theme) =>
-                                                                theme.palette
-                                                                    .warning
-                                                                    .light,
-                                                        }}
-                                                    />
-                                                </Tooltip>
-                                            )}
-                                        </ListItemIcon>
-                                        <ListItemText
-                                            primary={user.username}
-                                            secondary={user.walletAddress}
-                                        />
-                                    </ListItem>
-                                ))}
-                            </List>
-                            <Typography>Yes Votes: {yes}</Typography>
-                            <Typography>No Votes: {no}</Typography>
-                        </Grid>
-                        <Divider orientation="vertical" flexItem />
-                        <Grid item xs={5}>
-                            <Typography>Vote</Typography>
-                            <Stack
-                                direction="row"
-                                alignItems="center"
-                                justifyContent="center"
-                                spacing={3}
-                            >
-                                {!submitted ? (
-                                    <>
-                                        <Button
-                                            variant="contained"
-                                            sx={{
-                                                bgcolor: (theme) =>
-                                                    theme.palette.success
-                                                        .darker,
-                                            }}
-                                            onClick={() => handleSubmit(1)}
-                                        >
-                                            Yes
-                                        </Button>
-                                        <Button
-                                            variant="contained"
-                                            sx={{
-                                                bgcolor: (theme) =>
-                                                    theme.palette.error.darker,
-                                            }}
-                                            onClick={() => handleSubmit(0)}
-                                        >
-                                            Against
-                                        </Button>
-                                    </>
-                                ) : (
-                                    <>
-                                        <TaskAltIcon
-                                            fontSize="large"
-                                            sx={{
-                                                color: (theme) =>
-                                                    theme.palette.success
-                                                        .darker,
-                                            }}
-                                        />
-                                        <Typography>
-                                            Voted Recorded Successfully!
+                                <Stack spacing={2}>
+                                    <Stack
+                                        direction="row"
+                                        alignItems="center"
+                                        justifyContent="space-between"
+                                    >
+                                        <Typography variant="h5">
+                                            Contract Name
                                         </Typography>
-                                    </>
-                                )}
-                            </Stack>
-                        </Grid>
-                    </Grid>
+                                        <Typography variant="subtitle2">
+                                            Contract Address
+                                        </Typography>
+                                    </Stack>
+                                    <Typography>
+                                        Lorem ipsum dolor sit amet. Ut aliquam
+                                        ullam ut perferendis quam aut nisi
+                                        dignissimos ut ipsa harum sed quos
+                                        porro. 33 quia autem non illo nisi et
+                                        sunt illo vel molestiae obcaecati.
+                                    </Typography>
+                                    {clauseItems}
+                                </Stack>
+                            </Card>
+                            <Grid container spacing={2}>
+                                <Grid item xs={6}>
+                                    <Typography>Editors List</Typography>
+                                    <List dense="false">
+                                        {contractUsers?.map((user, index) => (
+                                            <ListItem key={index}>
+                                                <ListItemIcon>
+                                                    {user.voted ? (
+                                                        <Tooltip title="Voted">
+                                                            <DoneAllIcon
+                                                                sx={{
+                                                                    color: (
+                                                                        theme
+                                                                    ) =>
+                                                                        theme
+                                                                            .palette
+                                                                            .primary
+                                                                            .light,
+                                                                }}
+                                                            />
+                                                        </Tooltip>
+                                                    ) : (
+                                                        <Tooltip title="Yet to vote">
+                                                            <QuestionMarkIcon
+                                                                sx={{
+                                                                    color: (
+                                                                        theme
+                                                                    ) =>
+                                                                        theme
+                                                                            .palette
+                                                                            .warning
+                                                                            .light,
+                                                                }}
+                                                            />
+                                                        </Tooltip>
+                                                    )}
+                                                </ListItemIcon>
+                                                <ListItemText
+                                                    primary={user.username}
+                                                    secondary={
+                                                        user.walletAddress
+                                                    }
+                                                />
+                                            </ListItem>
+                                        ))}
+                                    </List>
+                                    <Typography>Yes Votes: {yes}</Typography>
+                                    <Typography>No Votes: {no}</Typography>
+                                </Grid>
+                                <Divider orientation="vertical" flexItem />
+                                <Grid item xs={5}>
+                                    <Typography>Vote</Typography>
+                                    <Stack
+                                        direction="row"
+                                        alignItems="center"
+                                        justifyContent="center"
+                                        spacing={3}
+                                    >
+                                        {!submitted ? (
+                                            <>
+                                                <Button
+                                                    variant="contained"
+                                                    sx={{
+                                                        bgcolor: (theme) =>
+                                                            theme.palette
+                                                                .success.darker,
+                                                    }}
+                                                    onClick={() =>
+                                                        handleSubmit(1)
+                                                    }
+                                                >
+                                                    Yes
+                                                </Button>
+                                                <Button
+                                                    variant="contained"
+                                                    sx={{
+                                                        bgcolor: (theme) =>
+                                                            theme.palette.error
+                                                                .darker,
+                                                    }}
+                                                    onClick={() =>
+                                                        handleSubmit(0)
+                                                    }
+                                                >
+                                                    Against
+                                                </Button>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <TaskAltIcon
+                                                    fontSize="large"
+                                                    sx={{
+                                                        color: (theme) =>
+                                                            theme.palette
+                                                                .success.darker,
+                                                    }}
+                                                />
+                                                <Typography>
+                                                    Voted Recorded Successfully!
+                                                </Typography>
+                                            </>
+                                        )}
+                                    </Stack>
+                                </Grid>
+                            </Grid> */}
+                        </>
+                    )}
                 </Stack>
             </Container>
         </>

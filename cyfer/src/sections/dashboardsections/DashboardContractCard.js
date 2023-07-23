@@ -64,9 +64,9 @@ export default function DashboardContractCard({ role, contractAddress }) {
     return (
         <Card
             sx={{
-                backgroundColor: (theme) => theme.palette.background.neutral,
+                backgroundColor: (theme) => theme.palette.background.default,
                 color: (theme) => theme.palette.primary.light,
-                minWidth: "15vw",
+                minWidth: "12vw",
                 mx: 3,
             }}
         >
