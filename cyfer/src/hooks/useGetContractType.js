@@ -8,7 +8,7 @@ import { ABICombined } from "../Vechain/abicombined";
 
 export default function useGetContractType(contractAddress) {
     const connex = Connex();
-    const [contractType, setContractType] = useState(null);
+    const [contractType, setContractType] = useState(1);
     useEffect(() => {
         const getContractType = ABICombined[1].find(
             ({ name }) => name === "getContractType"

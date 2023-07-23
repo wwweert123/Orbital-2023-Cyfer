@@ -98,7 +98,7 @@ function ColorlibStepIcon(props) {
     );
 }
 
-function StepsItems({ stepNum }) {
+function StepsItems({ stepNum, contractAddress, handleSetContractAddress }) {
     // For setting the type of contract
     const [selectedContractType, setSelectedContractType] = useState(1);
 
@@ -115,12 +115,6 @@ function StepsItems({ stepNum }) {
     const [contractDesc, setContractDesc] = useState("");
     const handleChangeDesc = (e) => {
         setContractDesc(e.target.value);
-    };
-
-    // Getting the newly created contract address
-    const [contractAddress, setcontractAddress] = useState("");
-    const handleSetContractAddress = (address) => {
-        setcontractAddress(address);
     };
 
     const items = {
@@ -185,6 +179,12 @@ export default function CreateSteps() {
         setActiveStep(0);
     };
 
+    // Getting the newly created contract address
+    const [contractAddress, setcontractAddress] = useState("");
+    const handleSetContractAddress = (address) => {
+        setcontractAddress(address);
+    };
+
     return (
         <Box sx={{ width: "95%", m: "auto" }}>
             <Stepper
@@ -223,7 +223,13 @@ export default function CreateSteps() {
                         Step {activeStep + 1}
                     </Typography> */}
                     <br />
-                    {<StepsItems stepNum={activeStep + 1} />}
+                    {
+                        <StepsItems
+                            stepNum={activeStep + 1}
+                            contractAddress={contractAddress}
+                            handleSetContractAddress={handleSetContractAddress}
+                        />
+                    }
                     <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
                         <Button
                             color="inherit"
@@ -235,7 +241,12 @@ export default function CreateSteps() {
                         </Button>
                         <Box sx={{ flex: "1 1 auto" }} />
 
-                        <Button onClick={handleNext}>
+                        <Button
+                            onClick={handleNext}
+                            disabled={
+                                activeStep === 2 && contractAddress === ""
+                            }
+                        >
                             {activeStep === steps.length - 1
                                 ? "Finish"
                                 : "Next"}
