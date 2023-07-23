@@ -193,6 +193,13 @@ export default function EditPage() {
                                 }}
                             >
                                 {selectItems}
+                                <MenuItem value="0x6C10D347cc575b8e03463d5dB60985e8636c96F3">
+                                    <Stack>
+                                        <Typography variant="subtitle2">
+                                            0x6C10D347cc575b8e03463d5dB60985e8636c96F3
+                                        </Typography>
+                                    </Stack>
+                                </MenuItem>
                             </Select>
                         </FormControl>
                         <FormControl sx={{ minWidth: 1 / 4 }}>

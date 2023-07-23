@@ -152,7 +152,8 @@ export default function VotePage() {
                             {contracts?.map((currentcontract, index) => (
                                 <MenuItem
                                     value={currentcontract}
-                                    divider="true"
+                                    divider={true}
+                                    key={index}
                                 >
                                     <Stack>
                                         {contractNames[index]}
@@ -164,7 +165,8 @@ export default function VotePage() {
                             ))}
                             <MenuItem
                                 value="0x6C10D347cc575b8e03463d5dB60985e8636c96F3"
-                                divider="true"
+                                divider={true}
+                                key={100}
                             >
                                 <Stack>
                                     <Typography variant="subtitle2">
