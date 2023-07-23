@@ -32,7 +32,7 @@ export default function ClauseAccordion({
     clauseNum,
     contractAddress,
 }) {
-    const [clauseText, setClauseText] = useState("Empty");
+    const [clauseText, setClauseText] = useState("");
 
     const connex = Connex();
 
@@ -50,7 +50,7 @@ export default function ClauseAccordion({
             if (result) {
                 console.log(result);
                 setClauseText(
-                    result.decoded[0] === "" ? "Empty" : result.decoded[0]
+                    result.decoded[0] === "" ? "nil" : result.decoded[0]
                 );
             }
         };

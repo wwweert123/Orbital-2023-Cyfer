@@ -73,7 +73,7 @@ export default function EditPage() {
             const result = await connex.vendor
                 .sign("tx", [clause])
                 .signer(wallet)
-                .comment("writing info")
+                .comment(`writing info ${contract}`)
                 .request();
             setErrtitle("Success!");
             setErrmsg(`Transaction done: ${result.txid}`);
