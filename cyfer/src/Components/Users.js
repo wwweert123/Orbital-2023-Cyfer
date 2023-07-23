@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import useAxiosPrivate from "../hooks/useAxiosPrivate"; //import the hook
-import { useNavigate, useLocation } from "react-router-dom";
+// import { useNavigate, useLocation } from "react-router-dom";
 
 // @mui
 import {
@@ -36,8 +36,8 @@ const TABLE_HEAD = [
 const Users = () => {
     const [users, setUsers] = useState();
     const axiosPrivate = useAxiosPrivate();
-    const navigate = useNavigate();
-    const location = useLocation(); //current location
+    // const navigate = useNavigate();
+    // const location = useLocation(); //current location
 
     // Table States
     const [page, setPage] = useState(0);
@@ -66,10 +66,10 @@ const Users = () => {
                 isMounted && setUsers(userNames);
             } catch (err) {
                 console.error(err);
-                navigate("/login", {
-                    state: { from: location },
-                    replace: true,
-                });
+                // navigate("/login", {
+                //     state: { from: location },
+                //     replace: true,
+                // });
             }
         };
         getUsers();

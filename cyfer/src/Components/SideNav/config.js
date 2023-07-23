@@ -29,12 +29,17 @@ const navConfig = [
     {
         title: "vote",
         path: "/vote",
-        icon: icon("ic_cart"),
+        icon: icon("ic_vote"),
     },
     {
         title: "view",
         path: "/view",
         icon: icon("ic_blog"),
+    },
+    {
+        title: "logs",
+        path: "/logs",
+        icon: icon("ic_logs"),
     },
     {
         title: "admin",
