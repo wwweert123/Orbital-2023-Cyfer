@@ -65,6 +65,7 @@ function decode(encoded, functionName) {
     return strings;
 }
 
+// eslint-disable-next-line
 const TransactionItem = ({ index, detail }) => {
     const connex = Connex();
     const [contractName, setContractName] = useState("");
@@ -84,6 +85,7 @@ const TransactionItem = ({ index, detail }) => {
     };
     useEffect(() => {
         getName(detail.to);
+        // eslint-disable-next-line
     }, [detail.to]);
     return (
         <div key={index}>
@@ -155,7 +157,7 @@ export default function TestPage() {
             const details = await Promise.all(
                 resp.data.txs.map(async (item) => {
                     let tempUser = item.origin;
-                    if (tempUser == wallet) {
+                    if (tempUser === wallet) {
                         tempUser += " (you)";
                     }
                     let tempDate = new Date(item.meta.blockTimestamp * 1000);
@@ -211,51 +213,86 @@ export default function TestPage() {
         // eslint-disable-next-line
     }, [wallet]);
 
-    const handleAddEditor = async () => {
-        const setEditorABI = ABICombined[2].find(
-            ({ name }) => name === "addAuthorizedAddress"
-        );
+    // const handleAddEditor = async () => {
+    //     const setEditorABI = ABICombined[2].find(
+    //         ({ name }) => name === "addAuthorizedAddress"
+    //     );
 
-        const clause = connex.thor
-            .account("0x6C10D347cc575b8e03463d5dB60985e8636c96F3")
-            .method(setEditorABI)
-            .asClause("0x1547d700f432392d743155cbfdcb50f0f4e8b706");
-        const result = await connex.vendor
-            .sign("tx", [clause])
-            .comment("setting editor")
-            .request();
-        alert("transaction done: ", result.txid);
-    };
+    //     const clause = connex.thor
+    //         .account("0x6C10D347cc575b8e03463d5dB60985e8636c96F3")
+    //         .method(setEditorABI)
+    //         .asClause("0x1547d700f432392d743155cbfdcb50f0f4e8b706");
+    //     const result = await connex.vendor
+    //         .sign("tx", [clause])
+    //         .comment("setting editor")
+    //         .request();
+    //     alert("transaction done: ", result.txid);
+    // };
     //const theme = useTheme();
     return (
         <>
             <Helmet>
-                <title> Test | Minimal UI </title>
+                <title> Transaction History</title>
             </Helmet>
-
-            {/*<Container maxWidth="xl">
-                <Typography variant="h4" sx={{ mb: 5 }}>
-                    View your Contracts here
-                </Typography>
-                <Grid container spacing={3}>
-                    <Grid
-                        item
-                        xs={12}
-                        sm={6}
-                        md={expandedID === "hehehe" ? 12 : 3}
-                    >
-                        <ContractWidgetSummary
-                            title="Contract Owner"
-                            address="hehehe"
-                            icon={"fluent-mdl2:party-leader"}
-                            id="hehehe"
-                            handleExpanded={handleExpanded}
-                        />
-                    </Grid>
-                </Grid> */}
-            <Typography>{clauseText}</Typography>
-            <AddEditorDialog />
-            {/* </Container> */}
+            <Container maxWidth="xl">
+                <Stack spacing={3}>
+                    <Typography variant="h4" sx={{ mb: 5 }}>
+                        Transaction History
+                    </Typography>
+                    <Typography variant="h5" sx={{ mb: 5 }}>
+                        Your selected wallet is :{wallet}
+                    </Typography>
+                    <Typography variant="h5">
+                        Number of transactions: {transactionHistoryCount}
+                    </Typography>
+                    <Typography variant="h6">Recent transactions:</Typography>
+                    {transactionDetails.map((detail, index) => (
+                        <div key={index}>
+                            <Accordion>
+                                <AccordionSummary
+                                    expandIcon={<ExpandMoreIcon />}
+                                    aria-controls="panel1d-content"
+                                    id="panel1d-header"
+                                    sx={{
+                                        backgroundColor: (theme) =>
+                                            theme.palette.background.neutral,
+                                    }}
+                                >
+                                    <Typography variant="subtitle2">
+                                        Index:{index} {detail.headerDate}
+                                    </Typography>
+                                </AccordionSummary>
+                                <AccordionDetails
+                                    sx={{
+                                        backgroundColor: (theme) =>
+                                            theme.palette.grey[700],
+                                    }}
+                                >
+                                    <Typography variant="body1">
+                                        Date: {detail.date}
+                                    </Typography>
+                                    <Typography variant="body1">
+                                        Transaction ID: {detail.txID}
+                                    </Typography>
+                                    <Typography variant="body1">
+                                        From: {detail.origin}
+                                    </Typography>
+                                    <Typography>
+                                        To: {detail.to} ({detail.contractName})
+                                    </Typography>
+                                    <Typography variant="body1">
+                                        Data: {dataShort(detail.data)}
+                                    </Typography>
+                                    <Typography variant="body1">
+                                        Function Name: {detail.name} Parameters:{" "}
+                                        {detail.parameters}
+                                    </Typography>
+                                </AccordionDetails>
+                            </Accordion>
+                        </div>
+                    ))}
+                </Stack>
+            </Container>
         </>
     );
 }
