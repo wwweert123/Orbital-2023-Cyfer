@@ -58,7 +58,7 @@ export default function ProoposedChangeSection({ selectedContract }) {
         const voteNoABI = ABICombined[2].find(({ name }) => name === "voteNo");
         try {
             const clause = connex.thor
-                .account("0x6C10D347cc575b8e03463d5dB60985e8636c96F3")
+                .account(selectedContract)
                 .method(vote === 1 ? voteYesABI : voteNoABI)
                 .asClause();
             const result = await connex.vendor
@@ -75,64 +75,64 @@ export default function ProoposedChangeSection({ selectedContract }) {
         }
     };
 
-    const handleGetChangedClause = async (selectedContract) => {
+    const handleGetChangedClause = async () => {
         const indexABI = ABICombined[2].find(
             ({ name }) => name === "getProposalIndex"
         );
         const clauseNo = await connex.thor
-            .account("0x6C10D347cc575b8e03463d5dB60985e8636c96F3")
+            .account(selectedContract)
             .method(indexABI)
             .call();
         setChangedClause(clauseNo.decoded[0] ? clauseNo.decoded[0] : "100");
         console.log(clauseNo.decoded[0]);
         handleGetCurrentClause(
-            clauseNo.decoded[0] ? clauseNo.decoded[0] : "100",
-            selectedContract
+            clauseNo.decoded[0] ? clauseNo.decoded[0] : "100"
         );
+        return clauseNo.decoded[0] ? clauseNo.decoded[0] : "100";
     };
 
-    const handleGetCurrentClause = async (clauseNo, selectedContract) => {
+    const handleGetCurrentClause = async (clauseNo) => {
         const readABI = ABICombined[2].find(({ name }) => name === "retrieve");
         const currentText = await connex.thor
-            .account("0x6C10D347cc575b8e03463d5dB60985e8636c96F3")
+            .account(selectedContract)
             .method(readABI)
-            .call(0);
+            .call(clauseNo);
         setCurrentClauseText(currentText.decoded[0]);
         console.log(currentText.decoded[0]);
     };
 
-    const handleGetProposal = async (selectedContract) => {
+    const handleGetProposal = async () => {
         const contentABI = ABICombined[2].find(
             ({ name }) => name === "getProposal"
         );
         const clauseText = await connex.thor
-            .account("0x6C10D347cc575b8e03463d5dB60985e8636c96F3")
+            .account(selectedContract)
             .method(contentABI)
             .call();
         setProposedClauseText(clauseText.decoded[0]);
         console.log(clauseText.decoded[0]);
     };
 
-    const handleGetProposer = async (selectedContract) => {
+    const handleGetProposer = async () => {
         const proposerABI = ABICombined[2].find(
             ({ name }) => name === "getProposer"
         );
         const proposer = await connex.thor
-            .account("0x6C10D347cc575b8e03463d5dB60985e8636c96F3")
+            .account(selectedContract)
             .method(proposerABI)
             .call();
         setProposer(proposer.decoded[0]);
         console.log(proposer.decoded[0]);
     };
 
-    const checkVoteStatus = async (Users, contract) => {
+    const checkVoteStatus = async (Users) => {
         const checkVotedABI = ABICombined[2].find(
             ({ name }) => name === "hasVoted"
         );
         const updated = await Promise.all(
             Users.map(async (user) => {
                 const checkVoteResult = await connex.thor
-                    .account("0x6C10D347cc575b8e03463d5dB60985e8636c96F3")
+                    .account(selectedContract)
                     .method(checkVotedABI)
                     .call(user.walletAddress);
                 user.voted = checkVoteResult.decoded[0];
@@ -143,32 +143,32 @@ export default function ProoposedChangeSection({ selectedContract }) {
         console.log(updated);
     };
 
-    const handleGetAllEditors = async (contract) => {
-        if (contract === "") {
+    const handleGetAllEditors = async () => {
+        if (selectedContract === "") {
             console.log("no contract selected");
             return;
         }
         try {
             const response = await axiosPrivate.get(
-                `/wallet/getcontractusers/0x6C10D347cc575b8e03463d5dB60985e8636c96F3`
+                `/wallet/getcontractusers/${selectedContract}`
             );
-            checkVoteStatus(response.data, contract);
+            checkVoteStatus(response.data, selectedContract);
         } catch (err) {
             console.log(err);
         }
     };
 
-    const CheckYesNOResults = async (contract) => {
+    const CheckYesNOResults = async () => {
         const yesABI = ABICombined[2].find(
             ({ name }) => name === "getForVotes"
         );
         const noABI = ABICombined[2].find(({ name }) => name === "getNoVotes");
         const yesResult = await connex.thor
-            .account("0x6C10D347cc575b8e03463d5dB60985e8636c96F3")
+            .account(selectedContract)
             .method(yesABI)
             .call();
         const noResult = await connex.thor
-            .account("0x6C10D347cc575b8e03463d5dB60985e8636c96F3")
+            .account(selectedContract)
             .method(noABI)
             .call();
         setYes(yesResult.decoded[0]);
@@ -176,11 +176,13 @@ export default function ProoposedChangeSection({ selectedContract }) {
     };
 
     useEffect(() => {
-        handleGetChangedClause(selectedContract);
-        handleGetProposal(selectedContract);
-        handleGetProposer(selectedContract);
-        handleGetAllEditors(selectedContract);
-        CheckYesNOResults(selectedContract);
+        const clauseCode = handleGetChangedClause();
+        if (clauseCode !== "100") {
+            handleGetProposal();
+            handleGetProposer();
+            handleGetAllEditors();
+            CheckYesNOResults();
+        }
     }, [selectedContract, submitted]);
 
     // For the Accordian Clauses
