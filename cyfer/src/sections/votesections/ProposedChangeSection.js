@@ -240,6 +240,7 @@ export default function ProoposedChangeSection({ selectedContract }) {
         if (contractType !== null) {
             initProposed();
         }
+        // eslint-disable-next-line
     }, [contractType, submitted]);
 
     // For the Accordian Clauses

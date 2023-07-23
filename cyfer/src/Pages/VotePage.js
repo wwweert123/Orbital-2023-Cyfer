@@ -13,7 +13,6 @@ import {
 } from "@mui/material";
 
 // Components
-import ClauseAccordion from "../sections/viewsections/ClauseAccordion";
 import ProoposedChangeSection from "../sections/votesections/ProposedChangeSection";
 
 // Hooks
