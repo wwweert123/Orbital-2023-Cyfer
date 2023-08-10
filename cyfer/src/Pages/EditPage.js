@@ -33,6 +33,7 @@ import AlertDialog from "../Components/AlertDialog";
 // connex
 import Connex from "../api/connex";
 import { ABICombined } from "../Vechain/abicombined";
+import CurrentClauseWidget from "../sections/editsections/CurrentClauseWidget";
 
 export default function EditPage() {
     const connex = Connex();
@@ -192,13 +193,6 @@ export default function EditPage() {
                                 }}
                             >
                                 {selectItems}
-                                <MenuItem value="0x6C10D347cc575b8e03463d5dB60985e8636c96F3">
-                                    <Stack>
-                                        <Typography variant="subtitle2">
-                                            0x6C10D347cc575b8e03463d5dB60985e8636c96F3
-                                        </Typography>
-                                    </Stack>
-                                </MenuItem>
                             </Select>
                         </FormControl>
                         <FormControl sx={{ minWidth: 1 / 4 }}>
@@ -226,7 +220,7 @@ export default function EditPage() {
                                 {Array.from(Array(20)).map((x, index) => (
                                     <MenuItem key={index} value={index}>
                                         <Typography variant="subtitle2">
-                                            {index}
+                                            {index + 1}
                                         </Typography>
                                     </MenuItem>
                                 ))}
@@ -237,14 +231,20 @@ export default function EditPage() {
                 {contract === "" ? (
                     <Typography>Please Select a Contract</Typography>
                 ) : (
-                    <EditContractWidget
-                        icon={"mdi:contract"}
-                        number={clauseNumber}
-                        contract={contract}
-                        clausetext={clausetext}
-                        handleClauseText={handleClauseText}
-                        handleSubmit={handleSubmit}
-                    />
+                    <Stack>
+                        <CurrentClauseWidget
+                            contractAddress={contract}
+                            clauseNum={clauseNumber}
+                        />
+                        <EditContractWidget
+                            icon={"mdi:contract"}
+                            number={clauseNumber}
+                            contract={contract}
+                            clausetext={clausetext}
+                            handleClauseText={handleClauseText}
+                            handleSubmit={handleSubmit}
+                        />
+                    </Stack>
                 )}
             </Container>
             <AlertDialog
