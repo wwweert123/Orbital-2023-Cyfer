@@ -15,7 +15,7 @@ import {
 import AccountPopover from "./AccountPopover";
 import Searchbar from "./Searchbar";
 import Iconify from "../iconify";
-import LanguagePopover from "./LanguagePopover";
+// import LanguagePopover from "./LanguagePopover";
 import WalletSelect from "./WalletSelect";
 
 const NAV_WIDTH = 280;
@@ -70,7 +70,7 @@ export default function Header({ onOpenNav }) {
                         Select your wallet here!
                     </Typography>
                     <WalletSelect />
-                    <LanguagePopover />
+                    {/* <LanguagePopover /> */}
                     <AccountPopover />
                 </Stack>
             </StyledToolbar>

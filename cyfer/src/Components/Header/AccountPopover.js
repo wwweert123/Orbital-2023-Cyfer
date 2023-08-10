@@ -30,15 +30,15 @@ const account = {
 
 const MENU_OPTIONS = [
     {
-        label: "Home",
+        label: "Home (TODO)",
         icon: "eva:home-fill",
     },
     {
-        label: "Profile",
+        label: "Profile (TODO)",
         icon: "eva:person-fill",
     },
     {
-        label: "Settings",
+        label: "Settings (TODO)",
         icon: "eva:settings-2-fill",
     },
 ];
@@ -114,13 +114,13 @@ export default function AccountPopover() {
                     <Typography variant="subtitle2" noWrap>
                         {username}
                     </Typography>
-                    <Typography
+                    {/* <Typography
                         variant="body2"
                         sx={{ color: "text.secondary" }}
                         noWrap
                     >
                         {account.email}
-                    </Typography>
+                    </Typography> */}
                 </Box>
 
                 <Divider sx={{ borderStyle: "dashed" }} />
