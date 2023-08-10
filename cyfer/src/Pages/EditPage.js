@@ -231,7 +231,7 @@ export default function EditPage() {
                 {contract === "" ? (
                     <Typography>Please Select a Contract</Typography>
                 ) : (
-                    <Stack>
+                    <Stack spacing={3}>
                         <CurrentClauseWidget
                             contractAddress={contract}
                             clauseNum={clauseNumber}
